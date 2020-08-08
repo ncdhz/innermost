@@ -5,7 +5,7 @@ module.exports = {
                 "electronDownload": {
                     "mirror": "https://npm.taobao.org/mirrors/electron/"
                 },
-                "appId": "com.github.ncdhz.privacy",
+                "appId": "com.github.ncdhz.innermost",
                 "productName": "innermost",
                 "copyright": "Copyright © 2020 ncdhz",
                 "directories": {
