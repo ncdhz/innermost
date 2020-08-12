@@ -1,7 +1,6 @@
 {
   "name": "innermost",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -49,5 +48,14 @@
     "vue-cli-plugin-electron-builder": "~2.0.0-rc.4",
     "vue-cli-plugin-element": "~1.0.1",
     "vue-template-compiler": "^2.6.11"
+  },
+  "bugs": {
+    "url": "https://github.com/ncdhz/innermost/issues"
+  },
+  "homepage": "https://github.com/ncdhz/innermost#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ncdhz/innermost.git"
   }
 }
