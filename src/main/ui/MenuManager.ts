@@ -1,31 +1,40 @@
 import { I18nUtil } from '@/utils'
-import { Menu, MenuItemConstructorOptions, MenuItem,ipcMain} from 'electron'
+import { Menu, MenuItemConstructorOptions, MenuItem} from 'electron'
+import MainEventTypes from '@/main/events/MainEventTypes'
+import { UIEventManager } from '@/main/events/UIEventManager'
 const i18n = I18nUtil.i18n
 export class MenuManager {
 
   constructor() {
     this.initMenu()
-    ipcMain.on('changing-language', (event, arg) => {
-      this.setMenu(arg)
-    })
   }
 
-  initMenu() {
+  public initMenu(): void{
     const template: (MenuItemConstructorOptions | MenuItem)[] = [
       {
         label: i18n.t('menu.ineermost.name') as string,
         submenu: [
-          { label: i18n.t('menu.ineermost.about') as string },
-          { type: 'separator' }
+          {
+            label: i18n.t('menu.ineermost.about') as string,
+            click() {
+              UIEventManager.uiEvent.emit(MainEventTypes.OPEN_ABOUT)
+            }
+          }
+        ]
+      },
+      {
+        label: i18n.t('menu.window.name') as string,
+        submenu: [
+          {
+            label: i18n.t('menu.ineermost.about') as string,
+            click() {
+              UIEventManager.uiEvent.emit(MainEventTypes.OPEN_ABOUT)
+            }
+          }
         ]
       }
     ]
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
-  }
-
-  setMenu(locale: string) {
-    i18n.locale = locale
-    this.initMenu()
   }
 }

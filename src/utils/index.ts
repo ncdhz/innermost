@@ -1,9 +1,11 @@
-import i18n from './i18n'
-export { GlobalConfig } from './configs/GlobalConfig'
-export { AppGlobalEnv as APP_GLOBLE_ENV } from './AppGlobalEnv'
+export { I18nUtil } from './i18n'
 
-export class I18nUtil {
-  public static i18n = i18n;
-}
+export { GlobalConfig } from './configs/GlobalConfigManager'
 
-export { UITools } from './UITools'
+export { default as DefaultConfig } from './configs/DefaultConfig'
+
+export { AppGlobalEnv } from './AppGlobalEnv'
+
+export { Theme } from './theme'
+
+export { UITools, IconEventInterface, EventTypes } from './UITools'

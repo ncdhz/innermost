@@ -1,27 +1,30 @@
 <template>
-  <el-container id="app-win-menu-box">
-    <el-header style="height:30px" id="app-win-menu-title">
-      偏好设置
+  <el-container>
+    <el-header style="height:30px" class="app-win-menu-title">
+      <span :style="menuStyle.title">{{ $t('menu.name.preferences') }}</span>
     </el-header>
     <el-main>
-      <MenuItem/>
+      <setting-menu/>
     </el-main>
   </el-container>
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import MenuItem from '@/components/MenuItem.vue'
+import SettingMenu from './SettingMenu.vue'
 export default Vue.extend({
   components: {
-    MenuItem
+    SettingMenu
+  },
+  computed: {
+    menuStyle(): object {
+      return this.$store.state.theme.menu
+    }
   }
 })
 </script>
 <style lang="scss">
-  #app-win-menu-box{
-    color: white;
-    #app-win-menu-title {
-      font-size: 16px;
-    }
+  .app-win-menu-title {
+    font-size: 16px;
+    line-height: 30px;
   }
 </style>

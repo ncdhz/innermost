@@ -1,19 +1,19 @@
 <template>
-  <div id="icon-logo">
-    <div id="icon-logo-box">
+  <div class="icon-logo">
+    <div class="icon-logo-box">
       <img src="../assets/logo.png" />
     </div>
   </div>
 </template>
 
 <style lang="scss">
-  #icon-logo{
+  .icon-logo{
     height: 50px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-content: center;
-    #icon-logo-box {
+    .icon-logo-box {
       width: 30px;
       height: 30px;
       margin: 0px auto;

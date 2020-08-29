@@ -1,25 +1,56 @@
 <template>
-  <div id="icon">
-    <div  id="icon-box">
+  <div class="icon" v-if="!eventArray || eventArray.length === 0">
+    <div  class="icon-box">
+      <i :class="iconClass"></i>
+    </div>
+  </div>
+  <div class="icon" v-else-if="eventArray && eventArray.length === 1">
+    <div @[eventArray[0].name]="event(0)" class="icon-box">
+      <i :class="iconClass"></i>
+    </div>
+  </div>
+  <div class="icon" v-else-if="eventArray && eventArray.length === 2">
+    <div @[eventArray[0].name]="event(0)"
+  @[eventArray[1].name]="event(1)" class="icon-box">
+      <i :class="iconClass"></i>
+    </div>
+  </div>
+  <div class="icon" v-else-if="eventArray && eventArray.length === 3">
+    <div @[eventArray[0].name]="event(0)"
+  @[eventArray[1].name]="event(1)" @[eventArray[2].name]="event(2)" class="icon-box">
       <i :class="iconClass"></i>
     </div>
   </div>
 </template>
+
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-@Component
-export default class Icon extends Vue {
-  @Prop() private iconClass!: string;
-}
+import Vue from 'vue'
+import { IconEventInterface } from '@/utils'
+export default Vue.extend({
+  props: {
+    iconClass: String,
+    eventArray: Array
+  },
+  methods: {
+    event(index: number): void {
+      if (typeof this.eventArray[index] === 'object') {
+        const eventObj: IconEventInterface = this.eventArray[index] as IconEventInterface
+        if (typeof eventObj.func === 'function') {
+          eventObj.func()
+        }
+      }
+    }
+  }
+})
 </script>
 <style lang="scss">
-#icon{
+.icon{
   width: 100%;
   height: 50px;
   display: flex;
   flex-wrap: wrap;
   align-content: center;
-  #icon-box {
+  .icon-box {
     cursor: pointer;
     margin: 0 auto;
     color: rgb(245, 245, 245);
@@ -30,7 +61,7 @@ export default class Icon extends Vue {
     width: 30px;
     border-radius: 15px;
   }
-  #icon-box:hover {
+  .icon-box:hover {
     background:#444444;
     }
 }

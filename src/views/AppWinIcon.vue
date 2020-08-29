@@ -1,22 +1,24 @@
 <template>
-  <el-container id="app-win-icon-content">
-    <el-header id="app-win-icon-content-logo">
-      <IconLogo/>
+  <el-container class="app-win-icon-content">
+    <el-header class="app-win-icon-content-logo">
+      <icon-logo/>
     </el-header>
     <el-main></el-main>
     <el-footer :style="appWinIconContentFooterStyle">
-      <Icon iconClass="el-icon-s-operation"/>
-      <Icon iconClass="el-icon-info"/>
+      <icon icon-class="el-icon-s-operation" />
+      <icon :event-array="aboutInnermost" icon-class="el-icon-info" />
     </el-footer>
   </el-container>
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import { ipcRenderer } from 'electron'
 import IconLogo from '@/components/IconLogo.vue'
 import Icon from '@/components/Icon.vue'
-import { UITools } from '@/utils'
+import { UITools, IconEventInterface, EventTypes } from '@/utils'
+import { ABOUT_SHOW } from '@/store'
 export default Vue.extend({
-  data() {
+  data(): object {
     return {
       appWinIconContentFooterStyle: {
         height: UITools.addPX(100),
@@ -24,19 +26,35 @@ export default Vue.extend({
       }
     }
   },
-  name: 'AppWinIcon',
   components: {
     IconLogo,
     Icon
+  },
+  computed: {
+    // 关于心底深处
+    aboutInnermost(): Array<IconEventInterface> {
+      const openAboutInnermost: () => void = () => {
+        this.$store.commit(ABOUT_SHOW, true)
+      }
+      ipcRenderer.on(EventTypes.OPEN_ABOUT, () => {
+        openAboutInnermost()
+      })
+      return [
+        {
+          name: 'click',
+          func: () => openAboutInnermost()
+        }
+      ]
+    }
   }
 })
 </script>
 
 <style lang="scss">
-  #app-win-icon-content {
+  .app-win-icon-content {
     width: 100%;
     height: 100%;
-    #app-win-icon-content-logo {
+    .app-win-icon-content-logo {
       width: 100%;
       margin-top: 40px;
     }

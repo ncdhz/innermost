@@ -1,11 +1,25 @@
 <template>
-  <div id="menu-item">
-    <i class="el-icon-menu"></i>
-    <span>基础设置</span>
+  <div class="menu-item" :style="itemStyle.item">
+    <i :class="menuIcon"></i>
+    <span>{{menuName}}</span>
   </div>
 </template>
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  computed: {
+    itemStyle(): object {
+      return this.$store.state.theme.menu
+    }
+  },
+  props: {
+    menuIcon: String,
+    menuName: String
+  }
+})
+</script>
 <style lang="scss">
-  #menu-item {
+  .menu-item {
     width: calc(100% - 20px);
     font-size: 15px;
     text-align: left;
@@ -22,10 +36,10 @@
       font-size: 20px;
       padding-right: 10px;
     }
-    color: #aaaaaa;
+    color: var(--color)
   }
-  #menu-item:hover{
-    background: #444444;
-    color: white;
+  .menu-item:hover {
+    background: var(--hover-background);
+    color: var(--hover-color);
   }
 </style>

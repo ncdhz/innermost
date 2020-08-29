@@ -1,0 +1,6 @@
+const ABOUT_SHOW = 'ABOUT_SHOW'
+const UPDATE_THEME = 'UPDATE_THEME'
+export {
+  ABOUT_SHOW,
+  UPDATE_THEME
+}

@@ -7,37 +7,35 @@
 * | |   |                            |
 * | |   |                            |
 * | |   |                            |
-* | |   |----------------------------|
+* | |   |                            |
 * | |   |                            |
 * |-|---|----------------------------|
 */
 <template>
-  <div id="app" :style="appWindowHeight">
-    <el-container id="app-win">
+  <div  class="app" :style="appWindowHeight">
+    <el-container class="app-win">
       <!-- 侧边栏用于图标显示 -->
-      <el-aside id="app-win-icon" v-show="appWinIconShow" :style="appWinIconStyle">
-        <AppWinIcon/>
+      <el-aside class="app-win-icon" v-show="appWinIconShow" :style="appWinIconStyle">
+        <app-win-icon/>
       </el-aside>
       <!-- 主要部分 -->
-      <el-container id="app-win-content">
+      <el-container class="app-win-content">
         <!-- 侧面菜单部分 -->
-        <el-aside id="app-win-content-menu" :style="appWinMenuStyle" v-show="appWinMenuShow">
-          <el-container id="app-win-menu-content">
+        <el-aside class="app-win-content-menu" :style="[appWinMenuStyle, winStyle.menu]" v-show="appWinMenuShow">
+          <el-container class="app-win-menu-content">
             <el-header :style="appWinContentHeaderStyle"></el-header>
-            <AppWinMenu/>
+            <app-win-menu/>
           </el-container>
         </el-aside>
 
-        <el-container>
+        <el-container class="app-win-content-main" :style="winStyle.main">
           <!-- 主要部分头 -->
           <el-header :style="appWinContentHeaderStyle">
           </el-header>
           <!-- 主要部分内容 -->
-          <el-main>
+          <el-main class="app-win-main-content">
+            <app-win-main/>
           </el-main>
-          <!-- 主要部分尾部 -->
-          <el-footer>
-          </el-footer>
         </el-container>
       </el-container>
     </el-container>
@@ -45,10 +43,11 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { ipcRenderer } from 'electron'
-import { GlobalConfig, UITools } from '@/utils'
+import { ipcRenderer, Rectangle } from 'electron'
+import { GlobalConfig, UITools, EventTypes } from '@/utils'
 import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
+import AppWinMain from '@/views/AppWinMain.vue'
 export default Vue.extend({
   data() {
     return {
@@ -71,24 +70,41 @@ export default Vue.extend({
     }
   },
   created() {
-    ipcRenderer.on('app-window-bounds', (e, bounds) => {
+    const appInit = (bounds: Rectangle | {
+      width: number;
+      height: number;
+    }) => {
       this.appWindowHeight.height = UITools.addPX(bounds.height)
-      if (bounds.width < 800) {
+      if (bounds.width < GlobalConfig.appWindow.limit.one) {
         this.appWinIconShow = false
       } else {
         this.appWinIconShow = true
       }
-      if (bounds.width < 570) {
+      if (bounds.width < GlobalConfig.appWindow.limit.two) {
         this.appWinMenuShow = false
       } else {
         this.appWinMenuShow = true
       }
+    }
+    appInit(GlobalConfig.appWindow)
+    ipcRenderer.on(EventTypes.APP_WINDOW_BOUNDS, (e, bounds: Rectangle) => {
+      appInit(bounds)
     })
+  },
+  computed: {
+    winStyle() {
+      const originalStyle = document.body.style.cssText
+      document.body.setAttribute('style', originalStyle + UITools.toStyle(this.$store.state.theme.global.message.box))
+      return {
+        ...this.$store.state.theme.window
+      }
+    }
   },
   components: {
     // 用于左侧每一个插件的图标显示
     AppWinIcon,
-    AppWinMenu
+    AppWinMenu,
+    AppWinMain
   }
 })
 </script>
@@ -100,23 +116,43 @@ export default Vue.extend({
     padding: 0;
     margin: 0;
   }
-  #app{
+  .global-message-box-background {
+    background: var(--message-background) !important;
+    border: 1px solid var(--message-border) !important;
+    .el-message-box__header {
+      .el-message-box__title {
+        color: var(--message-title-color);
+      }
+    }
+    .el-message-box__content {
+      .el-message-box__container {
+        .el-message-box__message {
+          color: var(--message-container-message)
+        }
+      }
+    }
+  }
+  .app{
     height: 100%;
     width: 100%;
-    #app-win {
+    .app-win {
       height: 100%;
       width: 100%;
-      #app-win-icon {
+      .app-win-icon {
         height: 100%;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.8);
       }
-      #app-win-content {
+      .app-win-content {
         height: 100%;
-        #app-win-content-menu {
+        .app-win-content-menu {
           height: 100%;
-          background: #2d2d2d;
-          #app-win-menu-content{
+          .app-win-menu-content{
             height: 100%;
+          }
+        }
+        .app-win-content-main {
+          .app-win-main-content {
+            padding: 0;
           }
         }
       }

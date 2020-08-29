@@ -12,6 +12,7 @@ module.exports = {
         directories: {
           output: './dist_electron'
         },
+        asar: false,
         dmg: {
           contents: [
             {
