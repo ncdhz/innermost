@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-header style="height:30px" class="app-win-menu-title">
-      <span :style="menuStyle.title">{{ $t('menu.name.preferences') }}</span>
+      <span v-show="settingShow" :style="menuStyle.title">{{ $t('setting.name') }}</span>
     </el-header>
     <el-main>
-      <setting-menu/>
+      <setting-menu v-show="settingShow"/>
     </el-main>
   </el-container>
 </template>
@@ -18,6 +18,9 @@ export default Vue.extend({
   computed: {
     menuStyle(): object {
       return this.$store.state.theme.menu
+    },
+    settingShow(): boolean {
+      return this.$store.state.setting.show
     }
   }
 })

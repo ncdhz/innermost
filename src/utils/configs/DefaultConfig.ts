@@ -1,11 +1,14 @@
 import { Theme } from '@/utils/theme'
-
+import { AppGlobalEnv } from '@/utils/AppGlobalEnv'
 export default {
   i18n: {
     locale: 'zh-CN'
   },
   theme: {
     default: Theme.name
+  },
+  extensions: {
+    path: AppGlobalEnv.EXTENSIONS_PATH
   },
   // 主窗口
   appWindow: {
@@ -24,10 +27,12 @@ export default {
     },
     // 图标的宽度
     icon: {
+      show: true,
       width: 80
     },
     content: {
       menu: {
+        show: true,
         width: 200
       },
       header: {

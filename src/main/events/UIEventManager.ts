@@ -2,29 +2,26 @@ import { ipcMain } from 'electron'
 import { WindowManager } from '../ui/WindowManager'
 import { TrayManager } from '../ui/TrayManager'
 import { MenuManager } from '../ui/MenuManager'
-import events from 'events'
-import MainEventTypes from './MainEventTypes'
 import { I18nUtil, EventTypes } from '@/utils'
-import { strict } from 'assert'
 
 export class UIEventManager {
 
   trayManager: TrayManager | undefined
   menuManager: MenuManager | undefined
   windowManager: WindowManager | undefined
-  static uiEvent: events.EventEmitter = new events.EventEmitter()
 
   constructor(windowManager: WindowManager) {
     this.windowManager = windowManager
     this.trayManager = windowManager.trayManager
     this.menuManager = windowManager.menuManager
+    this.trayManager?.setUIEventManager(this)
+    this.menuManager?.setUIEventManager(this)
     this.initUIEventManager()
 
   }
 
   private initUIEventManager(): void{
     this.changingLanguage()
-    this.openAbout()
     this.closeWindow()
   }
   /**
@@ -40,11 +37,16 @@ export class UIEventManager {
   /**
    * 打开关于
    */
-  private openAbout(): void {
-    UIEventManager.uiEvent.on(MainEventTypes.OPEN_ABOUT, ()=>{
-      // 发信息给界面进程让他打开 about 页面
-      this.windowManager?.win?.webContents.send(EventTypes.OPEN_ABOUT)
-    })
+  public openAbout(): void {
+    // 发信息给界面进程让他打开 about 页面
+    this.windowManager?.win?.webContents.send(EventTypes.OPEN_ABOUT)
+  }
+  /**
+   * 打开设置
+   */
+  public openPreferences(): void {
+    // 发信息给界面进程让他打开 about 页面
+    this.windowManager?.win?.webContents.send(EventTypes.OPEN_PREFERENCES)
   }
   /**
    * 关闭窗口

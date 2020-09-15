@@ -15,7 +15,9 @@ import {
   Row,
   Col,
   MessageBox,
-  Message
+  Message,
+  Switch,
+  Input
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -33,5 +35,7 @@ Vue.use(Option)
 Vue.use(Dialog)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Switch)
+Vue.use(Input)
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message

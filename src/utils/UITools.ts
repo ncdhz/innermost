@@ -41,4 +41,5 @@ export class EventTypes {
   public static APP_WINDOW_BOUNDS = 'APP_WINDOW_BOUNDS'
   public static CLOSE_WINDOW = 'CLOSE_WINDOW'
   public static OPEN_WINDOW = 'OPEN_WINDOW'
+  public static OPEN_PREFERENCES = 'OPEN_PREFERENCES'
 }

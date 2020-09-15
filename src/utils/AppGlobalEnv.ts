@@ -10,4 +10,7 @@ export class AppGlobalEnv {
 
   public static PUBLIC_FILE_PATH: string = AppGlobalEnv.IS_DEVELOPMENT
     ? path.join(AppGlobalEnv.PROJECT_PATH, '..', 'public') : AppGlobalEnv.PROJECT_PATH
+
+  public static EXTENSIONS_PATH = AppGlobalEnv.IS_MAIN_PROCESS
+    ? app.getPath('home') : remote.app.getPath('home')
 }

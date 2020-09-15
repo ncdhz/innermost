@@ -1,21 +1,18 @@
 'use strict'
 import { TrayManager } from '@/main/ui/TrayManager'
 import { MenuManager } from '@/main/ui/MenuManager'
+import { UIEventManager } from '@/main/events/UIEventManager'
 import { app, BrowserWindow, BrowserWindowConstructorOptions, Rectangle } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import { GlobalConfig, AppGlobalEnv, EventTypes } from '@/utils'
-import events from 'events'
-import MainEventTypes from '@/main/events/MainEventTypes'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 export class WindowManager {
 
   win: BrowserWindow | undefined | null
   trayManager: TrayManager | undefined
   menuManager: MenuManager | undefined
-  startUIEvent: events.EventEmitter
-
+  uiEventManager: UIEventManager | undefined
   constructor() {
-    this.startUIEvent = new events.EventEmitter()
     this.initWindowManager()
   }
 
@@ -37,7 +34,7 @@ export class WindowManager {
     app.whenReady().then(() => {
       this.menuManager = new MenuManager()
       this.trayManager = new TrayManager()
-      this.startUIEvent.emit(MainEventTypes.START_UI_EVENT)
+      this.uiEventManager = new UIEventManager( this )
     })
     app.on('ready', async () => {
       if (AppGlobalEnv.IS_DEVELOPMENT && !process.env.IS_TEST) {

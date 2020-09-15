@@ -1,11 +1,11 @@
 <template>
   <el-container class="app-win-main-box">
     <el-header class="app-win-main-title" style="height:45px;" :style="mainStyle.title">
-      <span>{{ $t('setting.name.basic') }}</span>
-      <div class="app-win-main-title-divider el-divider el-divider--horizontal" :style="mainStyle.divider"></div>
+      <span v-show="settingShow">{{ $t('setting.basic.name') }}</span>
+      <div v-show="settingShow" class="app-win-main-title-divider el-divider el-divider--horizontal" :style="mainStyle.divider"></div>
     </el-header>
     <el-main class="app-win-main-win">
-      <setting-main/>
+      <setting-main v-show="settingShow"/>
       <!-- 关于页面 -->
       <about/>
     </el-main>
@@ -24,6 +24,9 @@ export default Vue.extend({
   computed: {
     mainStyle(): object {
       return this.$store.state.theme.main
+    },
+    settingShow(): boolean {
+      return this.$store.state.setting.show
     }
   }
 })

@@ -5,7 +5,7 @@
     </el-header>
     <el-main></el-main>
     <el-footer :style="appWinIconContentFooterStyle">
-      <icon icon-class="el-icon-s-operation" />
+      <icon :event-array="setting" icon-class="el-icon-s-operation" />
       <icon :event-array="aboutInnermost" icon-class="el-icon-info" />
     </el-footer>
   </el-container>
@@ -16,7 +16,7 @@ import { ipcRenderer } from 'electron'
 import IconLogo from '@/components/IconLogo.vue'
 import Icon from '@/components/Icon.vue'
 import { UITools, IconEventInterface, EventTypes } from '@/utils'
-import { ABOUT_SHOW } from '@/store'
+import { MutationTypes } from '@/store'
 export default Vue.extend({
   data(): object {
     return {
@@ -34,7 +34,7 @@ export default Vue.extend({
     // 关于心底深处
     aboutInnermost(): Array<IconEventInterface> {
       const openAboutInnermost: () => void = () => {
-        this.$store.commit(ABOUT_SHOW, true)
+        this.$store.commit(MutationTypes.ABOUT_SHOW, true)
       }
       ipcRenderer.on(EventTypes.OPEN_ABOUT, () => {
         openAboutInnermost()
@@ -43,6 +43,14 @@ export default Vue.extend({
         {
           name: 'click',
           func: () => openAboutInnermost()
+        }
+      ]
+    },
+    setting(): Array<IconEventInterface> {
+      return [
+        {
+          name: 'click',
+          func: () => this.$store.commit(MutationTypes.SETTING_SHOW, true)
         }
       ]
     }

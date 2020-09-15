@@ -8,7 +8,9 @@ class Config {
   i18n = _.merge({}, DefaultConfig.i18n)
   theme = _.merge({}, DefaultConfig.theme)
   appWindow = _.merge({}, DefaultConfig.appWindow)
+  extensions = _.merge({}, DefaultConfig.extensions)
   localConfig: any
+
   private static ConfigFilePath = path.join(AppGlobalEnv.PUBLIC_FILE_PATH, 'config', 'global.config.json')
 
   constructor() {

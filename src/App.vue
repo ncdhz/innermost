@@ -48,6 +48,7 @@ import { GlobalConfig, UITools, EventTypes } from '@/utils'
 import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
 import AppWinMain from '@/views/AppWinMain.vue'
+import { MutationTypes } from './store'
 export default Vue.extend({
   data() {
     return {
@@ -61,8 +62,6 @@ export default Vue.extend({
       appWinMenuStyle: {
         width: UITools.addPX(GlobalConfig.appWindow.content.menu.width)
       },
-      appWinIconShow: true,
-      appWinMenuShow: true,
       appWinContentHeaderStyle: {
         height: UITools.addPX(GlobalConfig.appWindow.content.header.height),
         '-webkit-app-region': 'drag'
@@ -74,16 +73,19 @@ export default Vue.extend({
       width: number;
       height: number;
     }) => {
+      // 改变全局配置中的高宽
+      GlobalConfig.appWindow.height = bounds.height
+      GlobalConfig.appWindow.width = bounds.width
       this.appWindowHeight.height = UITools.addPX(bounds.height)
       if (bounds.width < GlobalConfig.appWindow.limit.one) {
-        this.appWinIconShow = false
+        this.$store.commit(MutationTypes.ICON_SHOW, false)
       } else {
-        this.appWinIconShow = true
+        this.$store.commit(MutationTypes.ICON_SHOW, GlobalConfig.appWindow.icon.show)
       }
       if (bounds.width < GlobalConfig.appWindow.limit.two) {
-        this.appWinMenuShow = false
+        this.$store.commit(MutationTypes.MENU_SHOW, false)
       } else {
-        this.appWinMenuShow = true
+        this.$store.commit(MutationTypes.MENU_SHOW, GlobalConfig.appWindow.content.menu.show)
       }
     }
     appInit(GlobalConfig.appWindow)
@@ -98,6 +100,12 @@ export default Vue.extend({
       return {
         ...this.$store.state.theme.window
       }
+    },
+    appWinIconShow() {
+      return this.$store.state.icon.show
+    },
+    appWinMenuShow() {
+      return this.$store.state.menu.show
     }
   },
   components: {

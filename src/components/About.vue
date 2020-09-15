@@ -33,7 +33,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { ABOUT_SHOW } from '@/store'
+import { MutationTypes } from '@/store'
 import { EventTypes, GlobalConfig } from '@/utils'
 import { ipcRenderer, Rectangle } from 'electron'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -70,7 +70,7 @@ export default Vue.extend({
         return this.$store.state.about.show
       },
       set(): void {
-        this.$store.commit(ABOUT_SHOW, false)
+        this.$store.commit(MutationTypes.ABOUT_SHOW, false)
       }
     },
     aboutStyle(): object {

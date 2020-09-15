@@ -2,21 +2,20 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { ipcRenderer } from 'electron'
-import { EventTypes, GlobalConfig, I18nUtil } from '@/utils'
+import UIEventManager from './views/events/UIEventManager'
+import { I18nUtil } from '@/utils'
+import VueI18n from 'vue-i18n'
 import './plugins/element.ts'
 import ElementLocale from 'element-ui/lib/locale'
-ElementLocale.i18n((key: any, values: any) => I18nUtil.i18n.t(key, values))
+ElementLocale.i18n((key: string, values?: VueI18n.Values) => I18nUtil.i18n.t(key, values))
 
 Vue.config.productionTip = false
-// 用于更新全局配置
-ipcRenderer.on(EventTypes.UPDATE_CONFIG, (event, config: object) => {
-  GlobalConfig.writeGlobalConfig(config)
-})
+// 给界面上事件监听
 
-new Vue({
+const vm = new Vue({
   router,
   store,
   i18n: I18nUtil.i18n,
   render: h => h(App)
 }).$mount('#app')
+UIEventManager.init(vm)
