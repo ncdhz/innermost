@@ -3,7 +3,7 @@
     <el-form  size="mini" label="right" :style="settingStyle.setting" label-width="120px">
       <!-- 切换主题 -->
       <el-form-item :label="$t('setting.basic.theme') + ':'">
-        <el-select @change="changeTheme" v-model="themeValue">
+        <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeTheme" v-model="themeValue">
           <el-option v-for="item in themeType" :key="item" :value="item" :label="item"></el-option>
         </el-select>
       </el-form-item>
@@ -17,15 +17,17 @@
       </el-form-item>
       <!-- 扩展路径 -->
       <el-form-item :label="$t('setting.basic.extensionsPath') + ':'">
-        <el-input @click="selectExtensionsPath" v-model="extensionsPath">
-          <template @click="selectExtensionsPath" slot="append"  >
-            <i class="el-icon-folder-opened setting-input-icon" />
-          </template>
-        </el-input>
+        <div  @click="selectExtensionsPath">
+          <el-input v-model="extensionsPath">
+            <template slot="append"  >
+              <i class="el-icon-folder-opened setting-input-icon" />
+            </template>
+          </el-input>
+        </div>
       </el-form-item>
       <!-- 切换语言 -->
       <el-form-item :label="$t('setting.basic.language') + ':'">
-        <el-select @change="changeLanguage" v-model="languageValue">
+        <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeLanguage" v-model="languageValue">
           <el-option v-for="(item, key) in languageType" :key="key" :value="key" :label="item"></el-option>
         </el-select>
       </el-form-item>
@@ -53,13 +55,14 @@ export default Vue.extend({
       themeValue: GlobalConfig.theme.default,
       iconValue: GlobalConfig.appWindow.icon.show && GlobalConfig.appWindow.width > DefaultConfig.appWindow.limit.one,
       menuValue: GlobalConfig.appWindow.content.menu.show && GlobalConfig.appWindow.width > DefaultConfig.appWindow.limit.two,
-      extensionsPath: GlobalConfig.extensions.path
+      extensionsPath: GlobalConfig.extension.path
     }
   },
   methods: {
     // 改变语言
     changeLanguage(data: string): void {
       this.$i18n.locale = data
+
       ipcRenderer.send(EventTypes.CHANGING_LANGUAGE, data)
       GlobalConfig.writeGlobalConfig({
         i18n: {
@@ -78,13 +81,17 @@ export default Vue.extend({
     },
     // 改变扩展的目录
     selectExtensionsPath() {
-      console.log('......////.....////')
-      remote.dialog.showOpenDialogSync({
+      const folder = remote.dialog.showOpenDialogSync({
         title: this.$i18n.t('setting.basic.extensionsPath') as string,
+        defaultPath: GlobalConfig.extension.path,
         properties: [
-          'openDirectory'
+          'openDirectory',
+          'showHiddenFiles'
         ]
       })
+      if (folder) {
+        this.$data.extensionsPath = folder?.[0]
+      }
     },
     // 恢复默认设置
     defaultSettings(): void {
@@ -176,8 +183,9 @@ export default Vue.extend({
       background: var(--inner-background);
       color: var(--label-inner-color);
       &:hover {
+        border-color: var(--inner-append-hover-border-color);
         + .el-input-group__append {
-          border-color: var(--inner-append-border-color);
+          border-color: var(--inner-append-hover-border-color);
         }
       }
     }
@@ -188,9 +196,27 @@ export default Vue.extend({
       border-right-width: 1px;
       border-bottom-width: 1px;
       background: var(--inner-append-background);
+      &:hover .setting-input-icon {
+        color: var(--inner-append-hover-icon-color);
+      }
     }
     .setting-input-icon {
       color: var(--inner-append-icon-color);
     }
+    .setting-select{
+      border-color: var(--inner-select-border-color);
+      border-radius: 5px;
+      .el-select-dropdown__list{
+        border-radius: 3px;
+        background: var(--inner-background);
+      }
+      .popper__arrow{
+        border-right-color: var(--inner-background) !important;
+        &::after{
+          border-bottom-color: var(--inner-background) !important;
+        }
+      }
+    }
+
   }
 </style>

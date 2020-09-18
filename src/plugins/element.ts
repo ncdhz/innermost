@@ -1,41 +1,7 @@
 import Vue from 'vue'
-import {
-  Button,
-  Select,
-  Option,
-  Container,
-  Header,
-  Aside,
-  Main,
-  Footer,
-  Divider,
-  Form,
-  FormItem,
-  Dialog,
-  Row,
-  Col,
-  MessageBox,
-  Message,
-  Switch,
-  Input
-} from 'element-ui'
+import ElementUI from 'element-ui'
+import { I18nUtil } from '@/utils'
 import 'element-ui/lib/theme-chalk/index.css'
-
-Vue.use(Button)
-Vue.use(Header)
-Vue.use(Aside)
-Vue.use(Main)
-Vue.use(Footer)
-Vue.use(Container)
-Vue.use(Divider)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Select)
-Vue.use(Option)
-Vue.use(Dialog)
-Vue.use(Row)
-Vue.use(Col)
-Vue.use(Switch)
-Vue.use(Input)
-Vue.prototype.$confirm = MessageBox.confirm
-Vue.prototype.$message = Message
+Vue.use(ElementUI, {
+  i18n: (key: any, value: any) => I18nUtil.i18n.t(key, value)
+})

@@ -1,5 +1,6 @@
 import { Theme } from '@/utils/theme'
 import { AppGlobalEnv } from '@/utils/AppGlobalEnv'
+import path from 'path'
 export default {
   i18n: {
     locale: 'zh-CN'
@@ -7,8 +8,9 @@ export default {
   theme: {
     default: Theme.name
   },
-  extensions: {
-    path: AppGlobalEnv.EXTENSIONS_PATH
+  extension: {
+    path: path.join(AppGlobalEnv.EXTENSIONS_PATH, '.innermost'),
+    package: new Array<string>()
   },
   // 主窗口
   appWindow: {

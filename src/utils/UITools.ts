@@ -1,4 +1,5 @@
 import _ from 'lodash'
+
 export class UITools {
   public static addPX(data: string|number): string {
     return data + 'px'
@@ -12,17 +13,22 @@ export class UITools {
    * to
    *
    * color:xx;
-   * @param data 对象 不能有嵌套属性，不能有方法
+   * @param data 对象 不能有嵌套属性，不能有方法 或者是字符串 这样value必须有值
+   * @param value 当 data 为字符串时此参数必须有值 @return data:value;
    */
-  public static toStyle(data: object): string {
+  public static toStyle(data: object| string, value?: string): string {
     let style = ''
-    for (const key in data) {
-      if (Object.prototype.hasOwnProperty.call(data, key)) {
-        const value = _.get(data, key)
-        if (typeof value === 'function' || typeof value === 'object' || typeof value === 'symbol') {
-          continue
+    if (typeof data === 'string') {
+      style += (data + ':' + value + ';')
+    } else {
+      for (const key in data as object) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          const value = _.get(data, key)
+          if (typeof value === 'function' || typeof value === 'object' || typeof value === 'symbol') {
+            continue
+          }
+          style += (key + ':' + value + ';')
         }
-        style += (key + ':' + value + ';')
       }
     }
     return style
@@ -30,7 +36,7 @@ export class UITools {
 }
 // 左侧图标栏事件接口
 export interface IconEventInterface {
-  name: string;
+  readonly name: string;
   func: () => void;
 }
 

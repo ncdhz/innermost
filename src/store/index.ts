@@ -11,7 +11,7 @@ export default new Vuex.Store({
       show: false
     },
     setting: {
-      show: true
+      show: false
     },
     theme: Theme[GlobalConfig.theme.default],
     menu: {

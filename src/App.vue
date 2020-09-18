@@ -49,6 +49,8 @@ import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
 import AppWinMain from '@/views/AppWinMain.vue'
 import { MutationTypes } from './store'
+import { PluginManager } from '@/plugins'
+import { forEach } from 'lodash'
 export default Vue.extend({
   data() {
     return {
@@ -69,6 +71,13 @@ export default Vue.extend({
     }
   },
   created() {
+    // 初始化插件 style
+    (() => {
+      const styles = PluginManager.getStyles()
+      styles.forEach((style) => {
+        document.head.innerHTML += style
+      })
+    })()
     const appInit = (bounds: Rectangle | {
       width: number;
       height: number;

@@ -21,10 +21,12 @@ export default {
     setting: {
       '--label-inner-color': '#6C6E71',
       '--inner-background': '#FFFFFF',
+      '--inner-select-border-color': '#E4E7EE',
       '--inner-border-color': '#D9DCE4',
       '--inner-append-background': '#F5F7FA',
       '--inner-append-icon-color': '#A7AAB0',
-      '--inner-append-border-color': '#C0C4CD'
+      '--inner-append-hover-icon-color': '#2A97FF',
+      '--inner-append-hover-border-color': '#C0C4CD'
     }
   },
   menu: {

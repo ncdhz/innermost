@@ -22,6 +22,10 @@ export default {
       close: 'Close',
       reload: 'Reload',
       togglefullscreen: 'Togglefullscreen'
+    },
+    help: {
+      name: 'Help',
+      toggleDevTools: 'Toggle Developer Tools'
     }
   },
   tray: {

@@ -21,6 +21,10 @@ export default {
       close: '关闭',
       reload: '重新加载',
       togglefullscreen: '全屏'
+    },
+    help: {
+      name: '帮助',
+      toggleDevTools: '开发者工具'
     }
   },
   tray: {

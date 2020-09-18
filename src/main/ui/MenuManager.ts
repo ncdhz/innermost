@@ -1,6 +1,7 @@
 import { I18nUtil } from '@/utils'
 import { Menu, MenuItemConstructorOptions, MenuItem} from 'electron'
 import { UIEventManager } from '@/main/events/UIEventManager'
+import { Submenu } from 'element-ui'
 const i18n = I18nUtil.i18n
 export class MenuManager {
 
@@ -18,6 +19,7 @@ export class MenuManager {
     const _this = this
 
     const template: (MenuItemConstructorOptions | MenuItem)[] = [
+      // 关于菜单
       {
         label: i18n.t('menu.ineermost.name') as string,
         role: 'about',
@@ -33,9 +35,17 @@ export class MenuManager {
             click() {
               _this.uiEventManager?.openPreferences()
             }
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: i18n.t('tray.quit') as string,
+            role: 'quit'
           }
         ]
       },
+      // 编辑菜单
       {
         label: i18n.t('menu.edit.name') as string,
         role: 'editMenu',
@@ -69,6 +79,7 @@ export class MenuManager {
           }
         ]
       },
+      // 窗口菜单
       {
         label: i18n.t('menu.window.name') as string,
         role: 'windowMenu',
@@ -88,6 +99,17 @@ export class MenuManager {
           {
             label: i18n.t('menu.window.togglefullscreen') as string,
             role: 'togglefullscreen'
+          }
+        ]
+      },
+      // 帮助菜单
+      {
+        label: i18n.t('menu.help.name') as string,
+        role: 'help',
+        submenu: [
+          {
+            label: i18n.t('menu.help.toggleDevTools') as string,
+            role: 'toggleDevTools'
           }
         ]
       }

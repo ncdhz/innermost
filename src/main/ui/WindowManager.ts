@@ -107,3 +107,4 @@ export class WindowManager {
   }
 
 }
+export default new WindowManager()
