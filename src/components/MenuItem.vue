@@ -32,6 +32,7 @@ export default Vue.extend({
     flex-wrap: wrap;
     align-content: center;
     cursor: pointer;
+    -webkit-app-region: no-drag;
     i {
       font-size: 20px;
       padding-right: 10px;

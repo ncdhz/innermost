@@ -5,6 +5,7 @@ import { UIEventManager } from '@/main/events/UIEventManager'
 import { app, BrowserWindow, BrowserWindowConstructorOptions, Rectangle } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import { GlobalConfig, AppGlobalEnv, EventTypes } from '@/utils'
+import is from 'electron-is'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 export class WindowManager {
 
@@ -63,9 +64,6 @@ export class WindowManager {
       height: GlobalConfig.appWindow.height,
       minWidth: GlobalConfig.appWindow.limit.minWidth,
       minHeight: GlobalConfig.appWindow.limit.minHeight,
-      
-      transparent: true,
-      titleBarStyle: 'hidden',
       webPreferences: {
         nodeIntegration: (process.env
           .ELECTRON_NODE_INTEGRATION as unknown) as boolean,
@@ -76,6 +74,19 @@ export class WindowManager {
       Object.assign(browserWindowOptions, {
         x: GlobalConfig.appWindow.x,
         y: GlobalConfig.appWindow.y
+      })
+    }
+    // 用于判断各种不同的系统用于添加不同的属性
+    if (is.macOS()) {
+      Object.assign(browserWindowOptions, {
+        transparent: true,
+        titleBarStyle: 'hidden'
+      })
+    } else {
+      Object.assign(browserWindowOptions, {
+        useContentSize: true,
+        frame: false,
+        resizable: true
       })
     }
     this.win = new BrowserWindow(browserWindowOptions)

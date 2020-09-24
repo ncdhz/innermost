@@ -1,6 +1,7 @@
 <template>
   <el-container class="app-win-icon-content">
     <el-header class="app-win-icon-content-logo">
+      <div class="app-win-icon-content-logo-drag"></div>
       <icon-logo/>
     </el-header>
     <el-main class="app-win-icon-content-main">
@@ -65,8 +66,12 @@ export default Vue.extend({
     width: 100%;
     height: 100%;
     .app-win-icon-content-logo {
+      .app-win-icon-content-logo-drag {
+        height: 40px;
+        width: 100%;
+        -webkit-app-region: drag;
+      }
       width: 100%;
-      margin-top: 40px;
     }
     .app-win-icon-content-main {
       &::-webkit-scrollbar {

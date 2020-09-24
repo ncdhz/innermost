@@ -12,7 +12,7 @@
 * |-|---|----------------------------|
 */
 <template>
-  <div  class="app" :style="appWindowHeight">
+  <div id="app" :style="appWindowHeight">
     <el-container class="app-win">
       <!-- 侧边栏用于图标显示 -->
       <el-aside class="app-win-icon" v-show="appWinIconShow" :style="appWinIconStyle">
@@ -49,6 +49,7 @@ import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
 import AppWinMain from '@/views/AppWinMain.vue'
 import { MutationTypes } from './store'
+import is from 'electron-is'
 import { PluginManager } from '@/plugins'
 import { forEach } from 'lodash'
 export default Vue.extend({
@@ -59,14 +60,16 @@ export default Vue.extend({
       },
       appWinIconStyle: {
         width: UITools.addPX(GlobalConfig.appWindow.icon.width),
-        '-webkit-app-region': 'drag'
+        '-webkit-app-region': is.macOS() ? 'drag' : 'no-drag'
       },
       appWinMenuStyle: {
         width: UITools.addPX(GlobalConfig.appWindow.content.menu.width)
       },
       appWinContentHeaderStyle: {
         height: UITools.addPX(GlobalConfig.appWindow.content.header.height),
-        '-webkit-app-region': 'drag'
+        '-webkit-app-region': 'drag',
+        margin: 0,
+        padding: 0
       }
     }
   },
@@ -125,6 +128,10 @@ export default Vue.extend({
     width: 100%;
     padding: 0;
     margin: 0;
+    border: 0;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   .global-message-box-background {
     background: var(--message-background) !important;
@@ -142,7 +149,7 @@ export default Vue.extend({
       }
     }
   }
-  .app{
+  #app{
     height: 100%;
     width: 100%;
     .app-win {

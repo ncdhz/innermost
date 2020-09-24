@@ -63,6 +63,6 @@ export default Vue.extend({
   }
   .icon-box:hover {
     background:#444444;
-    }
+  }
 }
 </style>
