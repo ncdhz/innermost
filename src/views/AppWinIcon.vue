@@ -4,7 +4,7 @@
       <icon-logo/>
     </el-header>
     <el-main class="app-win-icon-content-main">
-      <extension-icon v-for="(icon, i) in icons" :key="i" :icon="icon"></extension-icon>
+      <!-- <extension-icon v-for="(icon, i) in icons" :key="i" :icon="icon"></extension-icon> -->
     </el-main>
     <el-footer :style="appWinIconContentFooterStyle">
       <icon :event-array="setting" icon-class="el-icon-s-operation" />
@@ -19,15 +19,13 @@ import IconLogo from '@/components/IconLogo.vue'
 import Icon from '@/components/Icon.vue'
 import { UITools, EventTypes, IconEventInterface } from '@/utils'
 import { MutationTypes } from '@/store'
-import { PluginManager } from '@/plugins'
 export default Vue.extend({
   data(): object {
     return {
       appWinIconContentFooterStyle: {
         height: UITools.addPX(100),
         'margin-bottom': UITools.addPX(20)
-      },
-      icons: PluginManager.getIcons()
+      }
     }
   },
   components: {

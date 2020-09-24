@@ -63,6 +63,7 @@ export class WindowManager {
       height: GlobalConfig.appWindow.height,
       minWidth: GlobalConfig.appWindow.limit.minWidth,
       minHeight: GlobalConfig.appWindow.limit.minHeight,
+      
       transparent: true,
       titleBarStyle: 'hidden',
       webPreferences: {

@@ -71,13 +71,6 @@ export default Vue.extend({
     }
   },
   created() {
-    // 初始化插件 style
-    (() => {
-      const styles = PluginManager.getStyles()
-      styles.forEach((style) => {
-        document.head.innerHTML += style
-      })
-    })()
     const appInit = (bounds: Rectangle | {
       width: number;
       height: number;

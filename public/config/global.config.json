@@ -1,11 +1,11 @@
 {
   "appWindow": {
-    "height": 768,
-    "width": 1019,
-    "x": 51,
-    "y": 27
+    "height": 759,
+    "width": 1093,
+    "x": 343,
+    "y": 252
   },
   "i18n": {
-    "locale": "zh-CN"
+    "locale": "en"
   }
 }

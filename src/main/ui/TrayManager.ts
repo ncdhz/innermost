@@ -10,7 +10,7 @@ export class TrayManager {
   uiEventManager: UIEventManager | undefined
 
   constructor(){
-    this.tray = new Tray(path.join(AppGlobalEnv.PUBLIC_FILE_PATH, 'icons', 'icon.png'))
+    this.tray = new Tray(path.join(AppGlobalEnv.PUBLIC_FILE_PATH, 'icons', 'tray.png'))
     this.initTary();
   }
 
