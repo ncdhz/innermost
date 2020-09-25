@@ -1,5 +1,6 @@
 <template>
   <div class="traffic-lights">
+    <div class="traffic-lights-drag"></div>
     <div class="traffic-lights-main" v-show="showTrafficLights">
       <span class="traffic-lights-button traffic-lights-green iconfont icon-minimum" @click="minimumWin"></span>
       <span class="traffic-lights-button traffic-lights-yellow iconfont icon-maximize" @click="maximizeWin"></span>
@@ -15,7 +16,7 @@ import { ipcRenderer } from 'electron'
 export default Vue.extend({
   data() {
     return {
-      showTrafficLights: true
+      showTrafficLights: !is.macOS()
     }
   },
   methods: {
@@ -42,16 +43,20 @@ export default Vue.extend({
   .traffic-lights {
     height: 100%;
     width: 100%;
+    .traffic-lights-drag {
+      height: 100%;
+      float: left;
+      width: calc(100% - 63px);
+      -webkit-app-region: drag;
+    }
     .traffic-lights-main {
       height: 54%;
       width: 58px;
-      margin-right: 5px;
       justify-content: space-between;
       display: flex;
-      float: right;
+      float: left;
       flex-wrap: wrap;
       align-items: center;
-      background: red($color: #000000);
       .iconfont {
         font-family: "traffic-lights" !important;
         font-size: 6px;
