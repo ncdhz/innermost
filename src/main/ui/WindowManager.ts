@@ -49,9 +49,30 @@ export class WindowManager {
       await this.createWindow()
     })
   }
-  public close() {
+  /**
+   * 关闭窗口
+   */
+  public closeWindow() {
     this.win?.close()
   }
+
+  /**
+   * 最小化窗口
+   */
+  public minWindow() {
+    this.win?.minimize()
+  }
+
+  /**
+   * 最大化窗口
+   */
+  public maxWindow() {
+    this.win?.maximize()
+  }
+
+  /**
+   * 创建窗口
+   */
   public createWindow() {
     const sendWindowBounds = () => {
       if(this.win) {

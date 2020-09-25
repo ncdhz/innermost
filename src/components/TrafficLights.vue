@@ -1,19 +1,35 @@
 <template>
   <div class="traffic-lights">
     <div class="traffic-lights-main" v-show="showTrafficLights">
-      <span class="traffic-lights-button traffic-lights-green iconfont icon-minimum"></span>
-      <span class="traffic-lights-button traffic-lights-yellow iconfont icon-zuidahua"></span>
-      <span class="traffic-lights-button traffic-lights-red iconfont icon-close"></span>
+      <span class="traffic-lights-button traffic-lights-green iconfont icon-minimum" @click="minimumWin"></span>
+      <span class="traffic-lights-button traffic-lights-yellow iconfont icon-maximize" @click="maximizeWin"></span>
+      <span class="traffic-lights-button traffic-lights-red iconfont icon-close" @click="closeWin"></span>
     </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
 import is from 'electron-is'
+import { EventTypes } from '@/utils'
+import { ipcRenderer } from 'electron'
 export default Vue.extend({
   data() {
     return {
-      showTrafficLights: !is.macOS()
+      showTrafficLights: true
+    }
+  },
+  methods: {
+    // 最小化窗口
+    minimumWin(): void {
+      ipcRenderer.send(EventTypes.MIN_WINDOW)
+    },
+    // 最大化窗口
+    maximizeWin(): void {
+      ipcRenderer.send(EventTypes.MAX_WINDOW)
+    },
+    // 关闭窗口
+    closeWin(): void {
+      ipcRenderer.send(EventTypes.CLOSE_WINDOW)
     }
   }
 })
@@ -50,7 +66,7 @@ export default Vue.extend({
           content: "\e616";
         }
       }
-      &:hover > .icon-zuidahua{
+      &:hover > .icon-maximize{
         &:before {
           content: "\e621";
         }

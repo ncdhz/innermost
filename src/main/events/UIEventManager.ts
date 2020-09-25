@@ -23,6 +23,8 @@ export class UIEventManager {
   private initUIEventManager(): void{
     this.changingLanguage()
     this.closeWindow()
+    this.maxWindow()
+    this.minWindow()
   }
   /**
    * 更换语言
@@ -48,15 +50,34 @@ export class UIEventManager {
     // 发信息给界面进程让他打开 about 页面
     this.windowManager?.win?.webContents.send(EventTypes.OPEN_PREFERENCES)
   }
+
   /**
    * 关闭窗口
    */
   private closeWindow(): void {
     ipcMain.on(EventTypes.CLOSE_WINDOW, (event, arg: string) => {
-      this.windowManager?.close()
+      this.windowManager?.closeWindow()
       if (arg === EventTypes.OPEN_WINDOW) {
         this.windowManager?.createWindow()
       }
+    })
+  }
+
+  /**
+   * 最小化窗口
+   */
+  private minWindow(): void {
+    ipcMain.on(EventTypes.MIN_WINDOW, () => {
+      this.windowManager?.minWindow()
+    })
+  }
+
+  /**
+   * 最大化窗口
+   */
+  private maxWindow(): void {
+    ipcMain.on(EventTypes.MAX_WINDOW, () => {
+      this.windowManager?.maxWindow()
     })
   }
 }

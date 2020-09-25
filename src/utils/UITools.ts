@@ -48,4 +48,6 @@ export class EventTypes {
   public static CLOSE_WINDOW = 'CLOSE_WINDOW'
   public static OPEN_WINDOW = 'OPEN_WINDOW'
   public static OPEN_PREFERENCES = 'OPEN_PREFERENCES'
+  public static MIN_WINDOW = 'MIN_WINDOW'
+  public static MAX_WINDOW = 'MAX_WINDOW'
 }
