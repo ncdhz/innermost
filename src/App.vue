@@ -23,7 +23,7 @@
         <!-- 侧面菜单部分 -->
         <el-aside class="app-win-content-menu" :style="[appWinMenuStyle, winStyle.menu]" v-show="appWinMenuShow">
           <el-container class="app-win-menu-content">
-            <el-header :style="appWinContentHeaderStyle"></el-header>
+            <el-header :style="appWinMenuHeaderStyle"></el-header>
             <app-win-menu/>
           </el-container>
         </el-aside>
@@ -31,6 +31,8 @@
         <el-container class="app-win-content-main" :style="winStyle.main">
           <!-- 主要部分头 -->
           <el-header :style="appWinContentHeaderStyle">
+            <!-- 跨浏览器红路灯 -->
+            <traffic-lights/>
           </el-header>
           <!-- 主要部分内容 -->
           <el-main class="app-win-main-content">
@@ -48,6 +50,7 @@ import { GlobalConfig, UITools, EventTypes } from '@/utils'
 import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
 import AppWinMain from '@/views/AppWinMain.vue'
+import TrafficLights from '@/components/TrafficLights.vue'
 import { MutationTypes } from './store'
 import is from 'electron-is'
 import { PluginManager } from '@/plugins'
@@ -65,9 +68,13 @@ export default Vue.extend({
       appWinMenuStyle: {
         width: UITools.addPX(GlobalConfig.appWindow.content.menu.width)
       },
+      appWinMenuHeaderStyle: {
+        height: UITools.addPX(GlobalConfig.appWindow.content.header.height),
+        '-webkit-app-region': 'drag'
+      },
       appWinContentHeaderStyle: {
         height: UITools.addPX(GlobalConfig.appWindow.content.header.height),
-        '-webkit-app-region': 'drag',
+        '-webkit-app-region': is.macOS() ? 'drag' : 'no-drag',
         margin: 0,
         padding: 0
       }
@@ -117,7 +124,8 @@ export default Vue.extend({
     // 用于左侧每一个插件的图标显示
     AppWinIcon,
     AppWinMenu,
-    AppWinMain
+    AppWinMain,
+    TrafficLights
   }
 })
 </script>
