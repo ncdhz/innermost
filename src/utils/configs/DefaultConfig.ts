@@ -10,7 +10,7 @@ export default {
   },
   extension: {
     path: path.join(AppGlobalEnv.EXTENSIONS_PATH, '.innermost'),
-    package: new Array<string>()
+    package: new Array<string[]>()
   },
   // 主窗口
   appWindow: {

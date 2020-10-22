@@ -5,7 +5,6 @@ import { MenuManager } from '../ui/MenuManager'
 import { I18nUtil, EventTypes } from '@/utils'
 
 export class UIEventManager {
-
   trayManager: TrayManager | undefined
   menuManager: MenuManager | undefined
   windowManager: WindowManager | undefined
@@ -17,7 +16,6 @@ export class UIEventManager {
     this.trayManager?.setUIEventManager(this)
     this.menuManager?.setUIEventManager(this)
     this.initUIEventManager()
-
   }
 
   private initUIEventManager(): void{
@@ -26,16 +24,19 @@ export class UIEventManager {
     this.maxWindow()
     this.minWindow()
   }
+
+
   /**
    * 更换语言
    */
-  private changingLanguage(): void{
+  private changingLanguage(): void {
     ipcMain.on(EventTypes.CHANGING_LANGUAGE, (event, locale) => {
       I18nUtil.setLocale(locale)
       this.menuManager?.initMenu()
       this.trayManager?.initTary()
     })
   }
+
   /**
    * 打开关于
    */
@@ -43,6 +44,7 @@ export class UIEventManager {
     // 发信息给界面进程让他打开 about 页面
     this.windowManager?.win?.webContents.send(EventTypes.OPEN_ABOUT)
   }
+
   /**
    * 打开设置
    */

@@ -1,6 +1,5 @@
-'use strict'
-import { TrayManager } from '@/main/ui/TrayManager'
-import { MenuManager } from '@/main/ui/MenuManager'
+import { TrayManager } from './TrayManager'
+import { MenuManager } from './MenuManager'
 import { UIEventManager } from '@/main/events/UIEventManager'
 import { app, BrowserWindow, BrowserWindowConstructorOptions, Rectangle } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
@@ -8,7 +7,6 @@ import { GlobalConfig, AppGlobalEnv, EventTypes } from '@/utils'
 import is from 'electron-is'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 export class WindowManager {
-
   win: BrowserWindow | undefined | null
   trayManager: TrayManager | undefined
   menuManager: MenuManager | undefined
@@ -25,7 +23,6 @@ export class WindowManager {
     })
 
     app.on('activate', () => {
-
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
       if (this.win === null) {
@@ -35,9 +32,10 @@ export class WindowManager {
     app.whenReady().then(() => {
       this.menuManager = new MenuManager()
       this.trayManager = new TrayManager()
-      this.uiEventManager = new UIEventManager( this )
+      this.uiEventManager = new UIEventManager(this)
     })
-    app.on('ready', async () => {
+
+    app.on('ready', async() => {
       if (AppGlobalEnv.IS_DEVELOPMENT && !process.env.IS_TEST) {
         // Install Vue Devtools
         try {
@@ -49,6 +47,7 @@ export class WindowManager {
       await this.createWindow()
     })
   }
+
   /**
    * 关闭窗口
    */
@@ -75,7 +74,7 @@ export class WindowManager {
    */
   public createWindow() {
     const sendWindowBounds = () => {
-      if(this.win) {
+      if (this.win) {
         const bounds: Rectangle = (this.win as BrowserWindow).getContentBounds()
         this.win.webContents.send(EventTypes.APP_WINDOW_BOUNDS, bounds)
       }
@@ -121,23 +120,24 @@ export class WindowManager {
       // Load the index.html when not in development
       this.win.loadURL('app://./index.html')
     }
-    this.win.on('close', ()=> {
+    this.win.on('close', () => {
       const bounds: Rectangle = (this.win as BrowserWindow).getContentBounds()
-      this.win?.webContents.send(EventTypes.UPDATE_CONFIG, { appWindow: {
-        height : bounds.height,
-        width : bounds.width,
-        x : bounds.x,
-        y : bounds.y
-      } })
+      this.win?.webContents.send(EventTypes.UPDATE_CONFIG, {
+        appWindow: {
+          height: bounds.height,
+          width: bounds.width,
+          x: bounds.x,
+          y: bounds.y
+        }
+      })
     })
-    this.win.on('closed', ()=> {
+    this.win.on('closed', () => {
       this.win = null
     })
 
-    this.win.on('resize', ()=> {
+    this.win.on('resize', () => {
       sendWindowBounds()
     })
   }
-
 }
 export default new WindowManager()

@@ -1,7 +1,6 @@
 import { I18nUtil } from '@/utils'
 import { Menu, MenuItemConstructorOptions, MenuItem} from 'electron'
 import { UIEventManager } from '@/main/events/UIEventManager'
-import { Submenu } from 'element-ui'
 const i18n = I18nUtil.i18n
 export class MenuManager {
 
@@ -17,7 +16,6 @@ export class MenuManager {
 
   public initMenu(): void {
     const _this = this
-
     const template: (MenuItemConstructorOptions | MenuItem)[] = [
       // 关于菜单
       {

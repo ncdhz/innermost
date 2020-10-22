@@ -9,7 +9,7 @@ class Config {
   theme = _.merge({}, DefaultConfig.theme)
   appWindow = _.merge({}, DefaultConfig.appWindow)
   extension = _.merge({}, DefaultConfig.extension)
-  localConfig: any = {}
+  localConfig = {}
 
   private static ConfigFilePath = path.join(AppGlobalEnv.PUBLIC_FILE_PATH, 'config', 'global.config.json')
 
@@ -29,13 +29,14 @@ class Config {
   }
 
   // 用于初始化扩展提取所有扩展的路径
+  // package [路径,文件夹的名字
   private initExtensions() {
     const PACKAGE_JSON = 'package.json'
     const dirs = fs.readdirSync(this.extension.path)
     dirs.forEach((value) => {
       const dir = path.join(this.extension.path, value)
       if (fs.existsSync(dir) && fs.existsSync(path.join(dir, PACKAGE_JSON))) {
-        this.extension.package.push(dir)
+        this.extension.package.push([dir, value])
       }
     })
   }

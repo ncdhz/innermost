@@ -3,15 +3,13 @@ import { I18nUtil, AppGlobalEnv } from '@/utils'
 import { UIEventManager } from '@/main/events/UIEventManager'
 import path from 'path'
 const i18n = I18nUtil.i18n
-
 export class TrayManager {
-
   tray: Tray | undefined;
   uiEventManager: UIEventManager | undefined
 
-  constructor(){
+  constructor() {
     this.tray = new Tray(path.join(AppGlobalEnv.PUBLIC_FILE_PATH, 'icons', 'tray.png'))
-    this.initTary();
+    this.initTary()
   }
 
   public setUIEventManager(uiEventManager: UIEventManager) {

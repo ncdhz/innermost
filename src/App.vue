@@ -53,8 +53,6 @@ import AppWinMain from '@/views/AppWinMain.vue'
 import TrafficLights from '@/components/TrafficLights.vue'
 import { MutationTypes } from './store'
 import is from 'electron-is'
-import { PluginManager } from '@/plugins'
-import { forEach } from 'lodash'
 export default Vue.extend({
   data() {
     return {

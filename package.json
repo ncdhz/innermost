@@ -13,6 +13,7 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "crypto-random-string": "^3.3.0",
     "electron-is": "^3.0.0",
     "element-ui": "^2.4.5",
     "lodash": "^4.17.20",

@@ -3,10 +3,8 @@ import App from './App.vue'
 import store from './store'
 import UIEventManager from './views/events/UIEventManager'
 import { I18nUtil } from '@/utils'
-import './plugins'
-
+import '@/plugins'
 Vue.config.productionTip = false
-// 给界面上事件监听
 
 const vm = new Vue({
   store,

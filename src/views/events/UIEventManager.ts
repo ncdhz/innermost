@@ -2,6 +2,7 @@ import { ipcRenderer } from 'electron'
 import { EventTypes, GlobalConfig } from '@/utils'
 import MutationTypes from '@/store/MutationTypes'
 import Vue from 'vue'
+
 class UIEventManager {
   vue: Vue | undefined
   constructor(vue: Vue) {

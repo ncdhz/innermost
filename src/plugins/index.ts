@@ -1,4 +1,3 @@
 import './element'
-import './extensionMain'
-import './extensionIcon'
-export { default as PluginManager } from './PluginManager'
+import './ExtensionBody'
+export { default as ExtensionManager } from './ExtensionManager'

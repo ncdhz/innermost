@@ -1,12 +1,15 @@
+import ExtensionIconInterface from './ExtensionIconInterface'
+import ExtensionBodyInterface from './ExtensionBodyInterface'
+import ExtensionSettingInterface from './ExtensionSettingInterface'
 export default interface ExtensionInterface {
   // 扩展名不能和其他扩展名重复
   name?: string;
   // 扩展所在路径
   path?: string;
-  innermostIcon?: () => {
-    data: string,
-    isClass: boolean,
-    styles?: string[]
-  };
-  innermostMainStyles?: () => string | string[]
+
+  innermostIcon?: () => ExtensionIconInterface;
+
+  innermostBody?: () => ExtensionBodyInterface;
+
+  innermostSetting?: () => ExtensionSettingInterface;
 }

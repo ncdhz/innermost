@@ -4,8 +4,9 @@
       <div class="app-win-icon-content-logo-drag"></div>
       <icon-logo/>
     </el-header>
+    <!-- 生产图标 -->
     <el-main class="app-win-icon-content-main">
-      <!-- <extension-icon v-for="(icon, i) in icons" :key="i" :icon="icon"></extension-icon> -->
+      <component v-for="icon in icons" v-bind:key="icon[1]" v-bind:is="icon[0]" ></component>
     </el-main>
     <el-footer :style="appWinIconContentFooterStyle">
       <icon :event-array="setting" icon-class="el-icon-s-operation" />
@@ -20,13 +21,16 @@ import IconLogo from '@/components/IconLogo.vue'
 import Icon from '@/components/Icon.vue'
 import { UITools, EventTypes, IconEventInterface } from '@/utils'
 import { MutationTypes } from '@/store'
+import { ExtensionManager } from '@/plugins'
+
 export default Vue.extend({
   data(): object {
     return {
       appWinIconContentFooterStyle: {
         height: UITools.addPX(100),
         'margin-bottom': UITools.addPX(20)
-      }
+      },
+      icons: ExtensionManager.getIcons()
     }
   },
   components: {
@@ -67,13 +71,15 @@ export default Vue.extend({
     height: 100%;
     .app-win-icon-content-logo {
       .app-win-icon-content-logo-drag {
-        height: 40px;
+        height: 30px;
         width: 100%;
         -webkit-app-region: drag;
       }
       width: 100%;
+      height: 80px !important;
     }
     .app-win-icon-content-main {
+      padding: 0px;
       &::-webkit-scrollbar {
         display: none;
       }

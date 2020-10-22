@@ -8,7 +8,7 @@ module.exports = {
           mirror: 'https://npm.taobao.org/mirrors/electron/'
         },
         appId: 'com.github.ncdhz.innermost',
-        productName: 'innermost',
+        productName: 'Innermost',
         copyright: 'Copyright © 2020 ncdhz',
         directories: {
           output: './dist_electron'
