@@ -1,8 +1,15 @@
 import Vue from 'vue'
+import { ExtensionManager } from './ExtensionManager'
 export default class ExtensionBody {
-  public getExtensionIconComponent(extensionBodyData: Vue) {
+  extensionManager: ExtensionManager
+  constructor(extensionManager: ExtensionManager) {
+    this.extensionManager = extensionManager
+  }
+
+  public extensionBodyComponent(name: string, extensionBodyData: Vue) {
     if (extensionBodyData) {
-      Vue.component(name, extensionBodyData)
+      Vue.component(`body-${name}`, extensionBodyData)
+      this.extensionManager.setBody([`body-${name}`, name])
     }
   }
 }

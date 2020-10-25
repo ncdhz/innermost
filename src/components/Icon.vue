@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { IconEventInterface } from '@/utils'
+import InnermostIconEventInterface from '@/innermost/InnermostIconEventInterface'
 export default Vue.extend({
   props: {
     iconClass: String,
@@ -34,7 +34,7 @@ export default Vue.extend({
   methods: {
     event(index: number): void {
       if (typeof this.eventArray[index] === 'object') {
-        const eventObj: IconEventInterface = this.eventArray[index] as IconEventInterface
+        const eventObj: InnermostIconEventInterface = this.eventArray[index] as InnermostIconEventInterface
         if (typeof eventObj.func === 'function') {
           eventObj.func()
         }

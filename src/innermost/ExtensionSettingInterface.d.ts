@@ -1,2 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export default interface ExtensionSettingInterface {}
+export default interface ExtensionSettingInterface {
+  data?: Vue;
+  title?: string;
+  items?: {
+    clazz: string;
+    name: string;
+  }[];
+  isClass: boolean;
+}

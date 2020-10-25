@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Icon from '@/components/Icon.vue'
 import { ExtensionManager } from './ExtensionManager'
+import { MutationTypes } from '@/store'
+import InnermostIconEventInterface from '@/innermost/InnermostIconEventInterface'
 export default class ExtensionIcon {
   private extensionManager: ExtensionManager
   constructor(extensionManager: ExtensionManager) {
@@ -13,18 +15,31 @@ export default class ExtensionIcon {
    * @param extensionIconData 组件数据
    * @param isClass html 中的 class
    */
-  public getExtensionIconComponent(name: string, clazz: string | undefined, extensionIconData: Vue | undefined, isClass: boolean) {
+  public extensionIconComponent(name: string, clazz: string | undefined, extensionIconData: Vue | undefined, isClass: boolean) {
     const addIconToComponent = () => {
       Vue.component(`icon-${name}`, {
-        template: `<icon icon-class="${clazz}"></icon>`,
+        template: `<icon :event-array="showExtension" icon-class="${clazz}"></icon>`,
         components: {
           Icon
+        },
+        computed: {
+          showExtension(): Array<InnermostIconEventInterface> {
+            const openExtension = () => {
+              this.$store.commit(MutationTypes.UPDATE_EXTENSION, name)
+            }
+            return [
+              {
+                name: 'click',
+                func: () => openExtension()
+              }
+            ]
+          }
         }
       })
     }
     if (isClass) {
       addIconToComponent()
-    } else {
+    } else if (extensionIconData) {
       if (typeof clazz === 'string') {
         addIconToComponent()
         Vue.component(`icon-style-${name}`, extensionIconData as Vue)

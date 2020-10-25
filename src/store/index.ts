@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import _ from 'lodash'
 import { Theme, GlobalConfig } from '@/utils'
 import MutationTypes from './MutationTypes'
 export { default as MutationTypes } from './MutationTypes'
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     setting: {
       show: false
     },
+    extensions: {},
     theme: Theme[GlobalConfig.theme.default],
     menu: {
       show: GlobalConfig.appWindow.content.menu.show
@@ -37,10 +39,30 @@ export default new Vuex.Store({
     // 是否打开设置
     [MutationTypes.SETTING_SHOW](state, show: boolean) {
       state.setting.show = show
+      _.forIn(state.extensions, (v, k) => {
+        (state.extensions as unknown as {
+          [key: string]: boolean;
+        })[k] = false
+      })
     },
     // 是否打开图标栏
     [MutationTypes.ICON_SHOW](state, show: boolean) {
       state.icon.show = show
+    },
+    // 添加插件
+    [MutationTypes.ADD_EXTENSIONS](state, extensions: object) {
+      state.extensions = extensions
+    },
+    [MutationTypes.UPDATE_EXTENSION](state, name: string) {
+      state.setting.show = false
+      _.forIn(state.extensions, (v, k) => {
+        (state.extensions as unknown as {
+          [key: string]: boolean;
+        })[k] = false
+      });
+      (state.extensions as unknown as {
+        [key: string]: boolean;
+      })[name] = true
     }
   },
   actions: {

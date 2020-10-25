@@ -34,11 +34,6 @@ export class UITools {
     return style
   }
 }
-// 左侧图标栏事件接口
-export interface IconEventInterface {
-  readonly name: string;
-  func: () => void;
-}
 
 export class EventTypes {
   public static CHANGING_LANGUAGE = 'CHANGING_LANGUAGE'

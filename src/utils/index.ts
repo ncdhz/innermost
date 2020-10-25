@@ -8,4 +8,4 @@ export { AppGlobalEnv } from './AppGlobalEnv'
 
 export { Theme } from './theme'
 
-export { UITools, IconEventInterface, EventTypes } from './UITools'
+export { UITools, EventTypes } from './UITools'

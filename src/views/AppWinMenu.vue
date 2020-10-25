@@ -5,13 +5,20 @@
     </el-header>
     <el-main>
       <setting-menu v-show="settingShow"/>
+      <component v-show="extensionShow[setting[1]]" v-for="setting in settings" v-bind:key="setting[0]" v-bind:is="setting[0]" ></component>
     </el-main>
   </el-container>
 </template>
 <script lang="ts">
 import Vue from 'vue'
 import SettingMenu from './SettingMenu.vue'
+import { ExtensionManager } from '@/plugins'
 export default Vue.extend({
+  data() {
+    return {
+      settings: ExtensionManager.getSettings()
+    }
+  },
   components: {
     SettingMenu
   },
@@ -21,6 +28,9 @@ export default Vue.extend({
     },
     settingShow(): boolean {
       return this.$store.state.setting.show
+    },
+    extensionShow() {
+      return this.$store.state.extensions
     }
   }
 })

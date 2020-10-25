@@ -1,42 +1,50 @@
 <template>
-  <div class="setting-main" v-show="vShow">
-    <el-form  size="mini" label="right" :style="settingStyle.setting" label-width="120px">
-      <!-- 切换主题 -->
-      <el-form-item :label="$t('setting.basic.theme') + ':'">
-        <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeTheme" v-model="themeValue">
-          <el-option v-for="item in themeType" :key="item" :value="item" :label="item"></el-option>
-        </el-select>
-      </el-form-item>
-      <!-- 图标栏 -->
-      <el-form-item :label="$t('setting.basic.iconBar') + ':'">
-        <el-switch v-model="iconShow" />
-      </el-form-item>
-      <!-- 菜单栏 -->
-      <el-form-item :label="$t('setting.basic.menuBar') + ':'">
-        <el-switch v-model="menuShow" />
-      </el-form-item>
-      <!-- 扩展路径 -->
-      <el-form-item :label="$t('setting.basic.extensionsPath') + ':'">
-        <div  @click="selectExtensionsPath">
-          <el-input v-model="extensionsPath">
-            <template slot="append"  >
-              <i class="el-icon-folder-opened setting-input-icon" />
-            </template>
-          </el-input>
-        </div>
-      </el-form-item>
-      <!-- 切换语言 -->
-      <el-form-item :label="$t('setting.basic.language') + ':'">
-        <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeLanguage" v-model="languageValue">
-          <el-option v-for="(item, key) in languageType" :key="key" :value="key" :label="item"></el-option>
-        </el-select>
-      </el-form-item>
-      <!-- 恢复出厂设置 -->
-      <el-form-item label="">
-        <el-button @click="defaultSettings" type="danger">{{ $t('setting.basic.defaultSettings') }}</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+  <el-container class="setting-main-box" v-show="vShow">
+    <el-header class="setting-main-title" style="height:45px;" :style="settingStyle.setting.title">
+      <span>{{ $t('setting.basic.name') }}</span>
+      <div class="setting-main-title-divider el-divider el-divider--horizontal" :style="settingStyle.setting.divider"></div>
+    </el-header>
+    <el-main class="setting-main-win">
+      <div class="setting-main-content">
+        <el-form  size="mini" label="right" :style="settingStyle.setting" label-width="120px">
+          <!-- 切换主题 -->
+          <el-form-item :label="$t('setting.basic.theme') + ':'">
+            <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeTheme" v-model="themeValue">
+              <el-option v-for="item in themeType" :key="item" :value="item" :label="item"></el-option>
+            </el-select>
+          </el-form-item>
+          <!-- 图标栏 -->
+          <el-form-item :label="$t('setting.basic.iconBar') + ':'">
+            <el-switch v-model="iconShow" />
+          </el-form-item>
+          <!-- 菜单栏 -->
+          <el-form-item :label="$t('setting.basic.menuBar') + ':'">
+            <el-switch v-model="menuShow" />
+          </el-form-item>
+          <!-- 扩展路径 -->
+          <el-form-item :label="$t('setting.basic.extensionsPath') + ':'">
+            <div  @click="selectExtensionsPath">
+              <el-input v-model="extensionsPath">
+                <template slot="append"  >
+                  <i class="el-icon-folder-opened setting-input-icon" />
+                </template>
+              </el-input>
+            </div>
+          </el-form-item>
+          <!-- 切换语言 -->
+          <el-form-item :label="$t('setting.basic.language') + ':'">
+            <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeLanguage" v-model="languageValue">
+              <el-option v-for="(item, key) in languageType" :key="key" :value="key" :label="item"></el-option>
+            </el-select>
+          </el-form-item>
+          <!-- 恢复出厂设置 -->
+          <el-form-item label="">
+            <el-button @click="defaultSettings" type="danger">{{ $t('setting.basic.defaultSettings') }}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-main>
+  </el-container>
 </template>
 <script lang="ts">
 import { I18nUtil, GlobalConfig, EventTypes, Theme, DefaultConfig } from '@/utils'
@@ -171,52 +179,67 @@ export default Vue.extend({
 })
 </script>
 <style lang="scss">
-  .setting-main {
-    width: 70%;
-    margin: 0px auto;
+  .setting-main-box {
     height: 100%;
-    .el-form-item__label {
-      color: var(--label-inner-color);
+    width: 100%;
+    .setting-main-title {
+      font-size: 17px;
+      line-height: 30px;
+      .setting-main-title-divider {
+        height: 2px;
+        margin-top: 10px;
+      }
     }
-    .el-input__inner {
-      border: 1px solid var(--inner-border-color);
-      background: var(--inner-background);
-      color: var(--label-inner-color);
-      &:hover {
-        border-color: var(--inner-append-hover-border-color);
-        + .el-input-group__append {
-          border-color: var(--inner-append-hover-border-color);
+    .setting-main-win {
+      display: flex;
+      justify-content: center;
+      .setting-main-content {
+        width: 70%;
+        margin: 0px auto;
+        height: 100%;
+        .el-form-item__label {
+          color: var(--label-inner-color);
+        }
+        .el-input__inner {
+          border: 1px solid var(--inner-border-color);
+          background: var(--inner-background);
+          color: var(--label-inner-color);
+          &:hover {
+            border-color: var(--inner-append-hover-border-color);
+            + .el-input-group__append {
+              border-color: var(--inner-append-hover-border-color);
+            }
+          }
+        }
+        .el-input-group__append {
+          border-color: var(--inner-border-color);
+          border-style: solid;
+          border-top-width: 1px;
+          border-right-width: 1px;
+          border-bottom-width: 1px;
+          background: var(--inner-append-background);
+          &:hover .setting-input-icon {
+            color: var(--inner-append-hover-icon-color);
+          }
+        }
+        .setting-input-icon {
+          color: var(--inner-append-icon-color);
+        }
+        .setting-select{
+          border-color: var(--inner-select-border-color);
+          border-radius: 5px;
+          .el-select-dropdown__list{
+            border-radius: 3px;
+            background: var(--inner-background);
+          }
+          .popper__arrow{
+            border-right-color: var(--inner-background) !important;
+            &::after{
+              border-bottom-color: var(--inner-background) !important;
+            }
+          }
         }
       }
     }
-    .el-input-group__append {
-      border-color: var(--inner-border-color);
-      border-style: solid;
-      border-top-width: 1px;
-      border-right-width: 1px;
-      border-bottom-width: 1px;
-      background: var(--inner-append-background);
-      &:hover .setting-input-icon {
-        color: var(--inner-append-hover-icon-color);
-      }
-    }
-    .setting-input-icon {
-      color: var(--inner-append-icon-color);
-    }
-    .setting-select{
-      border-color: var(--inner-select-border-color);
-      border-radius: 5px;
-      .el-select-dropdown__list{
-        border-radius: 3px;
-        background: var(--inner-background);
-      }
-      .popper__arrow{
-        border-right-color: var(--inner-background) !important;
-        &::after{
-          border-bottom-color: var(--inner-background) !important;
-        }
-      }
-    }
-
   }
 </style>

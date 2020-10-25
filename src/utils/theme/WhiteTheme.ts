@@ -12,13 +12,14 @@ export default {
     }
   },
   main: {
-    divider: {
-      background: '#E5E5E5'
-    },
-    title: {
-      color: '#414244'
-    },
+
     setting: {
+      title: {
+        color: '#414244'
+      },
+      divider: {
+        background: '#E5E5E5'
+      },
       '--label-inner-color': '#6C6E71',
       '--inner-background': '#FFFFFF',
       '--inner-select-border-color': '#E4E7EE',
