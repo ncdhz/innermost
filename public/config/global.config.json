@@ -2,11 +2,11 @@
   "appWindow": {
     "height": 780,
     "width": 951,
-    "x": 50,
-    "y": 175,
+    "x": 141,
+    "y": 23,
     "content": {
       "menu": {
-        "show": false
+        "show": true
       }
     },
     "icon": {
@@ -15,5 +15,8 @@
   },
   "theme": {
     "default": "black-theme"
+  },
+  "i18n": {
+    "locale": "zh-CN"
   }
 }

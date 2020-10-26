@@ -2,6 +2,7 @@
   <el-container>
     <el-header style="height:30px" class="app-win-menu-title">
       <span v-show="settingShow" :style="menuStyle.title">{{ $t('setting.name') }}</span>
+      <span v-show="extensionShow[title[1]]" v-for="title in settingTitles" v-bind:key="typeof title[0] === 'string' ? title[0] : title[0].name" :style="menuStyle.title">{{typeof title[0] === 'string' ? title[0] : title[0].i18n ? title[0].parentI18n ? $t(`${title[0].name}`) : $t(`${title[1]}.${title[0].name}`) : title[0].name}}</span>
     </el-header>
     <el-main>
       <setting-menu v-show="settingShow"/>
@@ -16,7 +17,8 @@ import { ExtensionManager } from '@/plugins'
 export default Vue.extend({
   data() {
     return {
-      settings: ExtensionManager.getSettings()
+      settings: ExtensionManager.getSettings(),
+      settingTitles: ExtensionManager.getSettingTitles()
     }
   },
   components: {

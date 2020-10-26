@@ -4,6 +4,7 @@ import ExtensionBody from './ExtensionBody'
 import ExtensionSetting from './ExtensionSetting'
 import { GlobalConfig } from '@/utils'
 import ExtensionInterface from '@/innermost/ExtensionInterface'
+import ExtensionSettingInterface from '@/innermost/ExtensionSettingInterface'
 import cryptoRandomString from 'crypto-random-string'
 // 用于管理扩展
 export class ExtensionManager {
@@ -12,7 +13,7 @@ export class ExtensionManager {
   private icons = new Array<string[]>()
   private bodys = new Array<string[]>()
   private settings = new Array<string[]>()
-  private settingTitles = new Array<string[]>()
+  private settingTitles = new Array<ExtensionSettingInterface['title'][]>()
   private static LOWERCASE_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
   extensionIcon: ExtensionIcon
   extensionBody: ExtensionBody
@@ -80,11 +81,11 @@ export class ExtensionManager {
     this.settings.push(data)
   }
 
-  public getSettingTitles(): string[][] {
+  public getSettingTitles(): ExtensionSettingInterface['title'][][] {
     return this.settingTitles
   }
 
-  public setSettingTitle(data: string[]) {
+  public setSettingTitle(data: ExtensionSettingInterface['title'][]) {
     this.settingTitles.push(data)
   }
 
