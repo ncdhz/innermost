@@ -71,16 +71,16 @@ export default new Vuex.Store({
   },
   actions: {
     [MutationTypes.ICON_MENU_SHOW]({ commit }, width: number) {
-      const iconAndSetting = ExtensionManager.closeIconAndSetting(GlobalConfig.getUserConfig('current-extension'))
+      const closeIconAndMenu = ExtensionManager.closeIconAndMenu(GlobalConfig.getUserConfig('current-extension'))
       if (width < GlobalConfig.appWindow.limit.one) {
         commit(MutationTypes.ICON_SHOW, false)
       } else {
-        commit(MutationTypes.ICON_SHOW, iconAndSetting[0] ? false : GlobalConfig.appWindow.icon.show)
+        commit(MutationTypes.ICON_SHOW, closeIconAndMenu[0] ? false : GlobalConfig.appWindow.icon.show)
       }
       if (width < GlobalConfig.appWindow.limit.two) {
         commit(MutationTypes.MENU_SHOW, false)
       } else {
-        commit(MutationTypes.MENU_SHOW, iconAndSetting[1] ? false : GlobalConfig.appWindow.content.menu.show)
+        commit(MutationTypes.MENU_SHOW, closeIconAndMenu[1] ? false : GlobalConfig.appWindow.content.menu.show)
       }
     },
     [MutationTypes.UPDATE_EXTENSION]({ commit, dispatch }, { name, path }) {

@@ -191,6 +191,43 @@ export default Vue.extend({
 })
 </script>
 <style lang="scss">
+  .el-form-item__label {
+    color: var(--label-inner-color);
+  }
+  .el-input__inner {
+    border: 1px solid var(--inner-border-color);
+    background: var(--inner-background);
+    color: var(--label-inner-color);
+    &:hover {
+      border-color: var(--inner-append-hover-border-color);
+      + .el-input-group__append {
+        border-color: var(--inner-append-hover-border-color);
+      }
+    }
+  }
+  .el-input-group__append {
+    border-color: var(--inner-border-color);
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    background: var(--inner-append-background);
+    &:hover .setting-input-icon {
+      color: var(--inner-append-hover-icon-color);
+    }
+  }
+  .el-select-dropdown__list{
+    border-radius: 3px;
+    background: var(--inner-background);
+  }
+  .popper__arrow{
+    border-right-color: var(--inner-background) !important;
+    &::after{
+      border-bottom-color: var(--inner-background) !important;
+    }
+  }
+</style>
+<style lang="scss" scoped>
   .setting-main-box {
     height: 100%;
     width: 100%;
@@ -209,47 +246,13 @@ export default Vue.extend({
         width: 70%;
         margin: 0px auto;
         height: 100%;
-        .el-form-item__label {
-          color: var(--label-inner-color);
-        }
-        .el-input__inner {
-          border: 1px solid var(--inner-border-color);
-          background: var(--inner-background);
-          color: var(--label-inner-color);
-          &:hover {
-            border-color: var(--inner-append-hover-border-color);
-            + .el-input-group__append {
-              border-color: var(--inner-append-hover-border-color);
-            }
-          }
-        }
-        .el-input-group__append {
-          border-color: var(--inner-border-color);
-          border-style: solid;
-          border-top-width: 1px;
-          border-right-width: 1px;
-          border-bottom-width: 1px;
-          background: var(--inner-append-background);
-          &:hover .setting-input-icon {
-            color: var(--inner-append-hover-icon-color);
-          }
-        }
         .setting-input-icon {
           color: var(--inner-append-icon-color);
         }
         .setting-select{
           border-color: var(--inner-select-border-color);
           border-radius: 5px;
-          .el-select-dropdown__list{
-            border-radius: 3px;
-            background: var(--inner-background);
-          }
-          .popper__arrow{
-            border-right-color: var(--inner-background) !important;
-            &::after{
-              border-bottom-color: var(--inner-background) !important;
-            }
-          }
+
         }
       }
     }

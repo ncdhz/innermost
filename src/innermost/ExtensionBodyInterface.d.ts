@@ -1,3 +1,7 @@
 export default interface ExtensionBodyInterface {
-  data: any;
+  data?: any;
+  pages?: {
+    data: any;
+    id?: string;
+  }[];
 }

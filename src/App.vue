@@ -119,7 +119,6 @@ export default Vue.extend({
   }
 })
 </script>
-
 <style lang="scss">
   body {
     height: 100%;
@@ -147,6 +146,8 @@ export default Vue.extend({
       }
     }
   }
+</style>
+<style lang="scss" scoped>
   #app{
     height: 100%;
     width: 100%;

@@ -1,6 +1,6 @@
 export default interface ExtensionOptionsInterface {
   closeIcon?: boolean;
-  closeSetting?: boolean;
+  closeMenu?: boolean;
   i18n: {
     name: string;
     data: {};

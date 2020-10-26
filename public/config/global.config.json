@@ -1,9 +1,9 @@
 {
   "appWindow": {
-    "height": 645,
-    "width": 1168,
-    "x": 30,
-    "y": 78,
+    "height": 661,
+    "width": 1108,
+    "x": 204,
+    "y": 65,
     "icon": {
       "show": true
     },
@@ -14,11 +14,11 @@
     }
   },
   "i18n": {
-    "locale": "en"
+    "locale": "zh-CN"
   },
   "userConfig": {
-    "current-extension": "",
-    "default-extension": ""
+    "current-extension": "text-information-management-fwrzebguae",
+    "default-extension": "/Users/ncdhz/.innermost/text-information-management"
   },
   "theme": {
     "default": "black-theme"

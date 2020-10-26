@@ -35,7 +35,7 @@ export default Vue.extend({
   }
 })
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   // 红绿灯图标
   @font-face {font-family: "traffic-lights";
     src: url('../assets/trafficLights.ttf?t=1601041653909') format('truetype')

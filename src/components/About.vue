@@ -82,15 +82,17 @@ export default Vue.extend({
 })
 </script>
 <style lang="scss">
+  .el-dialog__header, .el-dialog__body, .el-dialog__footer{
+    background: var(--about-background);
+  }
+</style>
+<style lang="scss" scoped>
   @font-face {
     font-family: 'alibaba';
     font-display: swap;
     src: url('../assets/alibaba.ttf') format('truetype');
   }
   .about {
-    .el-dialog__header, .el-dialog__body, .el-dialog__footer{
-      background: var(--about-background);
-    }
     .about-app-name {
       font-family: 'alibaba' !important;
       font-size: 26px;

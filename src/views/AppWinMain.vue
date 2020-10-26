@@ -33,7 +33,7 @@ export default Vue.extend({
   }
 })
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .app-win-main-box {
     height: 100%;
     width: 100%;

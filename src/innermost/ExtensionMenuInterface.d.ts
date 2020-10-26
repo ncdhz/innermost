@@ -1,15 +1,15 @@
-export default interface ExtensionSettingInterface {
+export default interface ExtensionMenuInterface {
   data?: any;
   title?: {
     name: string;
     i18n?: boolean;
     parentI18n?: boolean;
   } | string;
-  items?: ExtensionSettingItemInterface[];
+  items?: ExtensionMenuItemInterface[];
   isClass: boolean;
 }
 
-export interface ExtensionSettingItemInterface {
+export interface ExtensionMenuItemInterface {
   clazz: string;
   name: string;
   i18n?: boolean;

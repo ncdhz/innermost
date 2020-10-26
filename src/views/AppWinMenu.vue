@@ -2,11 +2,11 @@
   <el-container>
     <el-header style="height:30px" class="app-win-menu-title">
       <span v-show="settingShow" :style="menuStyle.title">{{ $t('setting.name') }}</span>
-      <span v-show="extensionShow[title[1]]" v-for="title in settingTitles" v-bind:key="typeof title[0] === 'string' ? title[0] : title[0].name" :style="menuStyle.title">{{typeof title[0] === 'string' ? title[0] : title[0].i18n ? title[0].parentI18n ? $t(`${title[0].name}`) : $t(`${title[1]}.${title[0].name}`) : title[0].name}}</span>
+      <span v-show="extensionShow[title[1]]" v-for="title in menuTitles" v-bind:key="typeof title[0] === 'string' ? title[0] : title[0].name" :style="menuStyle.title">{{typeof title[0] === 'string' ? title[0] : title[0].i18n ? title[0].parentI18n ? $t(`${title[0].name}`) : $t(`${title[1]}.${title[0].name}`) : title[0].name}}</span>
     </el-header>
     <el-main>
       <setting-menu v-show="settingShow"/>
-      <component v-show="extensionShow[setting[1]]" v-for="setting in settings" v-bind:key="setting[0]" v-bind:is="setting[0]" ></component>
+      <component v-show="extensionShow[menu[1]]" v-for="menu in menus" v-bind:key="menu[0]" v-bind:is="menu[0]" ></component>
     </el-main>
   </el-container>
 </template>
@@ -17,8 +17,8 @@ import { ExtensionManager } from '@/plugins'
 export default Vue.extend({
   data() {
     return {
-      settings: ExtensionManager.getSettings(),
-      settingTitles: ExtensionManager.getSettingTitles()
+      menus: ExtensionManager.getMenus(),
+      menuTitles: ExtensionManager.getMenuTitles()
     }
   },
   components: {
@@ -37,7 +37,7 @@ export default Vue.extend({
   }
 })
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .app-win-menu-title {
     font-size: 16px;
     line-height: 30px;

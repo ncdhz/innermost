@@ -17,7 +17,14 @@ export class TrayManager {
   }
 
   public initTary(): void{
+    const _this = this
     const contextMenu = Menu.buildFromTemplate([
+      {
+        label: i18n.t('menu.ineermost.preferences') as string,
+        click() {
+          _this.uiEventManager?.openPreferences()
+        }
+      },
       {
         type: 'separator'
       },

@@ -5,7 +5,7 @@ import { I18nUtil } from '@/utils'
 export default class ExtensionOptions {
   extensionManager: ExtensionManager
 
-  private iconAndSetting: {
+  private iconAndMenu: {
     [key: string]: boolean[];
   } = {}
 
@@ -13,10 +13,10 @@ export default class ExtensionOptions {
     this.extensionManager = extensionManager
   }
 
-  public closeIconAndSetting(name: string) {
-    const iconAndSetting = this.iconAndSetting[name]
-    if (iconAndSetting) {
-      return iconAndSetting
+  public closeIconAndMenu(name: string) {
+    const iconAndMenu = this.iconAndMenu[name]
+    if (iconAndMenu) {
+      return iconAndMenu
     }
     return [false, false]
   }
@@ -42,6 +42,6 @@ export default class ExtensionOptions {
       })
       I18nUtil.setMessage(allLocale, localeMessages)
     }
-    this.iconAndSetting[name] = [!!options.closeIcon, !!options.closeSetting]
+    this.iconAndMenu[name] = [!!options.closeIcon, !!options.closeMenu]
   }
 }

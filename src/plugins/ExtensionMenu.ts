@@ -2,20 +2,20 @@ import Vue from 'vue'
 import _ from 'lodash'
 import { ExtensionManager } from './ExtensionManager'
 import MenuItem from '@/components/MenuItem.vue'
-import ExtensionSettingInterface, { ExtensionSettingItemInterface } from '@/innermost/ExtensionSettingInterface'
-export default class ExtensionSetting {
+import ExtensionMenuInterface, { ExtensionMenuItemInterface } from '@/innermost/ExtensionMenuInterface'
+export default class ExtensionMenu {
   extensionManager: ExtensionManager
 
   constructor(extensionManager: ExtensionManager) {
     this.extensionManager = extensionManager
   }
 
-  public extensionSettingComponent(name: string, title: ExtensionSettingInterface['title'], items: ExtensionSettingItemInterface[] | undefined, extensionSettingData: any, isClass: boolean) {
+  public extensionMenuComponent(name: string, title: ExtensionMenuInterface['title'], items: ExtensionMenuItemInterface[] | undefined, extensionSettingData: any, isClass: boolean) {
     if (title && (typeof title === 'string' || typeof title === 'object')) {
-      this.extensionManager.setSettingTitle([title, name])
+      this.extensionManager.setMenuTitle([title, name])
     }
-    const addSettingToComponent = (item: ExtensionSettingItemInterface) => {
-      const comName = `setting-${this.extensionManager.getRandomString5()}-${name}`
+    const addSettingToComponent = (item: ExtensionMenuItemInterface) => {
+      const comName = `menu-${this.extensionManager.getRandomString5()}-${name}`
       Vue.component(comName, {
         template: `<menu-item ${item.clazz ? 'menu-icon="' + item.clazz + '"' : ''} :menu-name="menuName"/>`,
         components: {
@@ -35,7 +35,7 @@ export default class ExtensionSetting {
           }
         }
       })
-      this.extensionManager.setSetting([comName, name])
+      this.extensionManager.setMenu([comName, name])
     }
     if (isClass) {
       _.forEach(items, item => {
@@ -46,11 +46,11 @@ export default class ExtensionSetting {
         _.forEach(items, item => {
           addSettingToComponent(item)
         })
-        this.extensionManager.extensionData(`setting-style-${name}`, extensionSettingData, name)
-        this.extensionManager.setSetting([`setting-style-${name}`, name])
+        this.extensionManager.extensionData(`menu-style-${name}`, extensionSettingData, name)
+        this.extensionManager.setMenu([`menu-style-${name}`, name])
       } else {
-        this.extensionManager.extensionData(`setting-${name}`, extensionSettingData, name)
-        this.extensionManager.setSetting([`setting-${name}`, name])
+        this.extensionManager.extensionData(`menu-${name}`, extensionSettingData, name)
+        this.extensionManager.setMenu([`menu-${name}`, name])
       }
     }
   }

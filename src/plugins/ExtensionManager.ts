@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import ExtensionIcon from './ExtensionIcon'
 import ExtensionBody from './ExtensionBody'
-import ExtensionSetting from './ExtensionSetting'
+import ExtensionMenu from './ExtensionMenu'
 import ExtensionOptions from './ExtensionOptions'
 import { GlobalConfig } from '@/utils'
 import ExtensionInterface from '@/innermost/ExtensionInterface'
-import ExtensionSettingInterface from '@/innermost/ExtensionSettingInterface'
+import ExtensionMenuInterface from '@/innermost/ExtensionMenuInterface'
 import cryptoRandomString from 'crypto-random-string'
 import Vue from 'vue'
 // 用于管理扩展
@@ -14,12 +14,12 @@ export class ExtensionManager {
   private modules = new Array<ExtensionInterface>()
   private icons = new Array<(string | boolean)[]>()
   private bodys = new Array<string[]>()
-  private settings = new Array<string[]>()
-  private settingTitles = new Array<ExtensionSettingInterface['title'][]>()
+  private menus = new Array<string[]>()
+  private menuTitles = new Array<ExtensionMenuInterface['title'][]>()
   private static LOWERCASE_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
   extensionIcon: ExtensionIcon
   extensionBody: ExtensionBody
-  extensionSetting: ExtensionSetting
+  extensionMenu: ExtensionMenu
   extensionOptions: ExtensionOptions
 
   constructor() {
@@ -28,7 +28,7 @@ export class ExtensionManager {
     this.extensionOptions = new ExtensionOptions(this)
     this.extensionIcon = new ExtensionIcon(this)
     this.extensionBody = new ExtensionBody(this)
-    this.extensionSetting = new ExtensionSetting(this)
+    this.extensionMenu = new ExtensionMenu(this)
     this.generateExtensionComponents()
   }
 
@@ -77,20 +77,20 @@ export class ExtensionManager {
     this.bodys.push(data)
   }
 
-  public getSettings(): string[][] {
-    return this.settings
+  public getMenus(): string[][] {
+    return this.menus
   }
 
-  public setSetting(data: string[]) {
-    this.settings.push(data)
+  public setMenu(data: string[]) {
+    this.menus.push(data)
   }
 
-  public getSettingTitles(): ExtensionSettingInterface['title'][][] {
-    return this.settingTitles
+  public getMenuTitles(): ExtensionMenuInterface['title'][][] {
+    return this.menuTitles
   }
 
-  public setSettingTitle(data: ExtensionSettingInterface['title'][]) {
-    this.settingTitles.push(data)
+  public setMenuTitle(data: ExtensionMenuInterface['title'][]) {
+    this.menuTitles.push(data)
   }
 
   // 根据扩展生成组件
@@ -111,9 +111,9 @@ export class ExtensionManager {
     })
   }
 
-  public closeIconAndSetting(name: string) {
+  public closeIconAndMenu(name: string) {
     if (name) {
-      return this.extensionOptions.closeIconAndSetting(name)
+      return this.extensionOptions.closeIconAndMenu(name)
     }
     return [false, false]
   }
@@ -139,10 +139,10 @@ export class ExtensionManager {
         }
       }
       // 设置部分组件
-      if (module.innermostBody && module.innermostSetting) {
-        const setting = module.innermostSetting()
+      if (module.innermostBody && module.innermostMenu) {
+        const setting = module.innermostMenu()
         if (setting.isClass ? setting.items && setting.items.length > 0 : setting.data) {
-          this.extensionSetting.extensionSettingComponent(name, setting.title, setting.items, setting.data, setting.isClass)
+          this.extensionMenu.extensionMenuComponent(name, setting.title, setting.items, setting.data, setting.isClass)
         }
       }
       // 设置选项部分
