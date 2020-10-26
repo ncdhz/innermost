@@ -47,6 +47,7 @@
 import Vue from 'vue'
 import { ipcRenderer, Rectangle } from 'electron'
 import { GlobalConfig, UITools, EventTypes } from '@/utils'
+import { ExtensionManager } from '@/plugins'
 import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
 import AppWinMain from '@/views/AppWinMain.vue'
@@ -87,16 +88,7 @@ export default Vue.extend({
       GlobalConfig.appWindow.height = bounds.height
       GlobalConfig.appWindow.width = bounds.width
       this.appWindowHeight.height = UITools.addPX(bounds.height)
-      if (bounds.width < GlobalConfig.appWindow.limit.one) {
-        this.$store.commit(MutationTypes.ICON_SHOW, false)
-      } else {
-        this.$store.commit(MutationTypes.ICON_SHOW, GlobalConfig.appWindow.icon.show)
-      }
-      if (bounds.width < GlobalConfig.appWindow.limit.two) {
-        this.$store.commit(MutationTypes.MENU_SHOW, false)
-      } else {
-        this.$store.commit(MutationTypes.MENU_SHOW, GlobalConfig.appWindow.content.menu.show)
-      }
+      this.$store.dispatch(MutationTypes.ICON_MENU_SHOW, bounds.width)
     }
     appInit(GlobalConfig.appWindow)
     ipcRenderer.on(EventTypes.APP_WINDOW_BOUNDS, (e, bounds: Rectangle) => {

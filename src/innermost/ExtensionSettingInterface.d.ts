@@ -1,5 +1,5 @@
 export default interface ExtensionSettingInterface {
-  data?: Vue;
+  data?: any;
   title?: {
     name: string;
     i18n?: boolean;

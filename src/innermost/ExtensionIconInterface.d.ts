@@ -1,5 +1,5 @@
 export default interface ExtensionIconInterface {
-  data?: Vue;
+  data?: any;
 
   isClass: boolean;
 

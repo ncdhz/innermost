@@ -98,7 +98,19 @@ export default Vue.extend({
         ]
       })
       if (folder) {
-        this.$data.extensionsPath = folder?.[0]
+        const extensionPath = folder?.[0]
+        if (GlobalConfig.extension.path !== extensionPath) {
+          GlobalConfig.writeGlobalConfig({
+            extension: {
+              path: extensionPath
+            }
+          })
+          this.$data.extensionsPath = extensionPath
+          this.$message({
+            message: this.$i18n.t('setting.basic.takeEffectAfterRestart') as string,
+            type: 'success'
+          })
+        }
       }
     },
     // 恢复默认设置

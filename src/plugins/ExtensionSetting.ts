@@ -10,7 +10,7 @@ export default class ExtensionSetting {
     this.extensionManager = extensionManager
   }
 
-  public extensionSettingComponent(name: string, title: ExtensionSettingInterface['title'], items: ExtensionSettingItemInterface[] | undefined, extensionSettingData: Vue | undefined, isClass: boolean) {
+  public extensionSettingComponent(name: string, title: ExtensionSettingInterface['title'], items: ExtensionSettingItemInterface[] | undefined, extensionSettingData: any, isClass: boolean) {
     if (title && (typeof title === 'string' || typeof title === 'object')) {
       this.extensionManager.setSettingTitle([title, name])
     }

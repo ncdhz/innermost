@@ -12,7 +12,7 @@ import Vue from 'vue'
 export class ExtensionManager {
   private package: string[][] | undefined
   private modules = new Array<ExtensionInterface>()
-  private icons = new Array<string[]>()
+  private icons = new Array<(string | boolean)[]>()
   private bodys = new Array<string[]>()
   private settings = new Array<string[]>()
   private settingTitles = new Array<ExtensionSettingInterface['title'][]>()
@@ -25,10 +25,10 @@ export class ExtensionManager {
   constructor() {
     this.package = GlobalConfig.extension.package
     this.initModules()
+    this.extensionOptions = new ExtensionOptions(this)
     this.extensionIcon = new ExtensionIcon(this)
     this.extensionBody = new ExtensionBody(this)
     this.extensionSetting = new ExtensionSetting(this)
-    this.extensionOptions = new ExtensionOptions(this)
     this.generateExtensionComponents()
   }
 
@@ -61,11 +61,11 @@ export class ExtensionManager {
   }
 
   // 获取icon组件名称
-  public getIcons(): string[][] {
+  public getIcons(): (string | boolean)[][] {
     return this.icons
   }
 
-  public setIcon(data: string[]) {
+  public setIcon(data: (string | boolean)[]) {
     this.icons.push(data)
   }
 
@@ -93,6 +93,7 @@ export class ExtensionManager {
     this.settingTitles.push(data)
   }
 
+  // 根据扩展生成组件
   public extensionData(comName: string, extensionData: any, name: string) {
     Vue.component(comName, {
       template: '<extension-data/>',
@@ -110,33 +111,44 @@ export class ExtensionManager {
     })
   }
 
-  // 用于生产 Icon 组件
+  public closeIconAndSetting(name: string) {
+    if (name) {
+      return this.extensionOptions.closeIconAndSetting(name)
+    }
+    return [false, false]
+  }
+
+  // 用于生成扩展组件
   private generateExtensionComponents() {
     _.forEach(this.modules, (module: ExtensionInterface) => {
       const name = `${module.name}-${this.getRandomString10()}`
+      // 图标栏组件
       if (module.innermostIcon && module.innermostBody) {
         const icon = module.innermostIcon()
         icon.name = module.name
         icon.path = module.path
         if (icon.isClass ? icon.clazz : icon.data) {
-          this.extensionIcon.extensionIconComponent(name, icon.clazz, icon.data, icon.isClass)
+          this.extensionIcon.extensionIconComponent(name, icon.path, icon.clazz, icon.data, icon.isClass)
         }
       }
+      // 主体部分组件
       if (module.innermostBody) {
         const body = module.innermostBody()
         if (body.data) {
           this.extensionBody.extensionBodyComponent(name, body.data)
         }
       }
+      // 设置部分组件
       if (module.innermostBody && module.innermostSetting) {
         const setting = module.innermostSetting()
         if (setting.isClass ? setting.items && setting.items.length > 0 : setting.data) {
           this.extensionSetting.extensionSettingComponent(name, setting.title, setting.items, setting.data, setting.isClass)
         }
       }
+      // 设置选项部分
       if (module.innermostOptions) {
         const options = module.innermostOptions()
-        this.extensionOptions.extensionOptionsComponent(name, options)
+        this.extensionOptions.extensionOptions(name, options)
       }
     })
   }

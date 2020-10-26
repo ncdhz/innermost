@@ -40,6 +40,7 @@ export default {
       menuBar: '打开菜单栏',
       extensionsPath: '扩展路径',
       defaultSettings: '恢复默认设置',
+      takeEffectAfterRestart: '重启后生效',
       isDefaultSettings: '是否恢复默认设置',
       success: '成功!!',
       cancel: '取消!!'

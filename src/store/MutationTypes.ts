@@ -6,4 +6,5 @@ export default class {
   public static UPDATE_THEME = 'UPDATE_THEME'
   public static ADD_EXTENSIONS = 'ADD_EXTENSIONS'
   public static UPDATE_EXTENSION = 'UPDATE_EXTENSION'
+  public static ICON_MENU_SHOW = 'ICON_MENU_SHOW'
 }

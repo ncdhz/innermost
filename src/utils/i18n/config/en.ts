@@ -41,6 +41,7 @@ export default {
       menuBar: 'Open menu bar',
       extensionsPath: 'xtensions path',
       defaultSettings: 'Restore default settings',
+      takeEffectAfterRestart: 'Take effect after restart',
       isDefaultSettings: 'Do you want to restore the default settings',
       success: 'Success!!',
       cancel: 'Cancel!!'

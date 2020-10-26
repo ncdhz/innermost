@@ -5,11 +5,24 @@ import { I18nUtil } from '@/utils'
 export default class ExtensionOptions {
   extensionManager: ExtensionManager
 
+  private iconAndSetting: {
+    [key: string]: boolean[];
+  } = {}
+
   constructor(extensionManager: ExtensionManager) {
     this.extensionManager = extensionManager
   }
 
-  public extensionOptionsComponent(name: string, options: ExtensionOptionsInterface) {
+  public closeIconAndSetting(name: string) {
+    const iconAndSetting = this.iconAndSetting[name]
+    if (iconAndSetting) {
+      return iconAndSetting
+    }
+    return [false, false]
+  }
+
+  public extensionOptions(name: string, options: ExtensionOptionsInterface) {
+    // 设置语言国际化
     if (options.i18n && typeof options.i18n === 'object' && options.i18n.length > 0) {
       // 处理没有适配所有语言的扩展，当出现这种情况时会，插入默认语言配置或者第一条
       const allLocale: string[] = []
@@ -29,5 +42,6 @@ export default class ExtensionOptions {
       })
       I18nUtil.setMessage(allLocale, localeMessages)
     }
+    this.iconAndSetting[name] = [!!options.closeIcon, !!options.closeSetting]
   }
 }

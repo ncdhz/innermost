@@ -3,6 +3,7 @@ import { EventTypes, GlobalConfig } from '@/utils'
 import MutationTypes from '@/store/MutationTypes'
 import Vue from 'vue'
 
+// 用于接收从主线程来的事件
 class UIEventManager {
   vue: Vue | undefined
   constructor(vue: Vue) {
@@ -29,7 +30,7 @@ class UIEventManager {
   private openPreferences(): void {
     ipcRenderer.on(EventTypes.OPEN_PREFERENCES, () => {
       if (this.vue) {
-        this.vue.$store.commit(MutationTypes.SETTING_SHOW, true)
+        this.vue.$store.dispatch(MutationTypes.SETTING_SHOW, true)
       }
     })
   }

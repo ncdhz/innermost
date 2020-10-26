@@ -45,9 +45,9 @@ export default Vue.extend({
         [key: string]: boolean;
       } = {}
       _.forEach(icons, icon => {
-        extensions[icon[1]] = false
+        extensions[icon[1] as string] = icon[2] as boolean
       })
-      this.$store.commit(MutationTypes.ADD_EXTENSIONS, extensions)
+      this.$store.dispatch(MutationTypes.ADD_EXTENSIONS, extensions)
       return icons
     },
     // 关于心底深处
@@ -69,7 +69,7 @@ export default Vue.extend({
       return [
         {
           name: 'click',
-          func: () => this.$store.commit(MutationTypes.SETTING_SHOW, true)
+          func: () => this.$store.dispatch(MutationTypes.SETTING_SHOW, true)
         }
       ]
     }

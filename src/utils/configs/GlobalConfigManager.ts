@@ -10,6 +10,9 @@ class Config {
   appWindow = _.merge({}, DefaultConfig.appWindow)
   extension = _.merge({}, DefaultConfig.extension)
   localConfig = {}
+  userConfig: {
+    [key: string]: any;
+  } = {}
 
   private static ConfigFilePath = path.join(AppGlobalEnv.PUBLIC_FILE_PATH, 'config', 'global.config.json')
 
@@ -38,6 +41,31 @@ class Config {
       if (fs.existsSync(dir) && fs.existsSync(path.join(dir, PACKAGE_JSON))) {
         this.extension.package.push([dir, value])
       }
+    })
+  }
+
+  /**
+   * 向用户配置中添加配置
+   * @param name 配置名
+   * @param value 配置值
+   * current-extension 表示当前扩展
+   */
+  public setUserConfig(name: string, value: any) {
+    this.userConfig[name] = value
+  }
+
+  /**
+   * 通过配置名获取用户配置
+   * @param name 配置名
+   */
+  public getUserConfig(name: string) {
+    return this.userConfig[name]
+  }
+
+  public writeUserConfig() {
+    const _this = this
+    this.writeGlobalConfig({
+      userConfig: _this.userConfig
     })
   }
 

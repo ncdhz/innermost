@@ -1,11 +1,29 @@
 {
   "appWindow": {
-    "height": 749,
-    "width": 992,
-    "x": 140,
-    "y": 75
+    "height": 645,
+    "width": 1168,
+    "x": 30,
+    "y": 78,
+    "icon": {
+      "show": true
+    },
+    "content": {
+      "menu": {
+        "show": true
+      }
+    }
   },
   "i18n": {
-    "locale": "zh-CN"
+    "locale": "en"
+  },
+  "userConfig": {
+    "current-extension": "",
+    "default-extension": ""
+  },
+  "theme": {
+    "default": "black-theme"
+  },
+  "extension": {
+    "path": "/Users/ncdhz/.innermost"
   }
 }
