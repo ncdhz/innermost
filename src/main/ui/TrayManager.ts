@@ -2,7 +2,7 @@ import { Menu, Tray } from 'electron'
 import { I18nUtil, AppGlobalEnv } from '@/utils'
 import { UIEventManager } from '@/main/events/UIEventManager'
 import path from 'path'
-const i18n = I18nUtil.i18n
+const i18n = I18nUtil.getI18n()
 export class TrayManager {
   tray: Tray | undefined;
   uiEventManager: UIEventManager | undefined

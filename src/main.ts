@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 const vm = new Vue({
   store,
-  i18n: I18nUtil.i18n,
+  i18n: I18nUtil.getI18n(),
   render: h => h(App)
 }).$mount('#app')
 UIEventManager.init(vm)

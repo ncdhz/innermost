@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { ExtensionManager } from './ExtensionManager'
 export default class ExtensionBody {
   extensionManager: ExtensionManager
@@ -6,9 +5,9 @@ export default class ExtensionBody {
     this.extensionManager = extensionManager
   }
 
-  public extensionBodyComponent(name: string, extensionBodyData: Vue) {
+  public extensionBodyComponent(name: string, extensionBodyData: any) {
     if (extensionBodyData) {
-      Vue.component(`body-${name}`, extensionBodyData)
+      this.extensionManager.extensionData(`body-${name}`, extensionBodyData, name)
       this.extensionManager.setBody([`body-${name}`, name])
     }
   }

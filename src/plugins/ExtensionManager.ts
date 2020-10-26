@@ -2,10 +2,12 @@ import _ from 'lodash'
 import ExtensionIcon from './ExtensionIcon'
 import ExtensionBody from './ExtensionBody'
 import ExtensionSetting from './ExtensionSetting'
+import ExtensionOptions from './ExtensionOptions'
 import { GlobalConfig } from '@/utils'
 import ExtensionInterface from '@/innermost/ExtensionInterface'
 import ExtensionSettingInterface from '@/innermost/ExtensionSettingInterface'
 import cryptoRandomString from 'crypto-random-string'
+import Vue from 'vue'
 // 用于管理扩展
 export class ExtensionManager {
   private package: string[][] | undefined
@@ -18,6 +20,7 @@ export class ExtensionManager {
   extensionIcon: ExtensionIcon
   extensionBody: ExtensionBody
   extensionSetting: ExtensionSetting
+  extensionOptions: ExtensionOptions
 
   constructor() {
     this.package = GlobalConfig.extension.package
@@ -25,6 +28,7 @@ export class ExtensionManager {
     this.extensionIcon = new ExtensionIcon(this)
     this.extensionBody = new ExtensionBody(this)
     this.extensionSetting = new ExtensionSetting(this)
+    this.extensionOptions = new ExtensionOptions(this)
     this.generateExtensionComponents()
   }
 
@@ -89,6 +93,23 @@ export class ExtensionManager {
     this.settingTitles.push(data)
   }
 
+  public extensionData(comName: string, extensionData: any, name: string) {
+    Vue.component(comName, {
+      template: '<extension-data/>',
+      methods: {
+        it(path: string, parent: boolean) {
+          if (parent) {
+            return this.$i18n.t(path)
+          }
+          return this.$i18n.t(`${name}.${path}`)
+        }
+      },
+      components: {
+        extensionData
+      }
+    })
+  }
+
   // 用于生产 Icon 组件
   private generateExtensionComponents() {
     _.forEach(this.modules, (module: ExtensionInterface) => {
@@ -112,6 +133,10 @@ export class ExtensionManager {
         if (setting.isClass ? setting.items && setting.items.length > 0 : setting.data) {
           this.extensionSetting.extensionSettingComponent(name, setting.title, setting.items, setting.data, setting.isClass)
         }
+      }
+      if (module.innermostOptions) {
+        const options = module.innermostOptions()
+        this.extensionOptions.extensionOptionsComponent(name, options)
       }
     })
   }

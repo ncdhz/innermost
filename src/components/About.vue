@@ -36,7 +36,6 @@ import Vue from 'vue'
 import { MutationTypes } from '@/store'
 import { EventTypes, GlobalConfig } from '@/utils'
 import { ipcRenderer, Rectangle } from 'electron'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version, dependencies, devDependencies } = require('../../package.json')
 export default Vue.extend({
   data() {

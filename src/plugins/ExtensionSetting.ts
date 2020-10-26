@@ -46,10 +46,10 @@ export default class ExtensionSetting {
         _.forEach(items, item => {
           addSettingToComponent(item)
         })
-        Vue.component(`setting-style-${name}`, extensionSettingData)
+        this.extensionManager.extensionData(`setting-style-${name}`, extensionSettingData, name)
         this.extensionManager.setSetting([`setting-style-${name}`, name])
       } else {
-        Vue.component(`setting-${name}`, extensionSettingData)
+        this.extensionManager.extensionData(`setting-${name}`, extensionSettingData, name)
         this.extensionManager.setSetting([`setting-${name}`, name])
       }
     }

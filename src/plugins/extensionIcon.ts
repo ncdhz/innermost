@@ -15,7 +15,7 @@ export default class ExtensionIcon {
    * @param extensionIconData 组件数据
    * @param isClass html 中的 class
    */
-  public extensionIconComponent(name: string, clazz: string | undefined, extensionIconData: Vue | undefined, isClass: boolean) {
+  public extensionIconComponent(name: string, clazz: string | undefined, extensionIconData: any, isClass: boolean) {
     const addIconToComponent = () => {
       Vue.component(`icon-${name}`, {
         template: `<icon :event-array="showExtension" icon-class="${clazz}"></icon>`,
@@ -37,15 +37,16 @@ export default class ExtensionIcon {
         }
       })
     }
+
     if (isClass) {
       addIconToComponent()
     } else if (extensionIconData) {
       if (typeof clazz === 'string') {
         addIconToComponent()
-        Vue.component(`icon-style-${name}`, extensionIconData as Vue)
+        this.extensionManager.extensionData(`icon-style-${name}`, extensionIconData, name)
         this.extensionManager.setIcon([`icon-style-${name}`, name])
       } else {
-        Vue.component(`icon-${name}`, extensionIconData as Vue)
+        this.extensionManager.extensionData(`icon-${name}`, extensionIconData, name)
       }
     }
     this.extensionManager.setIcon([`icon-${name}`, name])
