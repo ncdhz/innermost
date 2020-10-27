@@ -16,6 +16,7 @@ export default new Vuex.Store({
       show: false
     },
     extensions: {},
+    extensionIds: {},
     theme: Theme[GlobalConfig.theme.default],
     menu: {
       show: GlobalConfig.appWindow.content.menu.show
@@ -67,6 +68,10 @@ export default new Vuex.Store({
       (state.extensions as unknown as {
         [key: string]: boolean;
       })[name] = true
+    },
+    // 添加extension menu
+    [MutationTypes.ADD_EXTENSION_IDS](state, extensionIds: object) {
+      state.extensionIds = extensionIds
     }
   },
   actions: {

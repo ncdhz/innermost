@@ -7,4 +7,5 @@ export default class {
   public static ADD_EXTENSIONS = 'ADD_EXTENSIONS'
   public static UPDATE_EXTENSION = 'UPDATE_EXTENSION'
   public static ICON_MENU_SHOW = 'ICON_MENU_SHOW'
+  public static ADD_EXTENSION_IDS = 'ADD_EXTENSION_IDS'
 }

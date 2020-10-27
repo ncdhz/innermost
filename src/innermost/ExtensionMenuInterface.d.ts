@@ -13,5 +13,7 @@ export interface ExtensionMenuItemInterface {
   clazz: string;
   name: string;
   i18n?: boolean;
+  id?: string;
+  default?: boolean;
   parentI18n?: boolean;
 }

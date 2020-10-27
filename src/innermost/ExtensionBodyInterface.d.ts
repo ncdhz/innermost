@@ -3,5 +3,8 @@ export default interface ExtensionBodyInterface {
   pages?: {
     data: any;
     id?: string;
+    default?: boolean;
   }[];
+  id?: string;
+  default?: boolean;
 }

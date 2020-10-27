@@ -39,7 +39,6 @@ export default class ExtensionIcon {
         }
       })
     }
-
     if (isClass) {
       addIconToComponent()
     } else if (extensionIconData) {

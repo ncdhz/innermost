@@ -15,6 +15,12 @@ export class ExtensionManager {
   private icons = new Array<(string | boolean)[]>()
   private bodys = new Array<string[]>()
   private menus = new Array<string[]>()
+  private extensionIds: {
+    [key: string]: {
+      [key: string]: string | boolean;
+    };
+  } = {}
+
   private menuTitles = new Array<ExtensionMenuInterface['title'][]>()
   private static LOWERCASE_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
   extensionIcon: ExtensionIcon
@@ -85,6 +91,21 @@ export class ExtensionManager {
     this.menus.push(data)
   }
 
+  public getExtensionIds() {
+    return this.extensionIds
+  }
+
+  public setExtensionIds(data: {
+    [key: string]: string | boolean;
+  }[]) {
+    _.forEach(data, d => {
+      if (!this.extensionIds[d.name as string]) {
+        this.extensionIds[d.name as string] = {}
+      }
+      this.extensionIds[d.name as string][d.id as string] = d.default
+    })
+  }
+
   public getMenuTitles(): ExtensionMenuInterface['title'][][] {
     return this.menuTitles
   }
@@ -131,18 +152,21 @@ export class ExtensionManager {
           this.extensionIcon.extensionIconComponent(name, icon.path, icon.clazz, icon.data, icon.isClass)
         }
       }
-      // 主体部分组件
+      const idConfig = {
+        iSdeflate: false
+      }
+      // 菜单组件
+      if (module.innermostBody && module.innermostMenu) {
+        const menu = module.innermostMenu()
+        if (menu.isClass ? menu.items && menu.items.length > 0 : menu.data) {
+          this.extensionMenu.extensionMenuComponent(name, menu.title, menu.items, menu.data, menu.isClass, idConfig)
+        }
+      }
+      // 主体组件
       if (module.innermostBody) {
         const body = module.innermostBody()
         if (body.data) {
-          this.extensionBody.extensionBodyComponent(name, body.data)
-        }
-      }
-      // 设置部分组件
-      if (module.innermostBody && module.innermostMenu) {
-        const setting = module.innermostMenu()
-        if (setting.isClass ? setting.items && setting.items.length > 0 : setting.data) {
-          this.extensionMenu.extensionMenuComponent(name, setting.title, setting.items, setting.data, setting.isClass)
+          this.extensionBody.extensionBodyComponent(name, body.data, body.id, body.default, body.pages, idConfig)
         }
       }
       // 设置选项部分

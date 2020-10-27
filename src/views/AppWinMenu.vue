@@ -14,10 +14,10 @@
 import Vue from 'vue'
 import SettingMenu from './SettingMenu.vue'
 import { ExtensionManager } from '@/plugins'
+import { MutationTypes } from '@/store'
 export default Vue.extend({
   data() {
     return {
-      menus: ExtensionManager.getMenus(),
       menuTitles: ExtensionManager.getMenuTitles()
     }
   },
@@ -25,6 +25,11 @@ export default Vue.extend({
     SettingMenu
   },
   computed: {
+    menus() {
+      const extensionIds = ExtensionManager.getExtensionIds()
+      this.$store.commit(MutationTypes.ADD_EXTENSION_IDS, extensionIds)
+      return ExtensionManager.getMenus()
+    },
     menuStyle(): object {
       return this.$store.state.theme.menu
     },
