@@ -2,7 +2,7 @@ import Vue from 'vue'
 import _ from 'lodash'
 import { ExtensionManager } from './ExtensionManager'
 import MenuItem from '@/components/MenuItem.vue'
-import ExtensionMenuInterface, { ExtensionMenuItemInterface } from '@/innermost/ExtensionMenuInterface'
+import { ExtensionMenuInterface, ExtensionMenuItemInterface } from '@/innermost'
 export default class ExtensionMenu {
   extensionManager: ExtensionManager
 

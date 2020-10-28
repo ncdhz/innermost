@@ -22,7 +22,7 @@ import Icon from '@/components/Icon.vue'
 import { UITools, EventTypes, SettingConfig } from '@/utils'
 import { MutationTypes } from '@/store'
 import { ExtensionManager } from '@/plugins'
-import InnermostIconEventInterface from '@/innermost/InnermostIconEventInterface'
+import { InnermostIconEventInterface } from '@/innermost'
 import _ from 'lodash'
 
 export default Vue.extend({

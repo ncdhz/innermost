@@ -1,5 +1,5 @@
 import { ExtensionManager } from './ExtensionManager'
-import ExtensionOptionsInterface from '@/innermost/ExtensionOptionsInterface'
+import { ExtensionOptionsInterface } from '@/innermost'
 import _ from 'lodash'
 import { I18nUtil } from '@/utils'
 export default class ExtensionOptions {

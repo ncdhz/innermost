@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Icon from '@/components/Icon.vue'
 import { ExtensionManager } from './ExtensionManager'
 import { MutationTypes } from '@/store'
-import InnermostIconEventInterface from '@/innermost/InnermostIconEventInterface'
+import { InnermostIconEventInterface } from '@/innermost'
 export default class ExtensionIcon {
   private extensionManager: ExtensionManager
   constructor(extensionManager: ExtensionManager) {

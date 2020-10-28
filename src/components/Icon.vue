@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import InnermostIconEventInterface from '@/innermost/InnermostIconEventInterface'
+import { InnermostIconEventInterface } from '@/innermost'
 export default Vue.extend({
   props: {
     iconClass: String,

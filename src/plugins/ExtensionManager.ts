@@ -4,11 +4,9 @@ import ExtensionBody from './ExtensionBody'
 import ExtensionMenu from './ExtensionMenu'
 import ExtensionOptions from './ExtensionOptions'
 import { GlobalConfig, UserConfig } from '@/utils'
-import ExtensionInterface from '@/innermost/ExtensionInterface'
-import ExtensionMenuInterface from '@/innermost/ExtensionMenuInterface'
+import { ExtensionMenuInterface, ExtensionInterface } from '@/innermost'
 import cryptoRandomString from 'crypto-random-string'
 import Vue from 'vue'
-import { stringify } from 'querystring'
 // 用于管理扩展
 export class ExtensionManager {
   private package: string[][] | undefined
@@ -158,7 +156,6 @@ export class ExtensionManager {
       if (module.innermostIcon && module.innermostBody) {
         const icon = module.innermostIcon()
         icon.name = module.name
-        icon.path = module.path
         if (icon.isClass ? icon.clazz : icon.data) {
           this.extensionIcon.extensionIconComponent(name, icon.clazz, icon.data, icon.isClass)
         }

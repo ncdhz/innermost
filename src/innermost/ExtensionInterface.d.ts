@@ -1,8 +1,8 @@
-import ExtensionIconInterface from './ExtensionIconInterface'
-import ExtensionBodyInterface from './ExtensionBodyInterface'
-import ExtensionMenuInterface from './ExtensionMenuInterface'
-import ExtensionOptionsInterface from './ExtensionOptionsInterface'
-export default interface ExtensionInterface {
+import { ExtensionIconInterface } from './ExtensionIconInterface'
+import { ExtensionBodyInterface } from './ExtensionBodyInterface'
+import { ExtensionMenuInterface } from './ExtensionMenuInterface'
+import { ExtensionOptionsInterface } from './ExtensionOptionsInterface'
+export interface ExtensionInterface {
   // 扩展名不能和其他扩展名重复
   name?: string;
   // 扩展所在路径

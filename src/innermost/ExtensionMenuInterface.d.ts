@@ -1,4 +1,4 @@
-export default interface ExtensionMenuInterface {
+export interface ExtensionMenuInterface {
   data?: any;
   title?: {
     name: string;

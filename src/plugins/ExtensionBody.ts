@@ -1,5 +1,5 @@
 import { ExtensionManager } from './ExtensionManager'
-import ExtensionBodyInterface from '@/innermost/ExtensionBodyInterface'
+import { ExtensionBodyInterface } from '@/innermost'
 import _ from 'lodash'
 export default class ExtensionBody {
   extensionManager: ExtensionManager

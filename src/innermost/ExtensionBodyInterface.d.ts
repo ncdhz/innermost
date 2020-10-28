@@ -1,4 +1,4 @@
-export default interface ExtensionBodyInterface {
+export interface ExtensionBodyInterface {
   data?: any;
   pages?: {
     data: any;

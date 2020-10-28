@@ -1,4 +1,4 @@
-export default interface ExtensionOptionsInterface {
+export interface ExtensionOptionsInterface {
   closeIcon?: boolean;
   closeMenu?: boolean;
   i18n: {

@@ -1,4 +1,4 @@
-export default interface ExtensionIconInterface {
+export interface ExtensionIconInterface {
   data?: any;
 
   isClass: boolean;
@@ -6,6 +6,4 @@ export default interface ExtensionIconInterface {
   clazz?: string;
 
   name?: string;
-
-  path?: string;
 }
