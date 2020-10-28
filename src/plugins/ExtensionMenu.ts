@@ -23,7 +23,7 @@ export default class ExtensionMenu {
     const addMenuToComponent = (item: ExtensionMenuItemInterface) => {
       const comName = `menu-${this.extensionManager.getRandomString5()}-${name}`
       Vue.component(comName, {
-        template: `<menu-item ${item.clazz ? 'menu-icon="' + item.clazz + '"' : ''} :menu-name="menuName"/>`,
+        template: `<menu-item extension-name='${name}' ${item.clazz ? 'menu-icon="' + item.clazz + '"' : ''}  menu-id="${item.id ? item.id : name}" :menu-name="menuName"/>`,
         components: {
           MenuItem
         },

@@ -3,7 +3,6 @@ import Icon from '@/components/Icon.vue'
 import { ExtensionManager } from './ExtensionManager'
 import { MutationTypes } from '@/store'
 import InnermostIconEventInterface from '@/innermost/InnermostIconEventInterface'
-import { GlobalConfig } from '@/utils'
 export default class ExtensionIcon {
   private extensionManager: ExtensionManager
   constructor(extensionManager: ExtensionManager) {
@@ -16,8 +15,7 @@ export default class ExtensionIcon {
    * @param extensionIconData 组件数据
    * @param isClass html 中的 class
    */
-  public extensionIconComponent(name: string, path: string | undefined, clazz: string | undefined, extensionIconData: any, isClass: boolean) {
-    const defaultExtension = GlobalConfig.getUserConfig('default-extension') === path
+  public extensionIconComponent(name: string, clazz: string | undefined, extensionIconData: any, isClass: boolean) {
     const addIconToComponent = () => {
       Vue.component(`icon-${name}`, {
         template: `<icon :event-array="showExtension" icon-class="${clazz}"></icon>`,
@@ -26,13 +24,13 @@ export default class ExtensionIcon {
         },
         computed: {
           showExtension(): Array<InnermostIconEventInterface> {
-            const openExtension = () => {
-              this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, { name, path })
-            }
+            const _this = this
             return [
               {
                 name: 'click',
-                func: () => openExtension()
+                func() {
+                  _this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, name)
+                }
               }
             ]
           }
@@ -45,11 +43,11 @@ export default class ExtensionIcon {
       if (typeof clazz === 'string') {
         addIconToComponent()
         this.extensionManager.extensionData(`icon-style-${name}`, extensionIconData, name)
-        this.extensionManager.setIcon([`icon-style-${name}`, name, defaultExtension])
+        this.extensionManager.setIcon([`icon-style-${name}`, name])
       } else {
         this.extensionManager.extensionData(`icon-${name}`, extensionIconData, name)
       }
     }
-    this.extensionManager.setIcon([`icon-${name}`, name, defaultExtension])
+    this.extensionManager.setIcon([`icon-${name}`, name])
   }
 }

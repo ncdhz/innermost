@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { EventTypes, GlobalConfig } from '@/utils'
+import { EventTypes, GlobalConfig, SettingConfig } from '@/utils'
 import MutationTypes from '@/store/MutationTypes'
 import Vue from 'vue'
 
@@ -30,7 +30,7 @@ class UIEventManager {
   private openPreferences(): void {
     ipcRenderer.on(EventTypes.OPEN_PREFERENCES, () => {
       if (this.vue) {
-        this.vue.$store.dispatch(MutationTypes.SETTING_SHOW, true)
+        this.vue.$store.dispatch(MutationTypes.UPDATE_EXTENSION, SettingConfig.SettingName)
       }
     })
   }

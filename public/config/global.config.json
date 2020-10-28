@@ -1,9 +1,9 @@
 {
   "appWindow": {
-    "height": 661,
-    "width": 1108,
-    "x": 204,
-    "y": 65,
+    "height": 686,
+    "width": 1170,
+    "x": 79,
+    "y": 92,
     "icon": {
       "show": true
     },
@@ -17,8 +17,10 @@
     "locale": "zh-CN"
   },
   "userConfig": {
-    "current-extension": "text-information-management-gahkgonmjr",
-    "default-extension": "/Users/ncdhz/.innermost/text-information-management"
+    "current-extension": "setting-name",
+    "extension-name": {
+      "/Users/ncdhz/.innermost/text-information-management": "text-information-management-zxyinacdvx"
+    }
   },
   "theme": {
     "default": "black-theme"

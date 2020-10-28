@@ -19,7 +19,7 @@ import Vue from 'vue'
 import { ipcRenderer } from 'electron'
 import IconLogo from '@/components/IconLogo.vue'
 import Icon from '@/components/Icon.vue'
-import { UITools, EventTypes } from '@/utils'
+import { UITools, EventTypes, SettingConfig } from '@/utils'
 import { MutationTypes } from '@/store'
 import { ExtensionManager } from '@/plugins'
 import InnermostIconEventInterface from '@/innermost/InnermostIconEventInterface'
@@ -45,31 +45,34 @@ export default Vue.extend({
         [key: string]: boolean;
       } = {}
       _.forEach(icons, icon => {
-        extensions[icon[1] as string] = icon[2] as boolean
+        extensions[icon[1] as string] = false
       })
       this.$store.dispatch(MutationTypes.ADD_EXTENSIONS, extensions)
       return icons
     },
     // 关于心底深处
     aboutInnermost(): Array<InnermostIconEventInterface> {
-      const openAboutInnermost: () => void = () => {
-        this.$store.commit(MutationTypes.ABOUT_SHOW, true)
-      }
+      const _this = this
       ipcRenderer.on(EventTypes.OPEN_ABOUT, () => {
-        openAboutInnermost()
+        this.$store.commit(MutationTypes.ABOUT_SHOW, true)
       })
       return [
         {
           name: 'click',
-          func: () => openAboutInnermost()
+          func() {
+            _this.$store.commit(MutationTypes.ABOUT_SHOW, true)
+          }
         }
       ]
     },
     setting(): Array<InnermostIconEventInterface> {
+      const _this = this
       return [
         {
           name: 'click',
-          func: () => this.$store.dispatch(MutationTypes.SETTING_SHOW, true)
+          func() {
+            _this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, SettingConfig.SettingName)
+          }
         }
       ]
     }

@@ -1,4 +1,11 @@
 module.exports = {
+  configureWebpack: {
+    devServer: {
+      watchOptions: {
+        ignored: ['/public/config/global.config.json']
+      }
+    }
+  },
   runtimeCompiler: true,
   pluginOptions: {
     electronBuilder: {

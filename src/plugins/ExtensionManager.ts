@@ -3,11 +3,12 @@ import ExtensionIcon from './ExtensionIcon'
 import ExtensionBody from './ExtensionBody'
 import ExtensionMenu from './ExtensionMenu'
 import ExtensionOptions from './ExtensionOptions'
-import { GlobalConfig } from '@/utils'
+import { GlobalConfig, UserConfig } from '@/utils'
 import ExtensionInterface from '@/innermost/ExtensionInterface'
 import ExtensionMenuInterface from '@/innermost/ExtensionMenuInterface'
 import cryptoRandomString from 'crypto-random-string'
 import Vue from 'vue'
+import { stringify } from 'querystring'
 // 用于管理扩展
 export class ExtensionManager {
   private package: string[][] | undefined
@@ -141,15 +142,25 @@ export class ExtensionManager {
 
   // 用于生成扩展组件
   private generateExtensionComponents() {
+    let extensionName: {
+      [key: string]: string;
+    } = UserConfig.getUserConfig(UserConfig.ExtensionName)
+    if (!extensionName) {
+      extensionName = {}
+    }
     _.forEach(this.modules, (module: ExtensionInterface) => {
-      const name = `${module.name}-${this.getRandomString10()}`
+      let name = extensionName[module.path as string]
+      if (!name) {
+        name = `${module.name}-${this.getRandomString10()}`
+        extensionName[module.path as string] = name
+      }
       // 图标栏组件
       if (module.innermostIcon && module.innermostBody) {
         const icon = module.innermostIcon()
         icon.name = module.name
         icon.path = module.path
         if (icon.isClass ? icon.clazz : icon.data) {
-          this.extensionIcon.extensionIconComponent(name, icon.path, icon.clazz, icon.data, icon.isClass)
+          this.extensionIcon.extensionIconComponent(name, icon.clazz, icon.data, icon.isClass)
         }
       }
       const idConfig = {
@@ -175,6 +186,8 @@ export class ExtensionManager {
         this.extensionOptions.extensionOptions(name, options)
       }
     })
+    UserConfig.setUserConfig(UserConfig.ExtensionName, extensionName)
+    UserConfig.writeUserConfig()
   }
 }
 export default new ExtensionManager()

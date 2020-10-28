@@ -1,8 +1,8 @@
 <template>
   <el-container class="app-win-main-box">
     <el-main class="app-win-main-box-content">
-      <setting-main v-show="settingShow"/>
-      <component v-show="extensionShow[body[1]]" v-for="body in bodys" v-bind:key="body[0]" v-bind:is="body[0]" ></component>
+      <setting-main v-show="extensionShow[settingName]"/>
+      <component v-show="extensionShow[body[1]] && extensionIdShow[body[1]] && extensionIdShow[body[1]][body[2]]" v-for="body in bodys" v-bind:key="body[0]" v-bind:is="body[0]" ></component>
       <about/>
     </el-main>
   </el-container>
@@ -13,6 +13,7 @@ import SettingMain from '@/views/SettingMain.vue'
 // 关于页面 弹窗
 import About from '@/components/About.vue'
 import { ExtensionManager } from '@/plugins'
+import { SettingConfig } from '@/utils'
 export default Vue.extend({
   components: {
     SettingMain,
@@ -20,15 +21,17 @@ export default Vue.extend({
   },
   data() {
     return {
-      bodys: ExtensionManager.getBodys()
+      bodys: ExtensionManager.getBodys(),
+      settingName: SettingConfig.SettingName,
+      settingId: SettingConfig.SettingId
     }
   },
   computed: {
-    settingShow(): boolean {
-      return this.$store.state.setting.show
-    },
     extensionShow() {
       return this.$store.state.extensions
+    },
+    extensionIdShow() {
+      return this.$store.state.extensionIds
     }
   }
 })

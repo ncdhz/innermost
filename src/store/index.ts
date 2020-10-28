@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import _ from 'lodash'
-import { Theme, GlobalConfig } from '@/utils'
+import { Theme, GlobalConfig, UserConfig, SettingConfig } from '@/utils'
 import { ExtensionManager } from '@/plugins'
 import MutationTypes from './MutationTypes'
 export { default as MutationTypes } from './MutationTypes'
@@ -12,11 +12,14 @@ export default new Vuex.Store({
     about: {
       show: false
     },
-    setting: {
-      show: false
+    extensions: {
+      [SettingConfig.SettingName]: true
     },
-    extensions: {},
-    extensionIds: {},
+    extensionIds: {
+      [SettingConfig.SettingName]: {
+        [SettingConfig.SettingId]: true
+      }
+    },
     theme: Theme[GlobalConfig.theme.default],
     menu: {
       show: GlobalConfig.appWindow.content.menu.show
@@ -38,45 +41,53 @@ export default new Vuex.Store({
     [MutationTypes.MENU_SHOW](state, show: boolean) {
       state.menu.show = show
     },
-    // 是否打开设置
-    [MutationTypes.SETTING_SHOW](state, show: boolean) {
-      state.setting.show = show
-      GlobalConfig.setUserConfig('current-extension', '')
-      _.forIn(state.extensions, (v, k) => {
-        (state.extensions as unknown as {
-          [key: string]: boolean;
-        })[k] = false
-      })
-    },
     // 是否打开图标栏
     [MutationTypes.ICON_SHOW](state, show: boolean) {
       state.icon.show = show
     },
     // 添加插件
-    [MutationTypes.ADD_EXTENSIONS](state, extensions: object) {
+    [MutationTypes.ADD_EXTENSIONS](state, extensions) {
+      _.merge(extensions, state.extensions)
       state.extensions = extensions
     },
     // 更新插件也就是控制插件的打开与关闭
     [MutationTypes.UPDATE_EXTENSION](state, name: string) {
-      state.setting.show = false
-      GlobalConfig.setUserConfig('current-extension', name)
-      _.forIn(state.extensions, (v, k) => {
-        (state.extensions as unknown as {
-          [key: string]: boolean;
-        })[k] = false
-      });
+      UserConfig.setUserConfig(UserConfig.CurrentExtension, name)
+      for (const extension in state.extensions) {
+        state.extensions[extension] = false
+      }
       (state.extensions as unknown as {
         [key: string]: boolean;
       })[name] = true
+      UserConfig.writeUserConfig()
     },
     // 添加extension menu
-    [MutationTypes.ADD_EXTENSION_IDS](state, extensionIds: object) {
+    [MutationTypes.ADD_EXTENSION_IDS](state, extensionIds: {[key: string]: {[key: string]: boolean}}) {
+      _.merge(extensionIds, state.extensionIds)
       state.extensionIds = extensionIds
+    },
+    // 更新扩展ID 根据 name 和 id 找到某个扩展中的某个界面并打开
+    [MutationTypes.UPDATE_EXTENSION_ID](state, { name, id }) {
+      const extensionIds: {
+        [key: string]: {
+          [key: string]: boolean;
+        };
+      } = state.extensionIds
+      for (const extensionIdKey in extensionIds) {
+        for (const extensionNameIdKey in extensionIds[extensionIdKey]) {
+          extensionIds[extensionIdKey][extensionNameIdKey] = false
+        }
+      }
+      if (!extensionIds[name]) {
+        extensionIds[name] = {}
+      }
+      extensionIds[name][id] = true
     }
   },
   actions: {
+    // 控制 icon 栏和 menu 栏打开或者关闭
     [MutationTypes.ICON_MENU_SHOW]({ commit }, width: number) {
-      const closeIconAndMenu = ExtensionManager.closeIconAndMenu(GlobalConfig.getUserConfig('current-extension'))
+      const closeIconAndMenu = ExtensionManager.closeIconAndMenu(UserConfig.getUserConfig(UserConfig.CurrentExtension))
       if (width < GlobalConfig.appWindow.limit.one) {
         commit(MutationTypes.ICON_SHOW, false)
       } else {
@@ -88,36 +99,25 @@ export default new Vuex.Store({
         commit(MutationTypes.MENU_SHOW, closeIconAndMenu[1] ? false : GlobalConfig.appWindow.content.menu.show)
       }
     },
-    [MutationTypes.UPDATE_EXTENSION]({ commit, dispatch }, { name, path }) {
+    // 更新扩展 也就是打开当前 name 的扩展
+    [MutationTypes.UPDATE_EXTENSION]({ commit, dispatch }, name) {
       commit(MutationTypes.UPDATE_EXTENSION, name)
-      GlobalConfig.setUserConfig('default-extension', path)
-      GlobalConfig.writeUserConfig()
+      UserConfig.setUserConfig(UserConfig.CurrentExtension, name)
       dispatch(MutationTypes.ICON_MENU_SHOW, GlobalConfig.appWindow.width)
     },
-    [MutationTypes.SETTING_SHOW]({ commit, dispatch }, show: boolean) {
-      commit(MutationTypes.SETTING_SHOW, show)
-      GlobalConfig.setUserConfig('default-extension', '')
-      GlobalConfig.writeUserConfig()
-      dispatch(MutationTypes.ICON_MENU_SHOW, GlobalConfig.appWindow.width)
-    },
+    // 添加扩展
     [MutationTypes.ADD_EXTENSIONS]({ commit, dispatch }, extensions) {
-      const defaultExtension = GlobalConfig.getUserConfig('default-extension')
       commit(MutationTypes.ADD_EXTENSIONS, extensions)
-      let name = ''
-      if (!defaultExtension) {
-        dispatch(MutationTypes.SETTING_SHOW, true)
-      } else {
-        _.forEach(extensions, (extension, key) => {
-          if (extension) {
-            name = key
-          }
-        })
-        dispatch(MutationTypes.UPDATE_EXTENSION, {
-          name,
-          path: defaultExtension
-        })
+      let currentExtension = UserConfig.getUserConfig(UserConfig.CurrentExtension)
+      if (!currentExtension) {
+        currentExtension = SettingConfig.SettingName
       }
+      dispatch(MutationTypes.UPDATE_EXTENSION, currentExtension)
       dispatch(MutationTypes.ICON_MENU_SHOW, GlobalConfig.appWindow.width)
+    },
+    // 更新扩展 ID 根据 name 和 id 设置打开哪一个扩展 id （也就是打开那个界面）
+    [MutationTypes.UPDATE_EXTENSION_ID]({ commit }, { id, name }) {
+      commit(MutationTypes.UPDATE_EXTENSION_ID, { id, name })
     }
   },
   modules: {

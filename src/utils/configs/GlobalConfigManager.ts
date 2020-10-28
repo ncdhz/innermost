@@ -3,7 +3,6 @@ import fs from 'fs'
 import _ from 'lodash'
 import { AppGlobalEnv } from '../AppGlobalEnv'
 import DefaultConfig from './DefaultConfig'
-
 class Config {
   i18n = _.merge({}, DefaultConfig.i18n)
   theme = _.merge({}, DefaultConfig.theme)
@@ -41,31 +40,6 @@ class Config {
       if (fs.existsSync(dir) && fs.existsSync(path.join(dir, PACKAGE_JSON))) {
         this.extension.package.push([dir, value])
       }
-    })
-  }
-
-  /**
-   * 向用户配置中添加配置
-   * @param name 配置名
-   * @param value 配置值
-   * current-extension 表示当前扩展
-   */
-  public setUserConfig(name: string, value: any) {
-    this.userConfig[name] = value
-  }
-
-  /**
-   * 通过配置名获取用户配置
-   * @param name 配置名
-   */
-  public getUserConfig(name: string) {
-    return this.userConfig[name]
-  }
-
-  public writeUserConfig() {
-    const _this = this
-    this.writeGlobalConfig({
-      userConfig: _this.userConfig
     })
   }
 
