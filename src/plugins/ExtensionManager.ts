@@ -136,6 +136,29 @@ export class ExtensionManager {
             return this.$i18n.t(path)
           }
           return this.$i18n.t(`${name}.${path}`)
+        },
+        // 用于获取用户配置
+        getConfig(path: any) {
+          const config = UserConfig.getUserConfig(name)
+          if (!path) {
+            return config
+          }
+          if (config) {
+            return _.get(config, path)
+          }
+          return undefined
+        },
+        // 修改用户配置
+        updateConfig(path: any, value: any) {
+          const config = UserConfig.getUserConfig(name)
+          if (config) {
+            _.set(config, path, value)
+            UserConfig.setUserConfig(name, config)
+          }
+        },
+        // 保存配置
+        saveConfig() {
+          UserConfig.writeUserConfig()
         }
       },
       components: {

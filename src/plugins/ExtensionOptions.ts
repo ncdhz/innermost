@@ -23,8 +23,8 @@ export default class ExtensionOptions {
 
   public extensionOptions(name: string, options: ExtensionOptionsInterface) {
     if (typeof options.config === 'object') {
-      _.merge(options, UserConfig.getUserConfig(name))
-      UserConfig.setUserConfig(name, options)
+      _.merge(options.config, UserConfig.getUserConfig(name))
+      UserConfig.setUserConfig(name, options.config)
     }
     // 设置语言国际化
     if (options.i18n && typeof options.i18n === 'object' && options.i18n.length > 0) {

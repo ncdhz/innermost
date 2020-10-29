@@ -1,9 +1,9 @@
 {
   "appWindow": {
-    "height": 734,
-    "width": 1008,
-    "x": 53,
-    "y": 42,
+    "height": 741,
+    "width": 1303,
+    "x": 31,
+    "y": 196,
     "icon": {
       "show": true
     },
@@ -14,12 +14,18 @@
     }
   },
   "i18n": {
-    "locale": "en"
+    "locale": "zh-CN"
   },
   "userConfig": {
-    "current-extension": "setting-name",
+    "current-extension": "text-information-management-zxyinacdvx",
     "extension-name": {
       "/Users/ncdhz/.innermost/text-information-management": "text-information-management-zxyinacdvx"
+    },
+    "text-information-management-zxyinacdvx": {
+      "xx": "helloworld",
+      "yy": {
+        "nn": "校长"
+      }
     }
   },
   "theme": {
