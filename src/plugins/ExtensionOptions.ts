@@ -22,9 +22,16 @@ export default class ExtensionOptions {
   }
 
   public extensionOptions(name: string, options: ExtensionOptionsInterface) {
+    // 添加扩展配置
     if (typeof options.config === 'object') {
       _.merge(options.config, UserConfig.getUserConfig(name))
       UserConfig.setUserConfig(name, options.config)
+    }
+    // 添加扩展状态，添加在其中的状态可以通过 vuex 管理
+    if (typeof options.state === 'object') {
+      this.extensionManager.setState({
+        [name]: options.state
+      })
     }
     // 设置语言国际化
     if (options.i18n && typeof options.i18n === 'object' && options.i18n.length > 0) {

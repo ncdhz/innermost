@@ -4,6 +4,9 @@ export interface ExtensionOptionsInterface {
   config?: {
     [key: string]: any;
   };
+  state?: {
+    [key: string]: any;
+  };
   i18n: {
     name: string;
     data: {};

@@ -20,6 +20,7 @@ export default new Vuex.Store({
         [SettingConfig.SettingId]: true
       }
     },
+    extensionStates: {},
     theme: Theme[GlobalConfig.theme.default],
     menu: {
       show: GlobalConfig.appWindow.content.menu.show
@@ -80,6 +81,18 @@ export default new Vuex.Store({
         extensionIds[name][extensionNameIdKey] = false
       }
       extensionIds[name][id] = true
+    },
+    // 添加扩展状态
+    [MutationTypes.ADD_EXTENSION_STATES](state, states) {
+      state.extensionStates = states
+    },
+    // 更新扩展状态
+    [MutationTypes.UPDATE_EXTENSION_STATES](state, { name, path, value }) {
+      const extensionStates: any = _.merge({}, state.extensionStates)
+      if (extensionStates[name] && typeof extensionStates[name] === 'object') {
+        _.set(extensionStates[name], path, value)
+        state.extensionStates = extensionStates
+      }
     }
   },
   actions: {

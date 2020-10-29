@@ -9,6 +9,7 @@ import { ExtensionMenuInterface, ExtensionInterface, ExtensionMenuItemInterface 
 import cryptoRandomString from 'crypto-random-string'
 import Vue from 'vue'
 import MenuItem from '@/components/MenuItem.vue'
+import { MutationTypes } from '@/store'
 // 用于管理扩展
 export class ExtensionManager {
   private package: string[][] | undefined
@@ -17,6 +18,10 @@ export class ExtensionManager {
   private bodys = new Array<string[]>()
   private menus = new Array<string[]>()
   private settings = new Array<(string | object)[]>()
+  private states: {
+    [key: string]: any;
+  } = {}
+
   private extensionIds: {
     [key: string]: {
       [key: string]: string | boolean;
@@ -95,6 +100,14 @@ export class ExtensionManager {
     this.settings.push(data)
   }
 
+  public getStates() {
+    return this.states
+  }
+
+  public setState(data: object) {
+    _.merge(this.states, data)
+  }
+
   public getMenus(): string[][] {
     return this.menus
   }
@@ -159,6 +172,19 @@ export class ExtensionManager {
         // 保存配置
         saveConfig() {
           UserConfig.writeUserConfig()
+        },
+        // 获取状态
+        getState(path: any) {
+          if (!path) {
+            return this.$store.state.extensionStates[name]
+          }
+          return _.get(this.$store.state.extensionStates[name], path)
+        },
+        // 更新状态
+        updateState(path: any, value: any) {
+          if (path) {
+            this.$store.commit(MutationTypes.UPDATE_EXTENSION_STATES, { name, path, value })
+          }
         }
       },
       components: {

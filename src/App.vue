@@ -80,6 +80,8 @@ export default Vue.extend({
     }
   },
   created() {
+    // 初始化扩展状态
+    this.$store.commit(MutationTypes.ADD_EXTENSION_STATES, ExtensionManager.getStates())
     const appInit = (bounds: Rectangle | {
       width: number;
       height: number;

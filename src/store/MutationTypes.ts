@@ -8,4 +8,6 @@ export default class {
   public static ICON_MENU_SHOW = 'ICON_MENU_SHOW'
   public static ADD_EXTENSION_IDS = 'ADD_EXTENSION_IDS'
   public static UPDATE_EXTENSION_ID = 'UPDATE_EXTENSION_ID'
+  public static ADD_EXTENSION_STATES = 'ADD_EXTENSION_STATES'
+  public static UPDATE_EXTENSION_STATES = 'UPDATE_EXTENSION_STATES'
 }
