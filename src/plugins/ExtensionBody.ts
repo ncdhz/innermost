@@ -7,12 +7,12 @@ export default class ExtensionBody {
     this.extensionManager = extensionManager
   }
 
-  public extensionBodyComponent(name: string, extensionBodyData: any, id: string | undefined, isDefault: boolean | undefined, extensionBodyPages: ExtensionBodyInterface['pages'], idConfig: {[key: string]: boolean}) {
+  public extensionBodyComponent(name: string, { data, pages, id }: ExtensionBodyInterface, isDefault: boolean, idConfig: {[key: string]: boolean}) {
     const bodyIds: {
       [key: string]: string | boolean;
     }[] = []
-    if (extensionBodyData) {
-      this.extensionManager.extensionData(`body-${name}`, extensionBodyData, name)
+    if (data) {
+      this.extensionManager.extensionData(`body-${name}`, data, name)
       this.extensionManager.setBody([`body-${name}`, name, id ? id as string : name])
       bodyIds.push({
         name,
@@ -20,8 +20,8 @@ export default class ExtensionBody {
         default: !idConfig.iSdeflate && isDefault ? (idConfig.iSdeflate = true, true) : false
       })
     }
-    if (typeof extensionBodyPages === 'object') {
-      _.forEach(extensionBodyPages, page => {
+    if (typeof pages === 'object') {
+      _.forEach(pages, page => {
         if (page.data) {
           const pageName = `body-${this.extensionManager.getRandomString5()}-${name}`
           this.extensionManager.extensionData(pageName, page.data, name)

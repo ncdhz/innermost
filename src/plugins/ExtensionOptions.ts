@@ -1,7 +1,7 @@
 import { ExtensionManager } from './ExtensionManager'
 import { ExtensionOptionsInterface } from '@/innermost'
 import _ from 'lodash'
-import { I18nUtil } from '@/utils'
+import { I18nUtil, UserConfig } from '@/utils'
 export default class ExtensionOptions {
   extensionManager: ExtensionManager
 
@@ -22,6 +22,10 @@ export default class ExtensionOptions {
   }
 
   public extensionOptions(name: string, options: ExtensionOptionsInterface) {
+    if (typeof options.config === 'object') {
+      _.merge(options, UserConfig.getUserConfig(name))
+      UserConfig.setUserConfig(name, options)
+    }
     // 设置语言国际化
     if (options.i18n && typeof options.i18n === 'object' && options.i18n.length > 0) {
       // 处理没有适配所有语言的扩展，当出现这种情况时会，插入默认语言配置或者第一条

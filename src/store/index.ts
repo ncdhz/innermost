@@ -73,13 +73,11 @@ export default new Vuex.Store({
           [key: string]: boolean;
         };
       } = state.extensionIds
-      for (const extensionIdKey in extensionIds) {
-        for (const extensionNameIdKey in extensionIds[extensionIdKey]) {
-          extensionIds[extensionIdKey][extensionNameIdKey] = false
-        }
-      }
       if (!extensionIds[name]) {
         extensionIds[name] = {}
+      }
+      for (const extensionNameIdKey in extensionIds[name]) {
+        extensionIds[name][extensionNameIdKey] = false
       }
       extensionIds[name][id] = true
     }

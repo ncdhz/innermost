@@ -3,10 +3,12 @@ import ExtensionIcon from './ExtensionIcon'
 import ExtensionBody from './ExtensionBody'
 import ExtensionMenu from './ExtensionMenu'
 import ExtensionOptions from './ExtensionOptions'
+import ExtensionSetting from './ExtensionSetting'
 import { GlobalConfig, UserConfig } from '@/utils'
-import { ExtensionMenuInterface, ExtensionInterface } from '@/innermost'
+import { ExtensionMenuInterface, ExtensionInterface, ExtensionMenuItemInterface } from '@/innermost'
 import cryptoRandomString from 'crypto-random-string'
 import Vue from 'vue'
+import MenuItem from '@/components/MenuItem.vue'
 // 用于管理扩展
 export class ExtensionManager {
   private package: string[][] | undefined
@@ -14,6 +16,7 @@ export class ExtensionManager {
   private icons = new Array<(string | boolean)[]>()
   private bodys = new Array<string[]>()
   private menus = new Array<string[]>()
+  private settings = new Array<(string | object)[]>()
   private extensionIds: {
     [key: string]: {
       [key: string]: string | boolean;
@@ -26,6 +29,7 @@ export class ExtensionManager {
   extensionBody: ExtensionBody
   extensionMenu: ExtensionMenu
   extensionOptions: ExtensionOptions
+  extensionSetting: ExtensionSetting
 
   constructor() {
     this.package = GlobalConfig.extension.package
@@ -34,6 +38,7 @@ export class ExtensionManager {
     this.extensionIcon = new ExtensionIcon(this)
     this.extensionBody = new ExtensionBody(this)
     this.extensionMenu = new ExtensionMenu(this)
+    this.extensionSetting = new ExtensionSetting(this)
     this.generateExtensionComponents()
   }
 
@@ -80,6 +85,14 @@ export class ExtensionManager {
 
   public setBody(data: string[]) {
     this.bodys.push(data)
+  }
+
+  public getSettings(): (string | object)[][] {
+    return this.settings
+  }
+
+  public setSetting(data: (string | {})[]) {
+    this.settings.push(data)
   }
 
   public getMenus(): string[][] {
@@ -131,6 +144,31 @@ export class ExtensionManager {
     })
   }
 
+  // 根据菜单数据生成菜单组件
+  public extensionMenuData(menuComName: string, item: ExtensionMenuItemInterface, name: string) {
+    const comName = `menu-${this.getRandomString5()}-${menuComName}`
+    Vue.component(comName, {
+      template: `<menu-item extension-name='${menuComName}' ${item.clazz ? 'menu-icon="' + item.clazz + '"' : ''}  menu-id="${item.id ? item.id : menuComName}" :menu-name="menuName"/>`,
+      components: {
+        MenuItem
+      },
+      computed: {
+        menuName() {
+          if (item.i18n) {
+            if (item.parentI18n) {
+              return this.$i18n.t(`${item.name}`)
+            } else {
+              return this.$i18n.t(`${name}.${item.name}`)
+            }
+          } else {
+            return item.name
+          }
+        }
+      }
+    })
+    this.setMenu([comName, menuComName])
+  }
+
   public closeIconAndMenu(name: string) {
     if (name) {
       return this.extensionOptions.closeIconAndMenu(name)
@@ -157,7 +195,7 @@ export class ExtensionManager {
         const icon = module.innermostIcon()
         icon.name = module.name
         if (icon.isClass ? icon.clazz : icon.data) {
-          this.extensionIcon.extensionIconComponent(name, icon.clazz, icon.data, icon.isClass)
+          this.extensionIcon.extensionIconComponent(name, icon)
         }
       }
       const idConfig = {
@@ -167,20 +205,26 @@ export class ExtensionManager {
       if (module.innermostBody && module.innermostMenu) {
         const menu = module.innermostMenu()
         if (menu.isClass ? menu.items && menu.items.length > 0 : menu.data) {
-          this.extensionMenu.extensionMenuComponent(name, menu.title, menu.items, menu.data, menu.isClass, idConfig)
+          this.extensionMenu.extensionMenuComponent(name, menu, idConfig)
         }
       }
       // 主体组件
       if (module.innermostBody) {
         const body = module.innermostBody()
         if (body.data) {
-          this.extensionBody.extensionBodyComponent(name, body.data, body.id, body.default, body.pages, idConfig)
+          this.extensionBody.extensionBodyComponent(name, body, body.default as boolean, idConfig)
         }
       }
       // 设置选项部分
       if (module.innermostOptions) {
         const options = module.innermostOptions()
         this.extensionOptions.extensionOptions(name, options)
+      }
+      // 插入主体设置部分
+      // 每一个扩展都可以维护自己的配置文件
+      if (module.innermostSetting) {
+        const setting = module.innermostSetting()
+        this.extensionSetting.extensionSetting(name, setting)
       }
     })
     UserConfig.setUserConfig(UserConfig.ExtensionName, extensionName)

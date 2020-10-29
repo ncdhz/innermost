@@ -1,9 +1,9 @@
 {
   "appWindow": {
-    "height": 767,
-    "width": 1246,
-    "x": 45,
-    "y": 76,
+    "height": 734,
+    "width": 1008,
+    "x": 53,
+    "y": 42,
     "icon": {
       "show": true
     },
@@ -14,7 +14,7 @@
     }
   },
   "i18n": {
-    "locale": "zh-CN"
+    "locale": "en"
   },
   "userConfig": {
     "current-extension": "setting-name",
