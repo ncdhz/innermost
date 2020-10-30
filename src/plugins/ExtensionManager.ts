@@ -244,6 +244,13 @@ export class ExtensionManager {
     return [false, false]
   }
 
+  public moveIconAndMenu(name: string) {
+    if (name) {
+      return this.extensionOptions.moveIconAndMenu(name)
+    }
+    return [false, false]
+  }
+
   // 用于生成扩展组件
   private generateExtensionComponents() {
     let extensionName: {

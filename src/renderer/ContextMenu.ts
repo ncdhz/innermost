@@ -34,6 +34,11 @@ export class ContextMenu {
     return ExtensionManager.closeIconAndMenu(name)
   }
 
+  private static moveIconAndMenu() {
+    const name = ExtensionConfig.getExtensionConfig(ExtensionConfig.CurrentExtension)
+    return ExtensionManager.moveIconAndMenu(name)
+  }
+
   // 打开或者关闭菜单栏
   public static getOpenOrCloseMenuBar() {
     if (this.closeIconAndMenu()[1]) {
@@ -64,6 +69,9 @@ export class ContextMenu {
   }
 
   public static getIconMove(vue: Vue) {
+    if (this.moveIconAndMenu()[0]) {
+      return undefined
+    }
     if (GlobalConfig.appWindow.icon.left) {
       return new MenuItem({
         label: i18n.t('setting.basic.moveIconBarRight') as string,
@@ -84,6 +92,9 @@ export class ContextMenu {
   }
 
   public static getMenuMove(vue: Vue) {
+    if (this.moveIconAndMenu()[1]) {
+      return undefined
+    }
     if (GlobalConfig.appWindow.content.menu.left) {
       return new MenuItem({
         label: i18n.t('setting.basic.moveMenuBarRight') as string,

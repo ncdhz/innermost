@@ -183,6 +183,9 @@ export default new Vuex.Store({
       commit(MutationTypes.UPDATE_EXTENSION, { name, show })
       if (show) {
         ExtensionConfig.setExtensionConfig(ExtensionConfig.CurrentExtension, name)
+        const moveIconAndMenu = ExtensionManager.moveIconAndMenu(ExtensionConfig.getExtensionConfig(ExtensionConfig.CurrentExtension))
+        commit(MutationTypes.UPDATE_MENU_LEFT, moveIconAndMenu[1] ? false : GlobalConfig.appWindow.content.menu.show)
+        commit(MutationTypes.UPDATE_ICON_LEFT, moveIconAndMenu[0] ? false : GlobalConfig.appWindow.icon.show)
       }
       dispatch(ActionTypes.ICON_MENU_SHOW, GlobalConfig.appWindow.width)
     },

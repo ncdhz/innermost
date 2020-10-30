@@ -1,6 +1,8 @@
 export interface ExtensionOptionsInterface {
   closeIcon?: boolean;
   closeMenu?: boolean;
+  moveIcon?: boolean;
+  moveMenu?: boolean;
   config?: {
     [key: string]: any;
   };

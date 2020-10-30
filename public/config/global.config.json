@@ -9,7 +9,7 @@
     "extension-name": {
       "/Users/ncdhz/.innermost/text-information-management": "text-information-management-iqaivjpjht"
     },
-    "current-extension": "text-information-management-iqaivjpjht"
+    "current-extension": "setting-name"
   },
   "appWindow": {
     "content": {
@@ -22,7 +22,7 @@
     },
     "height": 767,
     "width": 1379,
-    "x": 32,
-    "y": 23
+    "x": 51,
+    "y": 238
   }
 }

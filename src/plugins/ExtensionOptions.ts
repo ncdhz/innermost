@@ -5,7 +5,11 @@ import { I18nUtil, ExtensionConfig } from '@/utils'
 export default class ExtensionOptions {
   extensionManager: ExtensionManager
 
-  private iconAndMenu: {
+  private closeIconAndMenuData: {
+    [key: string]: boolean[];
+  } = {}
+
+  private moveIconAndMenuData: {
     [key: string]: boolean[];
   } = {}
 
@@ -14,7 +18,15 @@ export default class ExtensionOptions {
   }
 
   public closeIconAndMenu(name: string) {
-    const iconAndMenu = this.iconAndMenu[name]
+    const iconAndMenu = this.closeIconAndMenuData[name]
+    if (iconAndMenu) {
+      return iconAndMenu
+    }
+    return [false, false]
+  }
+
+  public moveIconAndMenu(name: string) {
+    const iconAndMenu = this.moveIconAndMenuData[name]
     if (iconAndMenu) {
       return iconAndMenu
     }
@@ -53,6 +65,7 @@ export default class ExtensionOptions {
       })
       I18nUtil.setMessage(allLocale, localeMessages)
     }
-    this.iconAndMenu[name] = [!!options.closeIcon, !!options.closeMenu]
+    this.closeIconAndMenuData[name] = [!!options.closeIcon, !!options.closeMenu]
+    this.moveIconAndMenuData[name] = [!!options.moveIcon, !!options.moveMenu]
   }
 }
