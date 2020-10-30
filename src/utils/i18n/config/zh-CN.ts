@@ -54,5 +54,8 @@ export default {
       widthNarrow: '窗口宽度过窄'
     }
   },
+  extension: {
+    disable: '禁用此扩展'
+  },
   ...zhLocale
 }

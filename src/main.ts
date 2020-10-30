@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import UIEventManager from './views/events/UIEventManager'
+import { UIEventManager } from '@/renderer'
 import { I18nUtil } from '@/utils'
 import '@/plugins'
 import store from './store'

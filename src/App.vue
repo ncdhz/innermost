@@ -15,20 +15,20 @@
   <div id="app" :style="appWindowHeight">
     <el-container class="app-win">
       <!-- 侧边栏用于图标显示 -->
-      <el-aside class="app-win-icon" v-show="appWinIconShow" :style="appWinIconStyle">
+      <el-aside @contextmenu.native="activationMenu('icon')" class="app-win-icon" v-show="appWinIconShow" :style="appWinIconStyle">
         <app-win-icon/>
       </el-aside>
       <!-- 主要部分 -->
       <el-container class="app-win-content">
         <!-- 侧面菜单部分 -->
-        <el-aside class="app-win-content-menu" :style="[appWinMenuStyle, winStyle.menu]" v-show="appWinMenuShow">
+        <el-aside @contextmenu.native="activationMenu('menu')" class="app-win-content-menu" :style="[appWinMenuStyle, winStyle.menu]" v-show="appWinMenuShow">
           <el-container class="app-win-menu-content">
             <el-header :style="appWinMenuHeaderStyle"></el-header>
             <app-win-menu/>
           </el-container>
         </el-aside>
 
-        <el-container class="app-win-content-main" :style="winStyle.main">
+        <el-container @contextmenu.native="activationMenu('main')" class="app-win-content-main" :style="winStyle.main">
           <!-- 主要部分头 -->
           <el-header :style="appWinContentHeaderStyle">
             <!-- 跨浏览器红路灯 -->
@@ -47,6 +47,7 @@
 import Vue from 'vue'
 import { ipcRenderer, Rectangle } from 'electron'
 import { GlobalConfig, UITools, EventTypes } from '@/utils'
+import { ContextMenu } from '@/renderer'
 import { ExtensionManager } from '@/plugins'
 import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
@@ -55,6 +56,18 @@ import TrafficLights from '@/components/TrafficLights.vue'
 import { MutationTypes } from './store'
 import is from 'electron-is'
 export default Vue.extend({
+  methods: {
+    activationMenu(name: string) {
+      const menu = ContextMenu.getMenu()
+      if (name === 'main' || name === 'icon') {
+        menu.push(ContextMenu.getOpenOrCloseIconBar())
+      }
+      if (name === 'main' || name === 'menu') {
+        menu.push(ContextMenu.getOpenOrCloseMenuBar())
+      }
+      menu.popup()
+    }
+  },
   data() {
     return {
       appWindowHeight: {

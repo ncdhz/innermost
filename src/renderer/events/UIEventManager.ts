@@ -91,7 +91,7 @@ class UIEventManager {
   private openPreferences(): void {
     ipcRenderer.on(EventTypes.OPEN_PREFERENCES, () => {
       if (this.vue) {
-        this.vue.$store.dispatch(MutationTypes.UPDATE_EXTENSION, SettingConfig.SettingName)
+        this.vue.$store.dispatch(MutationTypes.UPDATE_EXTENSION, { name: SettingConfig.SettingName })
       }
     })
   }

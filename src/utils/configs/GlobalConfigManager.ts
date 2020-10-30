@@ -8,8 +8,9 @@ class Config {
   theme = _.merge({}, DefaultConfig.theme)
   appWindow = _.merge({}, DefaultConfig.appWindow)
   extension = _.merge({}, DefaultConfig.extension)
+  // 用于存储配置因为不是所有的配置都需要被存储
   localConfig = {}
-  userConfig: {
+  extensionConfig: {
     [key: string]: any;
   } = {}
 

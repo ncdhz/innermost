@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-item" :class="{'menu-item-color-deep': extensionIdShow}" :style="itemStyle.item" @click="updaeIdToExtension">
+  <div class="menu-item" :class="{'menu-item-color-deep': extensionIdShow && extensionIdShow[extensionName] && extensionIdShow[extensionName][menuId]}" :style="itemStyle.item" @click="updaeIdToExtension">
     <i :class="menuIcon"></i>
     <span>{{menuName}}</span>
   </div>
@@ -7,6 +7,7 @@
 <script lang="ts">
 import { MutationTypes } from '@/store'
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 export default Vue.extend({
   props: {
     menuIcon: String,
@@ -25,15 +26,10 @@ export default Vue.extend({
     }
   },
   computed: {
-    itemStyle(): object {
-      return this.$store.state.theme.menu
-    },
-    extensionIdShow(): boolean {
-      if (this.menuId && this.extensionName) {
-        return this.$store.state.extensionIds[this.extensionName][this.menuId]
-      }
-      return false
-    }
+    ...mapGetters([
+      'itemStyle',
+      'extensionIdShow'
+    ])
   }
 })
 </script>

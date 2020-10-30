@@ -4,7 +4,7 @@ import ExtensionBody from './ExtensionBody'
 import ExtensionMenu from './ExtensionMenu'
 import ExtensionOptions from './ExtensionOptions'
 import ExtensionSetting from './ExtensionSetting'
-import { GlobalConfig, UserConfig } from '@/utils'
+import { GlobalConfig, ExtensionConfig, UserConfig, UserConfigKey } from '@/utils'
 import { ExtensionMenuInterface, ExtensionInterface, ExtensionMenuItemInterface } from '@/innermost'
 import cryptoRandomString from 'crypto-random-string'
 import Vue from 'vue'
@@ -152,7 +152,7 @@ export class ExtensionManager {
         },
         // 用于获取用户配置
         getConfig(path: any) {
-          const config = UserConfig.getUserConfig(name)
+          const config = ExtensionConfig.getExtensionConfig(name)
           if (!path) {
             return config
           }
@@ -163,32 +163,32 @@ export class ExtensionManager {
         },
         // 修改用户配置
         updateConfig(path: any, value: any) {
-          const config = UserConfig.getUserConfig(name)
+          const config = ExtensionConfig.getExtensionConfig(name)
           if (config) {
             _.set(config, path, value)
-            UserConfig.setUserConfig(name, config)
+            ExtensionConfig.setExtensionConfig(name, config)
           }
         },
         // 保存配置
         saveConfig() {
-          UserConfig.writeUserConfig()
+          ExtensionConfig.writeExtensionConfig()
         },
         // 获取状态
         getState(path: any) {
           if (!path) {
-            return this.$store.state.extensionStates[name]
+            return this.$store.getters.getExtensionStates(name)
           }
-          return _.get(this.$store.state.extensionStates[name], path)
+          return _.get(this.$store.getters.getExtensionStates(name), path)
         },
         // 更新状态
         updateState(path: any, value: any) {
           if (path) {
-            this.$store.commit(MutationTypes.UPDATE_EXTENSION_STATES, { name, path, value })
+            this.$store.commit(MutationTypes.UPDATE_EXTENSION_STATE, { name, path, value })
           }
         },
         // 打开扩展
         openExtension() {
-          this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, name)
+          this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, { name })
         },
         // 打开对应的id 如：id可能对应了一个界面那就是打开界面
         openId(id: string) {
@@ -237,7 +237,7 @@ export class ExtensionManager {
   private generateExtensionComponents() {
     let extensionName: {
       [key: string]: string;
-    } = UserConfig.getUserConfig(UserConfig.ExtensionName)
+    } = ExtensionConfig.getExtensionConfig(ExtensionConfig.ExtensionName)
     if (!extensionName) {
       extensionName = {}
     }
@@ -246,6 +246,14 @@ export class ExtensionManager {
       if (!name) {
         name = `${module.name}-${this.getRandomString10()}`
         extensionName[module.path as string] = name
+      }
+      // 用于处理插件被禁止使用
+      // 当发现插件被禁止时跳过本次循环
+      const disableExtensions = UserConfig.getUserConfig(UserConfigKey.DisableExtension)
+      if (typeof disableExtensions === 'object') {
+        if (disableExtensions[name]) {
+          return
+        }
       }
       // 图标栏组件
       if (module.innermostIcon && module.innermostBody) {
@@ -284,8 +292,8 @@ export class ExtensionManager {
         this.extensionSetting.extensionSetting(name, setting)
       }
     })
-    UserConfig.setUserConfig(UserConfig.ExtensionName, extensionName)
-    UserConfig.writeUserConfig()
+    ExtensionConfig.setExtensionConfig(ExtensionConfig.ExtensionName, extensionName)
+    ExtensionConfig.writeExtensionConfig()
   }
 }
 export default new ExtensionManager()

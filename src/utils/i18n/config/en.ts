@@ -55,5 +55,8 @@ export default {
       widthNarrow: 'The window width is too narrow'
     }
   },
+  extension: {
+    disable: 'Disable this extension'
+  },
   ...enLocale
 }

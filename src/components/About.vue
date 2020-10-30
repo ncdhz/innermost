@@ -66,17 +66,14 @@ export default Vue.extend({
   computed: {
     show: {
       get(): boolean {
-        return this.$store.state.about.show
+        return this.$store.getters.aboutShow
       },
       set(): void {
         this.$store.commit(MutationTypes.ABOUT_SHOW, false)
       }
     },
     aboutStyle(): object {
-      return {
-        ...this.$store.state.theme.window,
-        ...this.$store.state.theme.about
-      }
+      return this.$store.getters.aboutStyle
     }
   }
 })

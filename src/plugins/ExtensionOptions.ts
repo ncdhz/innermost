@@ -1,7 +1,7 @@
 import { ExtensionManager } from './ExtensionManager'
 import { ExtensionOptionsInterface } from '@/innermost'
 import _ from 'lodash'
-import { I18nUtil, UserConfig } from '@/utils'
+import { I18nUtil, ExtensionConfig } from '@/utils'
 export default class ExtensionOptions {
   extensionManager: ExtensionManager
 
@@ -24,8 +24,8 @@ export default class ExtensionOptions {
   public extensionOptions(name: string, options: ExtensionOptionsInterface) {
     // 添加扩展配置
     if (typeof options.config === 'object') {
-      _.merge(options.config, UserConfig.getUserConfig(name))
-      UserConfig.setUserConfig(name, options.config)
+      _.merge(options.config, ExtensionConfig.getExtensionConfig(name))
+      ExtensionConfig.setExtensionConfig(name, options.config)
     }
     // 添加扩展状态，添加在其中的状态可以通过 vuex 管理
     if (typeof options.state === 'object') {

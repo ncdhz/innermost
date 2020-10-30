@@ -1,13 +1,13 @@
 <template>
   <el-container class="setting-main-box" v-show="vShow">
-    <el-header class="setting-main-title" style="height:45px;" :style="settingStyle.setting.title">
+    <el-header class="setting-main-title" style="height:45px;" :style="settingStyle.title">
       <span v-show="extensionIdShow[settingName][settingId]">{{ $t('setting.basic.name') }}</span>
       <span v-show="extensionIdShow[setting[1]][setting[2]]" v-for="setting in settings" v-bind:key="setting[0]">{{ settingTitle(setting[3]) }}</span>
-      <div class="setting-main-title-divider el-divider el-divider--horizontal" :style="settingStyle.setting.divider"></div>
+      <div class="setting-main-title-divider el-divider el-divider--horizontal" :style="settingStyle.divider"></div>
     </el-header>
     <el-main class="setting-main-win">
       <div class="setting-main-content" v-show="extensionIdShow[settingName][settingId]">
-        <el-form  size="mini" label="right" :style="settingStyle.setting" label-width="120px">
+        <el-form  size="mini" label="right" :style="settingStyle" label-width="120px">
           <!-- 切换主题 -->
           <el-form-item :label="$t('setting.basic.theme') + ':'">
             <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeTheme" v-model="themeValue">
@@ -53,8 +53,9 @@ import { I18nUtil, GlobalConfig, EventTypes, Theme, DefaultConfig, SettingConfig
 import { ipcRenderer, remote } from 'electron'
 import { MutationTypes } from '@/store'
 import { ExtensionManager } from '@/plugins'
-import UIEventManager from './events/UIEventManager'
+import { UIEventManager } from '@/renderer'
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 export default Vue.extend({
   props: {
     vShow: Boolean
@@ -155,15 +156,13 @@ export default Vue.extend({
     }
   },
   computed: {
-    extensionIdShow() {
-      return this.$store.state.extensionIds
-    },
-    settingStyle(): object {
-      return this.$store.state.theme.main
-    },
+    ...mapGetters([
+      'extensionIdShow',
+      'settingStyle'
+    ]),
     iconShow: {
       get(): boolean {
-        return this.$store.state.icon.show
+        return this.$store.getters.iconShow
       },
       set(show: boolean) {
         UIEventManager.openOrCloseIconBar(show)
@@ -171,7 +170,7 @@ export default Vue.extend({
     },
     menuShow: {
       get(): boolean {
-        return this.$store.state.menu.show
+        return this.$store.getters.menuShow
       },
       set(show: boolean) {
         UIEventManager.openOrCloseMenuBar(show)

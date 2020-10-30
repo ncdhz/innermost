@@ -16,6 +16,7 @@ import SettingMenu from './SettingMenu.vue'
 import { ExtensionManager } from '@/plugins'
 import { MutationTypes } from '@/store'
 import { SettingConfig } from '@/utils'
+import { mapGetters } from 'vuex'
 export default Vue.extend({
   data() {
     return {
@@ -32,12 +33,10 @@ export default Vue.extend({
       this.$store.commit(MutationTypes.ADD_EXTENSION_IDS, extensionIds)
       return ExtensionManager.getMenus()
     },
-    menuStyle(): object {
-      return this.$store.state.theme.menu
-    },
-    extensionShow() {
-      return this.$store.state.extensions
-    }
+    ...mapGetters([
+      'extensionShow',
+      'menuStyle'
+    ])
   }
 })
 </script>

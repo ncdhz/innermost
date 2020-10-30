@@ -4,9 +4,9 @@
       <div class="app-win-icon-content-logo-drag"></div>
       <icon-logo/>
     </el-header>
-    <!-- 生产图标 -->
+    <!-- 扩展的图标 -->
     <el-main class="app-win-icon-content-main">
-      <component v-for="icon in icons" v-bind:key="icon[0]" v-bind:is="icon[0]" ></component>
+      <component @contextmenu.native="activationMenu(icon[1])" v-for="icon in icons" v-bind:key="icon[0]" v-bind:is="icon[0]" ></component>
     </el-main>
     <el-footer :style="appWinIconContentFooterStyle">
       <icon :event-array="setting" icon-class="el-icon-s-operation" />
@@ -24,6 +24,7 @@ import { MutationTypes } from '@/store'
 import { ExtensionManager } from '@/plugins'
 import { InnermostIconEventInterface } from '@/innermost'
 import _ from 'lodash'
+import { ContextMenu } from '@/renderer'
 
 export default Vue.extend({
   data(): object {
@@ -32,6 +33,15 @@ export default Vue.extend({
         height: UITools.addPX(100),
         'margin-bottom': UITools.addPX(20)
       }
+    }
+  },
+  methods: {
+    activationMenu(name: string) {
+      const menu = ContextMenu.getMenu()
+      menu.push(ContextMenu.getDisableExtension(name))
+      menu.push(ContextMenu.getSeparator())
+      menu.push(ContextMenu.getOpenOrCloseIconBar())
+      menu.popup()
     }
   },
   components: {
@@ -71,7 +81,7 @@ export default Vue.extend({
         {
           name: 'click',
           func() {
-            _this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, SettingConfig.SettingName)
+            _this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, { name: SettingConfig.SettingName })
           }
         }
       ]
