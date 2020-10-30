@@ -1,4 +1,5 @@
-import { GlobalConfig, I18nUtil, UserConfig, UserConfigKey } from '@/utils'
+import { MutationTypes } from '@/store'
+import { GlobalConfig, I18nUtil, UserConfig, UserConfigKeys } from '@/utils'
 import electron, { remote } from 'electron'
 import { CMenu } from './CMenu'
 import UIEventManager from './events/UIEventManager'
@@ -50,12 +51,16 @@ export class ContextMenu {
     })
   }
 
-  public static getDisableExtension(name: string) {
+  public static getDisableExtension(name: string, vue: Vue) {
     return new MenuItem({
       label: i18n.t('extension.disable') as string,
       click() {
+        vue.$store.commit(MutationTypes.UPDATE_EXTENSION_ICON, {
+          name,
+          show: true
+        })
         UserConfig.writeUserConfig({
-          [UserConfigKey.DisableExtension]: {
+          [UserConfigKeys.DisableExtension]: {
             [name]: true
           }
         })

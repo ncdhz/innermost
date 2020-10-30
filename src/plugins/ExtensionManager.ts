@@ -4,12 +4,12 @@ import ExtensionBody from './ExtensionBody'
 import ExtensionMenu from './ExtensionMenu'
 import ExtensionOptions from './ExtensionOptions'
 import ExtensionSetting from './ExtensionSetting'
-import { GlobalConfig, ExtensionConfig, UserConfig, UserConfigKey } from '@/utils'
+import { GlobalConfig, ExtensionConfig, UserConfig, UserConfigKeys } from '@/utils'
 import { ExtensionMenuInterface, ExtensionInterface, ExtensionMenuItemInterface } from '@/innermost'
 import cryptoRandomString from 'crypto-random-string'
 import Vue from 'vue'
 import MenuItem from '@/components/MenuItem.vue'
-import { MutationTypes } from '@/store'
+import { ActionTypes, MutationTypes } from '@/store'
 // 用于管理扩展
 export class ExtensionManager {
   private package: string[][] | undefined
@@ -188,11 +188,11 @@ export class ExtensionManager {
         },
         // 打开扩展
         openExtension() {
-          this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, { name })
+          this.$store.dispatch(ActionTypes.UPDATE_EXTENSION, { name })
         },
         // 打开对应的id 如：id可能对应了一个界面那就是打开界面
         openId(id: string) {
-          this.$store.dispatch(MutationTypes.UPDATE_EXTENSION_ID, { name, id })
+          this.$store.dispatch(ActionTypes.UPDATE_EXTENSION_ID, { name, id })
         }
       },
       components: {
@@ -205,9 +205,20 @@ export class ExtensionManager {
   public extensionMenuData(menuComName: string, item: ExtensionMenuItemInterface, name: string) {
     const comName = `menu-${this.getRandomString5()}-${menuComName}`
     Vue.component(comName, {
-      template: `<menu-item extension-name='${menuComName}' ${item.clazz ? 'menu-icon="' + item.clazz + '"' : ''}  menu-id="${item.id ? item.id : menuComName}" :menu-name="menuName"/>`,
+      template: `<menu-item :func="showExtension" extension-name='${menuComName}' ${item.clazz ? 'menu-icon="' + item.clazz + '"' : ''}  menu-id="${item.id ? item.id : menuComName}" :menu-name="menuName"/>`,
       components: {
         MenuItem
+      },
+      methods: {
+        showExtension() {
+          if (item.func) {
+            item.func(this)
+          }
+          this.$store.dispatch(ActionTypes.UPDATE_EXTENSION_ID, {
+            id: item.id ? item.id : menuComName,
+            name: menuComName
+          })
+        }
       },
       computed: {
         menuName() {
@@ -249,18 +260,17 @@ export class ExtensionManager {
       }
       // 用于处理插件被禁止使用
       // 当发现插件被禁止时跳过本次循环
-      const disableExtensions = UserConfig.getUserConfig(UserConfigKey.DisableExtension)
+      const disableExtensions = UserConfig.getUserConfig(UserConfigKeys.DisableExtension)
+      let isDisable = false
       if (typeof disableExtensions === 'object') {
-        if (disableExtensions[name]) {
-          return
-        }
+        isDisable = !!disableExtensions[name]
       }
       // 图标栏组件
       if (module.innermostIcon && module.innermostBody) {
         const icon = module.innermostIcon()
         icon.name = module.name
         if (icon.isClass ? icon.clazz : icon.data) {
-          this.extensionIcon.extensionIconComponent(name, icon)
+          this.extensionIcon.extensionIconComponent(name, icon, isDisable)
         }
       }
       const idConfig = {

@@ -6,25 +6,24 @@
     </el-header>
     <!-- 扩展的图标 -->
     <el-main class="app-win-icon-content-main">
-      <component @contextmenu.native="activationMenu(icon[1])" v-for="icon in icons" v-bind:key="icon[0]" v-bind:is="icon[0]" ></component>
+      <component v-show="!extensionIconShow[icon[1]]" @contextmenu.native="activationMenu(icon[1])" v-for="icon in icons" v-bind:key="icon[0]" v-bind:is="icon[0]" ></component>
     </el-main>
     <el-footer :style="appWinIconContentFooterStyle">
-      <icon :event-array="setting" icon-class="el-icon-s-operation" />
-      <icon :event-array="aboutInnermost" icon-class="el-icon-info" />
+      <icon :func="openSetting" icon-class="el-icon-s-operation" />
+      <icon :func="openAbout" icon-class="el-icon-info" />
     </el-footer>
   </el-container>
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { ipcRenderer } from 'electron'
 import IconLogo from '@/components/IconLogo.vue'
 import Icon from '@/components/Icon.vue'
-import { UITools, EventTypes, SettingConfig } from '@/utils'
-import { MutationTypes } from '@/store'
+import { UITools, SettingConfig } from '@/utils'
+import { ActionTypes, MutationTypes } from '@/store'
 import { ExtensionManager } from '@/plugins'
-import { InnermostIconEventInterface } from '@/innermost'
 import _ from 'lodash'
 import { ContextMenu } from '@/renderer'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   data(): object {
@@ -38,10 +37,16 @@ export default Vue.extend({
   methods: {
     activationMenu(name: string) {
       const menu = ContextMenu.getMenu()
-      menu.push(ContextMenu.getDisableExtension(name))
+      menu.push(ContextMenu.getDisableExtension(name, this))
       menu.push(ContextMenu.getSeparator())
       menu.push(ContextMenu.getOpenOrCloseIconBar())
       menu.popup()
+    },
+    openAbout() {
+      this.$store.commit(MutationTypes.ABOUT_SHOW, true)
+    },
+    openSetting() {
+      this.$store.dispatch(ActionTypes.UPDATE_EXTENSION, { name: SettingConfig.SettingName })
     }
   },
   components: {
@@ -49,42 +54,26 @@ export default Vue.extend({
     Icon
   },
   computed: {
+    ...mapGetters([
+      'extensionIconShow'
+    ]),
     icons() {
       const icons = ExtensionManager.getIcons()
       const extensions: {
         [key: string]: boolean;
       } = {}
+
+      const extensionIcons: {
+        [key: string]: boolean;
+      } = {}
+
       _.forEach(icons, icon => {
         extensions[icon[1] as string] = false
+        extensionIcons[icon[1] as string] = icon[2] as boolean
       })
-      this.$store.dispatch(MutationTypes.ADD_EXTENSIONS, extensions)
+      this.$store.commit(MutationTypes.ADD_EXTENSION_ICONS, extensionIcons)
+      this.$store.dispatch(ActionTypes.ADD_EXTENSIONS, extensions)
       return icons
-    },
-    // 关于心底深处
-    aboutInnermost(): Array<InnermostIconEventInterface> {
-      const _this = this
-      ipcRenderer.on(EventTypes.OPEN_ABOUT, () => {
-        this.$store.commit(MutationTypes.ABOUT_SHOW, true)
-      })
-      return [
-        {
-          name: 'click',
-          func() {
-            _this.$store.commit(MutationTypes.ABOUT_SHOW, true)
-          }
-        }
-      ]
-    },
-    setting(): Array<InnermostIconEventInterface> {
-      const _this = this
-      return [
-        {
-          name: 'click',
-          func() {
-            _this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, { name: SettingConfig.SettingName })
-          }
-        }
-      ]
     }
   }
 })

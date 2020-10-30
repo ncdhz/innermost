@@ -4,7 +4,9 @@ import _ from 'lodash'
 import { Theme, GlobalConfig, ExtensionConfig, SettingConfig } from '@/utils'
 import { ExtensionManager } from '@/plugins'
 import MutationTypes from './MutationTypes'
+import ActionTypes from './ActionTypes'
 export { default as MutationTypes } from './MutationTypes'
+export { default as ActionTypes } from './ActionTypes'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -14,6 +16,9 @@ export default new Vuex.Store({
     },
     extensionIdShow(state) {
       return state.extensionIds
+    },
+    extensionIconShow(state) {
+      return state.extensionIcons
     },
     getTheme(state) {
       return state.theme as any
@@ -141,14 +146,12 @@ export default new Vuex.Store({
     },
     // 修改插件图标
     [MutationTypes.UPDATE_EXTENSION_ICON](state, { name, show }) {
-      if ((state.extensionIcons as any)[name]) {
-        (state.extensionIcons as any)[name] = show
-      }
+      (state.extensionIcons as any)[name] = show
     }
   },
   actions: {
     // 控制 icon 栏和 menu 栏打开或者关闭
-    [MutationTypes.ICON_MENU_SHOW]({ commit }, width: number) {
+    [ActionTypes.ICON_MENU_SHOW]({ commit }, width: number) {
       const closeIconAndMenu = ExtensionManager.closeIconAndMenu(ExtensionConfig.getExtensionConfig(ExtensionConfig.CurrentExtension))
       if (width < GlobalConfig.appWindow.limit.one) {
         commit(MutationTypes.ICON_SHOW, false)
@@ -162,25 +165,25 @@ export default new Vuex.Store({
       }
     },
     // 更新扩展 也就是打开当前 name 的扩展
-    [MutationTypes.UPDATE_EXTENSION]({ commit, dispatch }, { name, show = true }) {
+    [ActionTypes.UPDATE_EXTENSION]({ commit, dispatch }, { name, show = true }) {
       commit(MutationTypes.UPDATE_EXTENSION, { name, show })
       if (show) {
         ExtensionConfig.setExtensionConfig(ExtensionConfig.CurrentExtension, name)
       }
-      dispatch(MutationTypes.ICON_MENU_SHOW, GlobalConfig.appWindow.width)
+      dispatch(ActionTypes.ICON_MENU_SHOW, GlobalConfig.appWindow.width)
     },
     // 添加扩展
-    [MutationTypes.ADD_EXTENSIONS]({ commit, dispatch }, extensions) {
+    [ActionTypes.ADD_EXTENSIONS]({ commit, dispatch }, extensions) {
       commit(MutationTypes.ADD_EXTENSIONS, extensions)
       let currentExtension = ExtensionConfig.getExtensionConfig(ExtensionConfig.CurrentExtension)
       if (!currentExtension) {
         currentExtension = SettingConfig.SettingName
       }
-      dispatch(MutationTypes.UPDATE_EXTENSION, { name: currentExtension })
-      dispatch(MutationTypes.ICON_MENU_SHOW, GlobalConfig.appWindow.width)
+      dispatch(ActionTypes.UPDATE_EXTENSION, { name: currentExtension })
+      dispatch(ActionTypes.ICON_MENU_SHOW, GlobalConfig.appWindow.width)
     },
     // 更新扩展 ID 根据 name 和 id 设置打开哪一个扩展 id （也就是打开那个界面）
-    [MutationTypes.UPDATE_EXTENSION_ID]({ commit }, { id, name, show = true }) {
+    [ActionTypes.UPDATE_EXTENSION_ID]({ commit }, { id, name, show = true }) {
       commit(MutationTypes.UPDATE_EXTENSION_ID, { id, name, show })
     }
   },

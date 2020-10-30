@@ -1,23 +1,6 @@
 <template>
-  <div class="icon" v-if="!eventArray || eventArray.length === 0">
-    <div  class="icon-box">
-      <i :class="iconClass"></i>
-    </div>
-  </div>
-  <div class="icon" v-else-if="eventArray && eventArray.length === 1">
-    <div @[eventArray[0].name]="event(0)" class="icon-box">
-      <i :class="iconClass"></i>
-    </div>
-  </div>
-  <div class="icon" v-else-if="eventArray && eventArray.length === 2">
-    <div @[eventArray[0].name]="event(0)"
-  @[eventArray[1].name]="event(1)" class="icon-box">
-      <i :class="iconClass"></i>
-    </div>
-  </div>
-  <div class="icon" v-else-if="eventArray && eventArray.length === 3">
-    <div @[eventArray[0].name]="event(0)"
-  @[eventArray[1].name]="event(1)" @[eventArray[2].name]="event(2)" class="icon-box">
+  <div class="icon">
+    <div @click="openInterface" class="icon-box">
       <i :class="iconClass"></i>
     </div>
   </div>
@@ -25,19 +8,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { InnermostIconEventInterface } from '@/innermost'
 export default Vue.extend({
   props: {
     iconClass: String,
-    eventArray: Array
+    func: Function
   },
   methods: {
-    event(index: number): void {
-      if (typeof this.eventArray[index] === 'object') {
-        const eventObj: InnermostIconEventInterface = this.eventArray[index] as InnermostIconEventInterface
-        if (typeof eventObj.func === 'function') {
-          eventObj.func()
-        }
+    openInterface() {
+      if (this.func) {
+        this.func()
       }
     }
   }

@@ -3,7 +3,7 @@ import fs from 'fs'
 import _ from 'lodash'
 import { GlobalConfig } from './GlobalConfigManager'
 
-export class UserConfigKey {
+export class UserConfigKeys {
   public static DisableExtension = 'disable-extension'
 }
 

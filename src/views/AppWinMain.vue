@@ -2,7 +2,7 @@
   <el-container id="xxxx" class="app-win-main-box">
     <el-main class="app-win-main-box-content">
       <setting-main v-show="extensionShow[settingName]"/>
-      <component v-show="extensionShow[body[1]] && extensionIdShow[body[1]] && extensionIdShow[body[1]][body[2]]" v-for="body in bodys" v-bind:key="body[0]" v-bind:is="body[0]" ></component>
+      <component v-show="extensionShow[body[1]] && extensionIdShow[body[1]] && !extensionIconShow[body[1]] && extensionIdShow[body[1]][body[2]]" v-for="body in bodys" v-bind:key="body[0]" v-bind:is="body[0]" ></component>
       <about/>
     </el-main>
   </el-container>
@@ -33,7 +33,8 @@ export default Vue.extend({
   computed: {
     ...mapGetters([
       'extensionShow',
-      'extensionIdShow'
+      'extensionIdShow',
+      'extensionIconShow'
     ])
   }
 })

@@ -9,6 +9,7 @@ class UIEventManager {
     this.globalUpdate()
     this.openPreferences()
     this.openOrCloseIconAndMenuBar()
+    this.openAbout()
   }
 
   /**
@@ -82,6 +83,12 @@ class UIEventManager {
     })
     ipcRenderer.on(EventTypes.CLOSE_MENU_BAR, () => {
       this.openOrCloseMenuBar(false)
+    })
+  }
+
+  private openAbout() {
+    ipcRenderer.on(EventTypes.OPEN_ABOUT, () => {
+      this.vue?.$store.commit(MutationTypes.ABOUT_SHOW, true)
     })
   }
 

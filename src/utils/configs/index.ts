@@ -6,4 +6,4 @@ export { default as SettingConfig } from './SettingConfig'
 
 export { default as DefaultConfig } from './DefaultConfig'
 
-export { default as UserConfig, UserConfigKey } from './UserConfig'
+export { default as UserConfig, UserConfigKeys } from './UserConfig'

@@ -6,4 +6,6 @@ export interface ExtensionIconInterface {
   clazz?: string;
 
   name?: string;
+
+  func?: Function;
 }

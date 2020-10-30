@@ -16,4 +16,5 @@ export interface ExtensionMenuItemInterface {
   id?: string;
   default?: boolean;
   parentI18n?: boolean;
+  func?: Function;
 }

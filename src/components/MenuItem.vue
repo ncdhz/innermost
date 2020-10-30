@@ -5,7 +5,6 @@
   </div>
 </template>
 <script lang="ts">
-import { MutationTypes } from '@/store'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 export default Vue.extend({
@@ -13,15 +12,13 @@ export default Vue.extend({
     menuIcon: String,
     menuName: String,
     menuId: String,
-    extensionName: String
+    extensionName: String,
+    func: Function
   },
   methods: {
     updaeIdToExtension() {
-      if (this.menuId) {
-        this.$store.dispatch(MutationTypes.UPDATE_EXTENSION_ID, {
-          id: this.menuId,
-          name: this.extensionName
-        })
+      if (this.func) {
+        this.func()
       }
     }
   },

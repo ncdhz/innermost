@@ -1,6 +1,6 @@
 export { I18nUtil } from './i18n'
 
-export { GlobalConfig, ExtensionConfig, SettingConfig, DefaultConfig, UserConfig, UserConfigKey } from './configs'
+export { GlobalConfig, ExtensionConfig, SettingConfig, DefaultConfig, UserConfig, UserConfigKeys } from './configs'
 
 export { AppGlobalEnv } from './AppGlobalEnv'
 
