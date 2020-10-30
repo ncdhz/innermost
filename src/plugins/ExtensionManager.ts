@@ -185,6 +185,14 @@ export class ExtensionManager {
           if (path) {
             this.$store.commit(MutationTypes.UPDATE_EXTENSION_STATES, { name, path, value })
           }
+        },
+        // 打开扩展
+        openExtension() {
+          this.$store.dispatch(MutationTypes.UPDATE_EXTENSION, name)
+        },
+        // 打开对应的id 如：id可能对应了一个界面那就是打开界面
+        openId(id: string) {
+          this.$store.dispatch(MutationTypes.UPDATE_EXTENSION_ID, { name, id })
         }
       },
       components: {

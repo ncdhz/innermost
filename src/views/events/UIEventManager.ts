@@ -2,17 +2,13 @@ import { ipcRenderer } from 'electron'
 import { EventTypes, GlobalConfig, SettingConfig } from '@/utils'
 import MutationTypes from '@/store/MutationTypes'
 import Vue from 'vue'
-
-// 用于接收从主线程来的事件
 class UIEventManager {
   vue: Vue | undefined
-  constructor(vue: Vue) {
+  init(vue: Vue) {
     this.vue = vue
-  }
-
-  initUIEventManager(): void {
     this.globalUpdate()
     this.openPreferences()
+    this.openOrCloseIconAndMenuBar()
   }
 
   /**
@@ -21,6 +17,71 @@ class UIEventManager {
   private globalUpdate(): void {
     ipcRenderer.on(EventTypes.UPDATE_CONFIG, (event, config: object) => {
       GlobalConfig.writeGlobalConfig(config)
+    })
+  }
+
+  public openOrCloseIconBar(show: boolean) {
+    if (GlobalConfig.appWindow.limit.one > GlobalConfig.appWindow.width) {
+      this.vue?.$message({
+        message: this.vue?.$i18n.t('setting.error.widthNarrow') as string,
+        type: 'error'
+      })
+    } else {
+      GlobalConfig.appWindow.icon.show = show
+      GlobalConfig.writeGlobalConfig({
+        appWindow: {
+          icon: {
+            show: show
+          }
+        }
+      })
+      this.vue?.$store.commit(MutationTypes.ICON_SHOW, show)
+      if (show) {
+        ipcRenderer.send(EventTypes.OPEN_ICON_BAR)
+      } else {
+        ipcRenderer.send(EventTypes.CLOSE_ICON_BAR)
+      }
+    }
+  }
+
+  public openOrCloseMenuBar(show: boolean) {
+    if (GlobalConfig.appWindow.limit.two > GlobalConfig.appWindow.width) {
+      this.vue?.$message({
+        message: this.vue?.$i18n.t('setting.error.widthNarrow') as string,
+        type: 'error'
+      })
+    } else {
+      GlobalConfig.appWindow.content.menu.show = show
+      GlobalConfig.writeGlobalConfig({
+        appWindow: {
+          content: {
+            menu: {
+              show: show
+            }
+          }
+        }
+      })
+      this.vue?.$store.commit(MutationTypes.MENU_SHOW, show)
+      if (show) {
+        ipcRenderer.send(EventTypes.OPEN_MENU_BAR)
+      } else {
+        ipcRenderer.send(EventTypes.CLOSE_MENU_BAR)
+      }
+    }
+  }
+
+  private openOrCloseIconAndMenuBar() {
+    ipcRenderer.on(EventTypes.OPEN_ICON_BAR, () => {
+      this.openOrCloseIconBar(true)
+    })
+    ipcRenderer.on(EventTypes.CLOSE_ICON_BAR, () => {
+      this.openOrCloseIconBar(false)
+    })
+    ipcRenderer.on(EventTypes.OPEN_MENU_BAR, () => {
+      this.openOrCloseMenuBar(true)
+    })
+    ipcRenderer.on(EventTypes.CLOSE_MENU_BAR, () => {
+      this.openOrCloseMenuBar(false)
     })
   }
 
@@ -36,9 +97,4 @@ class UIEventManager {
   }
 }
 
-export default {
-  init(vue: Vue): void {
-    const uiEventManager = new UIEventManager(vue)
-    uiEventManager.initUIEventManager()
-  }
-}
+export default new UIEventManager()

@@ -45,4 +45,8 @@ export class EventTypes {
   public static OPEN_PREFERENCES = 'OPEN_PREFERENCES'
   public static MIN_WINDOW = 'MIN_WINDOW'
   public static MAX_WINDOW = 'MAX_WINDOW'
+  public static OPEN_ICON_BAR = 'OPEN_ICON'
+  public static CLOSE_ICON_BAR = 'CLOSE_ICON'
+  public static OPEN_MENU_BAR = 'OPEN_MENU'
+  public static CLOSE_MENU_BAR = 'CLOSE_MENU'
 }

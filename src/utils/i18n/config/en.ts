@@ -29,6 +29,11 @@ export default {
     }
   },
   tray: {
+    closeMenuBar: 'Close menu bar',
+    closeIconBar: 'Close icon bar',
+    openMenuBar: 'Open menu bar',
+    openIconBar: 'Open icon bar',
+    preferences: 'Preferences',
     quit: 'Quit Ineermost'
   },
   setting: {

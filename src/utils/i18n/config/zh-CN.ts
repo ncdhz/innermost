@@ -28,6 +28,11 @@ export default {
     }
   },
   tray: {
+    closeMenuBar: '关闭菜单栏',
+    closeIconBar: '关闭图标栏',
+    openMenuBar: '打开菜单栏',
+    openIconBar: '打开图标栏',
+    preferences: '偏好设置',
     quit: '关闭内心深处'
   },
   setting: {

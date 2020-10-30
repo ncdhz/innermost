@@ -1,5 +1,5 @@
 import { I18nUtil } from '@/utils'
-import { Menu, MenuItemConstructorOptions, MenuItem} from 'electron'
+import { Menu, MenuItemConstructorOptions, MenuItem } from 'electron'
 import { UIEventManager } from '@/main/events/UIEventManager'
 const i18n = I18nUtil.getI18n()
 export class MenuManager {

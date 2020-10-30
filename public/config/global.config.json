@@ -1,9 +1,9 @@
 {
   "appWindow": {
-    "height": 741,
-    "width": 1303,
-    "x": 31,
-    "y": 103,
+    "height": 795,
+    "width": 1245,
+    "x": 33,
+    "y": 49,
     "icon": {
       "show": true
     },
@@ -17,7 +17,7 @@
     "locale": "zh-CN"
   },
   "userConfig": {
-    "current-extension": "text-information-management-zxyinacdvx",
+    "current-extension": "setting-name",
     "extension-name": {
       "/Users/ncdhz/.innermost/text-information-management": "text-information-management-zxyinacdvx"
     },

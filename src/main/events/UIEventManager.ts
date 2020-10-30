@@ -2,7 +2,7 @@ import { ipcMain } from 'electron'
 import { WindowManager } from '../ui/WindowManager'
 import { TrayManager } from '../ui/TrayManager'
 import { MenuManager } from '../ui/MenuManager'
-import { I18nUtil, EventTypes } from '@/utils'
+import { I18nUtil, EventTypes, GlobalConfig } from '@/utils'
 
 export class UIEventManager {
   trayManager: TrayManager | undefined
@@ -23,8 +23,8 @@ export class UIEventManager {
     this.closeWindow()
     this.maxWindow()
     this.minWindow()
+    this.openOrCloseIconAndMenuBar()
   }
-
 
   /**
    * 更换语言
@@ -32,9 +32,13 @@ export class UIEventManager {
   private changingLanguage(): void {
     ipcMain.on(EventTypes.CHANGING_LANGUAGE, (event, locale) => {
       I18nUtil.setLocale(locale)
-      this.menuManager?.initMenu()
-      this.trayManager?.initTary()
+      this.refreshMenuAndTary()
     })
+  }
+
+  public refreshMenuAndTary() {
+    this.menuManager?.initMenu()
+    this.trayManager?.initTary()
   }
 
   /**
@@ -51,6 +55,37 @@ export class UIEventManager {
   public openPreferences(): void {
     // 发信息给界面进程让他打开 about 页面
     this.windowManager?.win?.webContents.send(EventTypes.OPEN_PREFERENCES)
+  }
+
+  public closeMenuBar() {
+    this.windowManager?.win?.webContents.send(EventTypes.CLOSE_MENU_BAR)
+  }
+
+  public closeIconBar() {
+    this.windowManager?.win?.webContents.send(EventTypes.CLOSE_ICON_BAR)
+  }
+
+  public openMenuBar() {
+    this.windowManager?.win?.webContents.send(EventTypes.OPEN_MENU_BAR)
+  }
+
+  public openIconBar() {
+    this.windowManager?.win?.webContents.send(EventTypes.OPEN_ICON_BAR)
+  }
+
+  private openOrCloseIconAndMenuBar() {
+    ipcMain.on(EventTypes.OPEN_ICON_BAR, () => {
+      GlobalConfig.appWindow.icon.show = true
+    })
+    ipcMain.on(EventTypes.CLOSE_ICON_BAR, () => {
+      GlobalConfig.appWindow.icon.show = false
+    })
+    ipcMain.on(EventTypes.OPEN_MENU_BAR, () => {
+      GlobalConfig.appWindow.content.menu.show = true
+    })
+    ipcMain.on(EventTypes.CLOSE_MENU_BAR, () => {
+      GlobalConfig.appWindow.content.menu.show = false
+    })
   }
 
   /**

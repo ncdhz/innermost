@@ -53,6 +53,7 @@ import { I18nUtil, GlobalConfig, EventTypes, Theme, DefaultConfig, SettingConfig
 import { ipcRenderer, remote } from 'electron'
 import { MutationTypes } from '@/store'
 import { ExtensionManager } from '@/plugins'
+import UIEventManager from './events/UIEventManager'
 import Vue from 'vue'
 export default Vue.extend({
   props: {
@@ -165,22 +166,7 @@ export default Vue.extend({
         return this.$store.state.icon.show
       },
       set(show: boolean) {
-        if (GlobalConfig.appWindow.limit.one > GlobalConfig.appWindow.width) {
-          this.$message({
-            message: this.$i18n.t('setting.error.widthNarrow') as string,
-            type: 'error'
-          })
-        } else {
-          GlobalConfig.appWindow.icon.show = show
-          GlobalConfig.writeGlobalConfig({
-            appWindow: {
-              icon: {
-                show: show
-              }
-            }
-          })
-          this.$store.commit(MutationTypes.ICON_SHOW, show)
-        }
+        UIEventManager.openOrCloseIconBar(show)
       }
     },
     menuShow: {
@@ -188,24 +174,7 @@ export default Vue.extend({
         return this.$store.state.menu.show
       },
       set(show: boolean) {
-        if (GlobalConfig.appWindow.limit.two > GlobalConfig.appWindow.width) {
-          this.$message({
-            message: this.$i18n.t('setting.width.error') as string,
-            type: 'error'
-          })
-        } else {
-          GlobalConfig.appWindow.content.menu.show = show
-          GlobalConfig.writeGlobalConfig({
-            appWindow: {
-              content: {
-                menu: {
-                  show: show
-                }
-              }
-            }
-          })
-          this.$store.commit(MutationTypes.MENU_SHOW, show)
-        }
+        UIEventManager.openOrCloseMenuBar(show)
       }
     }
   }
