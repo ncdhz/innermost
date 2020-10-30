@@ -21,17 +21,16 @@ import Icon from '@/components/Icon.vue'
 import { UITools, SettingConfig } from '@/utils'
 import { ActionTypes, MutationTypes } from '@/store'
 import { ExtensionManager } from '@/plugins'
-import _ from 'lodash'
 import { ContextMenu } from '@/renderer'
 import { mapGetters } from 'vuex'
-
 export default Vue.extend({
   data(): object {
     return {
       appWinIconContentFooterStyle: {
         height: UITools.addPX(100),
         'margin-bottom': UITools.addPX(20)
-      }
+      },
+      icons: ExtensionManager.getIcons()
     }
   },
   methods: {
@@ -40,6 +39,8 @@ export default Vue.extend({
       menu.push(ContextMenu.getDisableExtension(name, this))
       menu.push(ContextMenu.getSeparator())
       menu.push(ContextMenu.getOpenOrCloseIconBar())
+      menu.push(ContextMenu.getSeparator())
+      menu.push(ContextMenu.getIconMove(this))
       menu.popup()
     },
     openAbout() {
@@ -56,25 +57,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters([
       'extensionIconShow'
-    ]),
-    icons() {
-      const icons = ExtensionManager.getIcons()
-      const extensions: {
-        [key: string]: boolean;
-      } = {}
-
-      const extensionIcons: {
-        [key: string]: boolean;
-      } = {}
-
-      _.forEach(icons, icon => {
-        extensions[icon[1] as string] = false
-        extensionIcons[icon[1] as string] = icon[2] as boolean
-      })
-      this.$store.commit(MutationTypes.ADD_EXTENSION_ICONS, extensionIcons)
-      this.$store.dispatch(ActionTypes.ADD_EXTENSIONS, extensions)
-      return icons
-    }
+    ])
   }
 })
 </script>

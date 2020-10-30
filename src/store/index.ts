@@ -32,6 +32,12 @@ export default new Vuex.Store({
     iconShow(state) {
       return state.icon.show
     },
+    iconLeft(state) {
+      return state.icon.left
+    },
+    menuLeft(state) {
+      return state.menu.left
+    },
     settingStyle(state, getters) {
       return getters.getTheme.main.setting
     },
@@ -69,9 +75,11 @@ export default new Vuex.Store({
     extensionStates: {},
     theme: Theme[GlobalConfig.theme.default],
     menu: {
+      left: GlobalConfig.appWindow.content.menu.left,
       show: GlobalConfig.appWindow.content.menu.show
     },
     icon: {
+      left: GlobalConfig.appWindow.icon.left,
       show: GlobalConfig.appWindow.icon.show
     }
   },
@@ -91,6 +99,12 @@ export default new Vuex.Store({
     // 是否打开图标栏
     [MutationTypes.ICON_SHOW](state, show: boolean) {
       state.icon.show = show
+    },
+    [MutationTypes.UPDATE_ICON_LEFT](state, left: boolean) {
+      state.icon.left = left
+    },
+    [MutationTypes.UPDATE_MENU_LEFT](state, left: boolean) {
+      state.menu.left = left
     },
     // 添加插件
     [MutationTypes.ADD_EXTENSIONS](state, extensions) {

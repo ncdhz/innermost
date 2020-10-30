@@ -47,6 +47,10 @@ export default {
       extensionsPath: 'xtensions path',
       defaultSettings: 'Restore default settings',
       takeEffectAfterRestart: 'Take effect after restart',
+      moveIconBarLeft: 'Move icon bar left',
+      moveIconBarRight: 'Move icon bar right',
+      moveMenuBarLeft: 'Move menu bar left',
+      moveMenuBarRight: 'Move menu bar right',
       isDefaultSettings: 'Do you want to restore the default settings',
       success: 'Success!!',
       cancel: 'Cancel!!'

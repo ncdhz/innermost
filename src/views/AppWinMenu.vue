@@ -14,25 +14,20 @@
 import Vue from 'vue'
 import SettingMenu from './SettingMenu.vue'
 import { ExtensionManager } from '@/plugins'
-import { MutationTypes } from '@/store'
 import { SettingConfig } from '@/utils'
 import { mapGetters } from 'vuex'
 export default Vue.extend({
   data() {
     return {
       menuTitles: ExtensionManager.getMenuTitles(),
-      settingName: SettingConfig.SettingName
+      settingName: SettingConfig.SettingName,
+      menus: ExtensionManager.getMenus()
     }
   },
   components: {
     SettingMenu
   },
   computed: {
-    menus() {
-      const extensionIds = ExtensionManager.getExtensionIds()
-      this.$store.commit(MutationTypes.ADD_EXTENSION_IDS, extensionIds)
-      return ExtensionManager.getMenus()
-    },
     ...mapGetters([
       'extensionShow',
       'menuStyle',

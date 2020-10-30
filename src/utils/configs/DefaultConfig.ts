@@ -30,11 +30,13 @@ export default {
     // 图标的宽度
     icon: {
       show: true,
+      left: true,
       width: 80
     },
     content: {
       menu: {
         show: true,
+        left: true,
         width: 200
       },
       header: {

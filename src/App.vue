@@ -12,16 +12,16 @@
 * |-|---|----------------------------|
 */
 <template>
-  <div id="app" :style="appWindowHeight">
+  <div id="app" :style="appWinHeight">
     <el-container class="app-win">
       <!-- 侧边栏用于图标显示 -->
-      <el-aside @contextmenu.native="activationMenu('icon')" class="app-win-icon" v-show="appWinIconShow" :style="appWinIconStyle">
+      <el-aside @contextmenu.native="activationMenu('icon')" class="app-win-icon" v-show="iconShow && iconLeft" :style="appWinIconStyle">
         <app-win-icon/>
       </el-aside>
       <!-- 主要部分 -->
       <el-container class="app-win-content">
         <!-- 侧面菜单部分 -->
-        <el-aside @contextmenu.native="activationMenu('menu')" class="app-win-content-menu" :style="[appWinMenuStyle, winStyle.menu]" v-show="appWinMenuShow">
+        <el-aside @contextmenu.native="activationMenu('menu')" class="app-win-content-menu" :style="[appWinMenuStyle, winStyle.menu]" v-show="menuShow && menuLeft">
           <el-container class="app-win-menu-content">
             <el-header :style="appWinMenuHeaderStyle"></el-header>
             <app-win-menu/>
@@ -39,7 +39,17 @@
             <app-win-main/>
           </el-main>
         </el-container>
+
+        <el-aside @contextmenu.native="activationMenu('menu')" class="app-win-content-menu" :style="[appWinMenuStyle, winStyle.menu]" v-show="menuShow && !menuLeft">
+          <el-container class="app-win-menu-content">
+            <el-header :style="appWinMenuHeaderStyle"></el-header>
+            <app-win-menu/>
+          </el-container>
+        </el-aside>
       </el-container>
+      <el-aside @contextmenu.native="activationMenu('icon')" class="app-win-icon" v-show="iconShow && !iconLeft" :style="appWinIconStyle">
+        <app-win-icon/>
+      </el-aside>
     </el-container>
   </div>
 </template>
@@ -47,7 +57,7 @@
 import Vue from 'vue'
 import { ipcRenderer, Rectangle } from 'electron'
 import { GlobalConfig, UITools, EventTypes } from '@/utils'
-import { ContextMenu } from '@/renderer'
+import { ContextMenu, InitStateData } from '@/renderer'
 import { ExtensionManager } from '@/plugins'
 import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
@@ -60,17 +70,39 @@ export default Vue.extend({
     activationMenu(name: string) {
       const menu = ContextMenu.getMenu()
       if (name === 'main' || name === 'icon') {
-        menu.push(ContextMenu.getOpenOrCloseIconBar())
+        menu.push(ContextMenu.getOpenOrCloseIconBar()).push(ContextMenu.getIconMove(this))
       }
+      menu.push(ContextMenu.getSeparator())
       if (name === 'main' || name === 'menu') {
-        menu.push(ContextMenu.getOpenOrCloseMenuBar())
+        menu.push(ContextMenu.getOpenOrCloseMenuBar()).push(ContextMenu.getMenuMove(this))
       }
       menu.popup()
     }
   },
+  computed: {
+    iconLeft() {
+      return this.$store.getters.iconLeft
+    },
+    iconShow() {
+      return this.$store.getters.iconShow
+    },
+    menuShow() {
+      return this.$store.getters.menuShow
+    },
+    menuLeft() {
+      return this.$store.getters.menuLeft
+    },
+    winStyle() {
+      const originalStyle = document.body.style.cssText
+      document.body.setAttribute('style', originalStyle + UITools.toStyle(this.$store.state.theme.global.message.box))
+      return {
+        ...this.$store.state.theme.window
+      }
+    }
+  },
   data() {
     return {
-      appWindowHeight: {
+      appWinHeight: {
         height: UITools.addPX(GlobalConfig.appWindow.height)
       },
       appWinIconStyle: {
@@ -93,44 +125,28 @@ export default Vue.extend({
     }
   },
   created() {
-    // 初始化扩展状态
-    this.$store.commit(MutationTypes.ADD_EXTENSION_STATES, ExtensionManager.getStates())
-    const appInit = (bounds: Rectangle | {
-      width: number;
-      height: number;
-    }) => {
+    InitStateData.initIcons(this)
+    InitStateData.initExtensionIds(this)
+    const appInit = (bounds: Rectangle | {[key: string]: number}) => {
       // 改变全局配置中的高宽
       GlobalConfig.appWindow.height = bounds.height
       GlobalConfig.appWindow.width = bounds.width
-      this.appWindowHeight.height = UITools.addPX(bounds.height)
+      this.appWinHeight.height = UITools.addPX(bounds.height)
       this.$store.dispatch(MutationTypes.ICON_MENU_SHOW, bounds.width)
     }
+    // 初始化扩展状态
+    this.$store.commit(MutationTypes.ADD_EXTENSION_STATES, ExtensionManager.getStates())
     appInit(GlobalConfig.appWindow)
     ipcRenderer.on(EventTypes.APP_WINDOW_BOUNDS, (e, bounds: Rectangle) => {
       appInit(bounds)
     })
   },
-  computed: {
-    winStyle() {
-      const originalStyle = document.body.style.cssText
-      document.body.setAttribute('style', originalStyle + UITools.toStyle(this.$store.state.theme.global.message.box))
-      return {
-        ...this.$store.state.theme.window
-      }
-    },
-    appWinIconShow() {
-      return this.$store.state.icon.show
-    },
-    appWinMenuShow() {
-      return this.$store.state.menu.show
-    }
-  },
   components: {
     // 用于左侧每一个插件的图标显示
-    AppWinIcon,
     AppWinMenu,
     AppWinMain,
-    TrafficLights
+    TrafficLights,
+    AppWinIcon
   }
 })
 </script>

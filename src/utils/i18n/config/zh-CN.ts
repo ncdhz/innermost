@@ -46,6 +46,10 @@ export default {
       extensionsPath: '扩展路径',
       defaultSettings: '恢复默认设置',
       takeEffectAfterRestart: '重启后生效',
+      moveIconBarLeft: '图标栏左移',
+      moveIconBarRight: '图标栏右移',
+      moveMenuBarLeft: '菜单栏左移',
+      moveMenuBarRight: '菜单栏右移',
       isDefaultSettings: '是否恢复默认设置',
       success: '成功!!',
       cancel: '取消!!'

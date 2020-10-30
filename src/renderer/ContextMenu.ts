@@ -1,5 +1,6 @@
+import { ExtensionManager } from '@/plugins'
 import { MutationTypes } from '@/store'
-import { GlobalConfig, I18nUtil, UserConfig, UserConfigKeys } from '@/utils'
+import { GlobalConfig, I18nUtil, UserConfig, UserConfigKeys, ExtensionConfig } from '@/utils'
 import electron, { remote } from 'electron'
 import { CMenu } from './CMenu'
 import UIEventManager from './events/UIEventManager'
@@ -8,6 +9,9 @@ const i18n = I18nUtil.getI18n()
 export class ContextMenu {
   // 打开或者关闭图标栏
   public static getOpenOrCloseIconBar() {
+    if (this.closeIconAndMenu()[1]) {
+      return undefined
+    }
     if (GlobalConfig.appWindow.icon.show) {
       return new MenuItem({
         label: i18n.t('tray.closeIconBar') as string,
@@ -25,8 +29,16 @@ export class ContextMenu {
     }
   }
 
+  private static closeIconAndMenu() {
+    const name = ExtensionConfig.getExtensionConfig(ExtensionConfig.CurrentExtension)
+    return ExtensionManager.closeIconAndMenu(name)
+  }
+
   // 打开或者关闭菜单栏
   public static getOpenOrCloseMenuBar() {
+    if (this.closeIconAndMenu()[1]) {
+      return undefined
+    }
     if (GlobalConfig.appWindow.content.menu.show) {
       return new MenuItem({
         label: i18n.t('tray.closeMenuBar') as string,
@@ -51,6 +63,46 @@ export class ContextMenu {
     })
   }
 
+  public static getIconMove(vue: Vue) {
+    if (GlobalConfig.appWindow.icon.left) {
+      return new MenuItem({
+        label: i18n.t('setting.basic.moveIconBarRight') as string,
+        click() {
+          GlobalConfig.appWindow.icon.left = false
+          vue.$store.commit(MutationTypes.UPDATE_ICON_LEFT, false)
+        }
+      })
+    } else {
+      return new MenuItem({
+        label: i18n.t('setting.basic.moveIconBarLeft') as string,
+        click() {
+          GlobalConfig.appWindow.icon.left = true
+          vue.$store.commit(MutationTypes.UPDATE_ICON_LEFT, true)
+        }
+      })
+    }
+  }
+
+  public static getMenuMove(vue: Vue) {
+    if (GlobalConfig.appWindow.content.menu.left) {
+      return new MenuItem({
+        label: i18n.t('setting.basic.moveMenuBarRight') as string,
+        click() {
+          GlobalConfig.appWindow.content.menu.left = false
+          vue.$store.commit(MutationTypes.UPDATE_MENU_LEFT, false)
+        }
+      })
+    } else {
+      return new MenuItem({
+        label: i18n.t('setting.basic.moveMenuBarLeft') as string,
+        click() {
+          GlobalConfig.appWindow.content.menu.left = true
+          vue.$store.commit(MutationTypes.UPDATE_MENU_LEFT, true)
+        }
+      })
+    }
+  }
+
   public static getDisableExtension(name: string, vue: Vue) {
     return new MenuItem({
       label: i18n.t('extension.disable') as string,
@@ -70,8 +122,10 @@ export class ContextMenu {
 
   public static getMenu(): CMenu {
     const menu = new Menu();
-    (menu as CMenu).push = (menuItem: electron.MenuItem) => {
-      menu.append(menuItem)
+    (menu as CMenu).push = (menuItem: electron.MenuItem | undefined) => {
+      if (menuItem) {
+        menu.append(menuItem)
+      }
       return menu as CMenu
     }
     return menu as CMenu

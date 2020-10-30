@@ -13,4 +13,6 @@ export default class {
   public static ADD_EXTENSION_ICONS = 'ADD_EXTENSION_ICONS'
   public static UPDATE_EXTENSION_ICON = 'UPDATE_EXTENSION_ICON'
   public static DISABLE_EXTENSION = 'DISABLE_EXTENSION'
+  public static UPDATE_ICON_LEFT = 'UPDATE_ICON_LEFT'
+  public static UPDATE_MENU_LEFT = 'UPDATE_MENU_LEFT'
 }
