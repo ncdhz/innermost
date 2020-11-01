@@ -45,6 +45,20 @@ export class TrayManager {
         this.uiEventManager?.openIconBar()
       }
     })
+    globalShortcut.register('CommandOrControl+Alt+M', () => {
+      if (GlobalConfig.appWindow.content.menu.left) {
+        this.uiEventManager?.rightMoveMenu()
+      } else {
+        this.uiEventManager?.leftMoveMenu()
+      }
+    })
+    globalShortcut.register('CommandOrControl+Alt+I', () => {
+      if (GlobalConfig.appWindow.icon.left) {
+        this.uiEventManager?.rightMoveIcon()
+      } else {
+        this.uiEventManager?.leftMoveIcon()
+      }
+    })
   }
 
   public setUIEventManager(uiEventManager: UIEventManager) {
