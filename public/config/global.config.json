@@ -14,15 +14,17 @@
   "appWindow": {
     "content": {
       "menu": {
-        "show": true
+        "show": true,
+        "left": false
       }
     },
     "icon": {
-      "show": true
+      "show": true,
+      "left": false
     },
     "height": 767,
     "width": 1379,
-    "x": 51,
-    "y": 238
+    "x": 50,
+    "y": 52
   }
 }

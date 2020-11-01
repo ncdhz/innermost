@@ -32,6 +32,14 @@
               </el-input>
             </div>
           </el-form-item>
+          <!-- 图标栏转移到右边 -->
+          <el-form-item :label="$t('setting.basic.moveIconBarRight') + ':'">
+            <el-switch v-model="iconLeft" />
+          </el-form-item>
+          <!-- 菜单栏转移到右边 -->
+          <el-form-item :label="$t('setting.basic.moveMenuBarRight') + ':'">
+            <el-switch v-model="menuLeft" />
+          </el-form-item>
           <!-- 切换语言 -->
           <el-form-item :label="$t('setting.basic.language') + ':'">
             <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeLanguage" v-model="languageValue">
@@ -138,11 +146,11 @@ export default Vue.extend({
       this.$confirm(this.$i18n.t('setting.basic.isDefaultSettings') as string, this.$i18n.t('el.messagebox.title') as string, {
         customClass: 'global-message-box-background'
       }).then(() => {
-        GlobalConfig.clearGlobalConfig()
-        this.changeLanguage(DefaultConfig.i18n.locale)
-        this.languageValue = DefaultConfig.i18n.locale
-        this.changeTheme(DefaultConfig.theme.default)
-        this.themeValue = DefaultConfig.theme.default
+        GlobalConfig.clearGlobalConfig();
+        (this as any).changeLanguage(DefaultConfig.i18n.locale);
+        (this as any).languageValue = DefaultConfig.i18n.locale;
+        (this as any).changeTheme(DefaultConfig.theme.default);
+        (this as any).themeValue = DefaultConfig.theme.default
         this.$message({
           message: this.$i18n.t('setting.basic.success') as string,
           type: 'success'
@@ -164,7 +172,7 @@ export default Vue.extend({
       get(): boolean {
         return this.$store.getters.iconShow
       },
-      set(show: boolean) {
+      set(show: boolean): void {
         UIEventManager.openOrCloseIconBar(show)
       }
     },
@@ -172,8 +180,24 @@ export default Vue.extend({
       get(): boolean {
         return this.$store.getters.menuShow
       },
-      set(show: boolean) {
+      set(show: boolean): void {
         UIEventManager.openOrCloseMenuBar(show)
+      }
+    },
+    iconLeft: {
+      get() {
+        return !this.$store.getters.iconLeft
+      },
+      set(left: boolean): void {
+        UIEventManager.leftOrRightMoveIcon(!left)
+      }
+    },
+    menuLeft: {
+      get() {
+        return !this.$store.getters.menuLeft
+      },
+      set(left: boolean): void {
+        UIEventManager.leftOrRightMoveMenu(!left)
       }
     }
   }

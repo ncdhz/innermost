@@ -68,7 +68,7 @@ export class ContextMenu {
     })
   }
 
-  public static getIconMove(vue: Vue) {
+  public static getIconMove() {
     if (this.moveIconAndMenu()[0]) {
       return undefined
     }
@@ -76,22 +76,20 @@ export class ContextMenu {
       return new MenuItem({
         label: i18n.t('setting.basic.moveIconBarRight') as string,
         click() {
-          GlobalConfig.appWindow.icon.left = false
-          vue.$store.commit(MutationTypes.UPDATE_ICON_LEFT, false)
+          UIEventManager.leftOrRightMoveIcon(false)
         }
       })
     } else {
       return new MenuItem({
         label: i18n.t('setting.basic.moveIconBarLeft') as string,
         click() {
-          GlobalConfig.appWindow.icon.left = true
-          vue.$store.commit(MutationTypes.UPDATE_ICON_LEFT, true)
+          UIEventManager.leftOrRightMoveIcon(true)
         }
       })
     }
   }
 
-  public static getMenuMove(vue: Vue) {
+  public static getMenuMove() {
     if (this.moveIconAndMenu()[1]) {
       return undefined
     }
@@ -99,16 +97,14 @@ export class ContextMenu {
       return new MenuItem({
         label: i18n.t('setting.basic.moveMenuBarRight') as string,
         click() {
-          GlobalConfig.appWindow.content.menu.left = false
-          vue.$store.commit(MutationTypes.UPDATE_MENU_LEFT, false)
+          UIEventManager.leftOrRightMoveMenu(false)
         }
       })
     } else {
       return new MenuItem({
         label: i18n.t('setting.basic.moveMenuBarLeft') as string,
         click() {
-          GlobalConfig.appWindow.content.menu.left = true
-          vue.$store.commit(MutationTypes.UPDATE_MENU_LEFT, true)
+          UIEventManager.leftOrRightMoveMenu(true)
         }
       })
     }

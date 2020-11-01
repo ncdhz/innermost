@@ -45,6 +45,32 @@ class UIEventManager {
     }
   }
 
+  public leftOrRightMoveIcon(left: boolean) {
+    GlobalConfig.appWindow.icon.left = left
+    this.vue?.$store.commit(MutationTypes.UPDATE_ICON_LEFT, left)
+    GlobalConfig.writeGlobalConfig({
+      appWindow: {
+        icon: {
+          left: left
+        }
+      }
+    })
+  }
+
+  public leftOrRightMoveMenu(left: boolean) {
+    GlobalConfig.appWindow.content.menu.left = left
+    this.vue?.$store.commit(MutationTypes.UPDATE_MENU_LEFT, left)
+    GlobalConfig.writeGlobalConfig({
+      appWindow: {
+        content: {
+          menu: {
+            left: left
+          }
+        }
+      }
+    })
+  }
+
   public openOrCloseMenuBar(show: boolean) {
     if (GlobalConfig.appWindow.limit.two > GlobalConfig.appWindow.width) {
       this.vue?.$message({

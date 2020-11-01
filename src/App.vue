@@ -70,11 +70,11 @@ export default Vue.extend({
     activationMenu(name: string) {
       const menu = ContextMenu.getMenu()
       if (name === 'main' || name === 'icon') {
-        menu.push(ContextMenu.getOpenOrCloseIconBar()).push(ContextMenu.getIconMove(this))
+        menu.push(ContextMenu.getOpenOrCloseIconBar()).push(ContextMenu.getIconMove())
       }
       menu.push(ContextMenu.getSeparator())
       if (name === 'main' || name === 'menu') {
-        menu.push(ContextMenu.getOpenOrCloseMenuBar()).push(ContextMenu.getMenuMove(this))
+        menu.push(ContextMenu.getOpenOrCloseMenuBar()).push(ContextMenu.getMenuMove())
       }
       menu.popup()
     }

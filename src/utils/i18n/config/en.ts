@@ -44,7 +44,7 @@ export default {
       theme: 'Theme',
       iconBar: 'Open icon bar',
       menuBar: 'Open menu bar',
-      extensionsPath: 'xtensions path',
+      extensionsPath: 'Extensions path',
       defaultSettings: 'Restore default settings',
       takeEffectAfterRestart: 'Take effect after restart',
       moveIconBarLeft: 'Move icon bar left',

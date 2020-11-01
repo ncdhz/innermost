@@ -40,7 +40,7 @@ export default Vue.extend({
       menu.push(ContextMenu.getSeparator())
       menu.push(ContextMenu.getOpenOrCloseIconBar())
       menu.push(ContextMenu.getSeparator())
-      menu.push(ContextMenu.getIconMove(this))
+      menu.push(ContextMenu.getIconMove())
       menu.popup()
     },
     openAbout() {
