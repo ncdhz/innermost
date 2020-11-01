@@ -23,6 +23,10 @@ export class TrayManager {
     contextMenu.getMenuItemById(EventTypes.CLOSE_MENU_BAR).visible = GlobalConfig.appWindow.content.menu.show
     contextMenu.getMenuItemById(EventTypes.OPEN_ICON_BAR).visible = !GlobalConfig.appWindow.icon.show
     contextMenu.getMenuItemById(EventTypes.OPEN_MENU_BAR).visible = !GlobalConfig.appWindow.content.menu.show
+    contextMenu.getMenuItemById(EventTypes.MOVE_ICON_LEFT).visible = !GlobalConfig.appWindow.icon.left
+    contextMenu.getMenuItemById(EventTypes.MOVE_MENU_LEFT).visible = !GlobalConfig.appWindow.content.menu.left
+    contextMenu.getMenuItemById(EventTypes.MOVE_ICON_RIGHT).visible = GlobalConfig.appWindow.icon.left
+    contextMenu.getMenuItemById(EventTypes.MOVE_MENU_RIGHT).visible = GlobalConfig.appWindow.content.menu.left
   }
 
   // 给 tray 添加全局快捷键
@@ -81,6 +85,44 @@ export class TrayManager {
         click() {
           _this.uiEventManager?.openIconBar()
         }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: i18n.t('tray.moveMenuBarLeft') as string,
+        visible: !GlobalConfig.appWindow.content.menu.left,
+        id: EventTypes.MOVE_MENU_LEFT,
+        click() {
+          _this.uiEventManager?.leftMoveMenu()
+        }
+      },
+      {
+        label: i18n.t('tray.moveIconBarLeft') as string,
+        visible: !GlobalConfig.appWindow.icon.left,
+        id: EventTypes.MOVE_ICON_LEFT,
+        click() {
+          _this.uiEventManager?.leftMoveIcon()
+        }
+      },
+      {
+        label: i18n.t('tray.moveMenuBarRight') as string,
+        visible: GlobalConfig.appWindow.content.menu.left,
+        id: EventTypes.MOVE_MENU_RIGHT,
+        click() {
+          _this.uiEventManager?.rightMoveMenu()
+        }
+      },
+      {
+        label: i18n.t('tray.moveIconBarRight') as string,
+        visible: GlobalConfig.appWindow.icon.left,
+        id: EventTypes.MOVE_ICON_RIGHT,
+        click() {
+          _this.uiEventManager?.rightMoveIcon()
+        }
+      },
+      {
+        type: 'separator'
       },
       {
         label: i18n.t('tray.preferences') as string,

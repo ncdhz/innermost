@@ -24,6 +24,7 @@ export class UIEventManager {
     this.maxWindow()
     this.minWindow()
     this.openOrCloseIconAndMenuBar()
+    this.leftOrRightMoveIconAndMenu()
   }
 
   /**
@@ -85,6 +86,37 @@ export class UIEventManager {
     })
     ipcMain.on(EventTypes.CLOSE_MENU_BAR, () => {
       GlobalConfig.appWindow.content.menu.show = false
+    })
+  }
+
+  public leftMoveIcon() {
+    this.windowManager?.win?.webContents.send(EventTypes.MOVE_ICON_LEFT)
+  }
+
+  public rightMoveIcon() {
+    this.windowManager?.win?.webContents.send(EventTypes.MOVE_ICON_RIGHT)
+  }
+
+  public leftMoveMenu() {
+    this.windowManager?.win?.webContents.send(EventTypes.MOVE_MENU_LEFT)
+  }
+
+  public rightMoveMenu() {
+    this.windowManager?.win?.webContents.send(EventTypes.MOVE_MENU_RIGHT)
+  }
+
+  private leftOrRightMoveIconAndMenu() {
+    ipcMain.on(EventTypes.MOVE_ICON_LEFT, () => {
+      GlobalConfig.appWindow.icon.left = true
+    })
+    ipcMain.on(EventTypes.MOVE_ICON_RIGHT, () => {
+      GlobalConfig.appWindow.icon.left = false
+    })
+    ipcMain.on(EventTypes.MOVE_MENU_LEFT, () => {
+      GlobalConfig.appWindow.content.menu.left = true
+    })
+    ipcMain.on(EventTypes.MOVE_MENU_RIGHT, () => {
+      GlobalConfig.appWindow.content.menu.left = false
     })
   }
 

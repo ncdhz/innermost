@@ -10,6 +10,7 @@ class UIEventManager {
     this.openPreferences()
     this.openOrCloseIconAndMenuBar()
     this.openAbout()
+    this.leftOrRightMoveIconAndMenu()
   }
 
   /**
@@ -55,6 +56,11 @@ class UIEventManager {
         }
       }
     })
+    if (left) {
+      ipcRenderer.send(EventTypes.MOVE_ICON_LEFT)
+    } else {
+      ipcRenderer.send(EventTypes.MOVE_ICON_RIGHT)
+    }
   }
 
   public leftOrRightMoveMenu(left: boolean) {
@@ -68,6 +74,26 @@ class UIEventManager {
           }
         }
       }
+    })
+    if (left) {
+      ipcRenderer.send(EventTypes.MOVE_MENU_LEFT)
+    } else {
+      ipcRenderer.send(EventTypes.MOVE_MENU_RIGHT)
+    }
+  }
+
+  private leftOrRightMoveIconAndMenu() {
+    ipcRenderer.on(EventTypes.MOVE_ICON_LEFT, () => {
+      this.leftOrRightMoveIcon(true)
+    })
+    ipcRenderer.on(EventTypes.MOVE_ICON_RIGHT, () => {
+      this.leftOrRightMoveIcon(false)
+    })
+    ipcRenderer.on(EventTypes.MOVE_MENU_LEFT, () => {
+      this.leftOrRightMoveMenu(true)
+    })
+    ipcRenderer.on(EventTypes.MOVE_MENU_RIGHT, () => {
+      this.leftOrRightMoveMenu(false)
     })
   }
 

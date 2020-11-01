@@ -33,6 +33,10 @@ export default {
     closeIconBar: 'Close icon bar',
     openMenuBar: 'Open menu bar',
     openIconBar: 'Open icon bar',
+    moveIconBarLeft: 'Move icon bar left',
+    moveIconBarRight: 'Move icon bar right',
+    moveMenuBarLeft: 'Move menu bar left',
+    moveMenuBarRight: 'Move menu bar right',
     preferences: 'Preferences',
     quit: 'Quit Ineermost'
   },

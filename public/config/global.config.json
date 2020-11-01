@@ -15,16 +15,16 @@
     "content": {
       "menu": {
         "show": true,
-        "left": false
+        "left": true
       }
     },
     "icon": {
       "show": true,
-      "left": false
+      "left": true
     },
     "height": 767,
     "width": 1379,
-    "x": 50,
-    "y": 52
+    "x": 202,
+    "y": 482
   }
 }

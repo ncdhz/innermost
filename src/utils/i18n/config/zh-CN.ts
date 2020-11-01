@@ -32,6 +32,10 @@ export default {
     closeIconBar: '关闭图标栏',
     openMenuBar: '打开菜单栏',
     openIconBar: '打开图标栏',
+    moveIconBarLeft: '图标栏左移',
+    moveIconBarRight: '图标栏右移',
+    moveMenuBarLeft: '菜单栏左移',
+    moveMenuBarRight: '菜单栏右移',
     preferences: '偏好设置',
     quit: '关闭内心深处'
   },
