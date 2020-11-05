@@ -7,9 +7,10 @@
       }
     },
     "extension-name": {
-      "/Users/ncdhz/.innermost/text-information-management": "text-information-management-iqaivjpjht"
+      "/Users/ncdhz/.innermost/text-information-management": "text-information-management-iqaivjpjht",
+      "/Users/ncdhz/.innermost/innermost-extension-store": "innermost-extension-store-txcsugpyzt"
     },
-    "current-extension": "setting-name"
+    "current-extension": "innermost-extension-store-txcsugpyzt"
   },
   "appWindow": {
     "content": {
@@ -22,9 +23,12 @@
       "show": true,
       "left": true
     },
-    "height": 783,
-    "width": 1256,
-    "x": 23,
-    "y": 37
+    "height": 796,
+    "width": 1114,
+    "x": 129,
+    "y": 23
+  },
+  "i18n": {
+    "locale": "en"
   }
 }

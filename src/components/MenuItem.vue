@@ -55,6 +55,12 @@ export default Vue.extend({
       background: var(--hover-background);
       color: var(--hover-color);
     }
+    span {
+      width: calc(100% - 40px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .menu-item-color-deep {
     background: var(--hover-background);

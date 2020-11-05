@@ -9,7 +9,7 @@ export interface ExtensionOptionsInterface {
   state?: {
     [key: string]: any;
   };
-  i18n: {
+  i18n?: {
     name: string;
     data: {};
     default?: boolean;

@@ -54,13 +54,17 @@ export class ExtensionManager {
         const name = value[1]
         // eslint-disable-next-line @typescript-eslint/camelcase
         const requireFunc = typeof __webpack_require__ === 'function' ? __non_webpack_require__ : require
-        let module = requireFunc(value[0])
-        module = module.default ? module.default : module
-        if (!module.name) {
-          module.name = name
+        try {
+          let module = requireFunc(value[0])
+          module = module.default ? module.default : module
+          if (!module.name) {
+            module.name = name
+          }
+          module.path = value[0]
+          this.modules.push(module)
+        } catch (e) {
+          console.error(e)
         }
-        module.path = value[0]
-        this.modules.push(module)
       })
     }
   }
@@ -273,7 +277,7 @@ export class ExtensionManager {
         isDisable = !!disableExtensions[name]
       }
       // 图标栏组件
-      if (module.innermostIcon && module.innermostBody) {
+      if (module.innermostIcon) {
         const icon = module.innermostIcon()
         icon.name = module.name
         if (icon.isClass ? icon.clazz : icon.data) {
@@ -284,7 +288,7 @@ export class ExtensionManager {
         iSdeflate: false
       }
       // 菜单组件
-      if (module.innermostBody && module.innermostMenu) {
+      if (module.innermostMenu) {
         const menu = module.innermostMenu()
         if (menu.isClass ? menu.items && menu.items.length > 0 : menu.data) {
           this.extensionMenu.extensionMenuComponent(name, menu, idConfig)
@@ -293,9 +297,7 @@ export class ExtensionManager {
       // 主体组件
       if (module.innermostBody) {
         const body = module.innermostBody()
-        if (body.data) {
-          this.extensionBody.extensionBodyComponent(name, body, body.default as boolean, idConfig)
-        }
+        this.extensionBody.extensionBodyComponent(name, body, body.default as boolean, idConfig)
       }
       // 设置选项部分
       if (module.innermostOptions) {

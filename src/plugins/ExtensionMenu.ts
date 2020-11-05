@@ -25,22 +25,9 @@ export default class ExtensionMenu {
           default: !idConfig.iSdeflate && item.default ? (idConfig.iSdeflate = true, true) : false
         })
       })
-    } else if (data) {
-      if (typeof items === 'object' && items.length > 0) {
-        _.forEach(items, item => {
-          this.extensionManager.extensionMenuData(name, item, name)
-          butIds.push({
-            name,
-            id: item.id ? item.id : name,
-            default: !idConfig.iSdeflate && item.default ? (idConfig.iSdeflate = true, true) : false
-          })
-        })
-        this.extensionManager.extensionData(`menu-style-${name}`, data, name)
-        this.extensionManager.setMenu([`menu-style-${name}`, name])
-      } else {
-        this.extensionManager.extensionData(`menu-${name}`, data, name)
-        this.extensionManager.setMenu([`menu-${name}`, name])
-      }
+    } else {
+      this.extensionManager.extensionData(`menu-${name}`, data, name)
+      this.extensionManager.setMenu([`menu-${name}`, name])
     }
     if (butIds.length > 0) {
       this.extensionManager.setExtensionIds(butIds)

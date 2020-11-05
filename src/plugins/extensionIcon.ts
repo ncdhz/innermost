@@ -34,14 +34,8 @@ export default class ExtensionIcon {
     }
     if (isClass) {
       addIconToComponent()
-    } else if (data) {
-      if (typeof clazz === 'string') {
-        addIconToComponent()
-        this.extensionManager.extensionData(`icon-style-${name}`, data, name)
-        this.extensionManager.setIcon([`icon-style-${name}`, name, isDisable])
-      } else {
-        this.extensionManager.extensionData(`icon-${name}`, data, name)
-      }
+    } else {
+      this.extensionManager.extensionData(`icon-${name}`, data, name)
     }
     this.extensionManager.setIcon([`icon-${name}`, name, isDisable])
   }
