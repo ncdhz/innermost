@@ -58,7 +58,6 @@ import Vue from 'vue'
 import { ipcRenderer, Rectangle } from 'electron'
 import { GlobalConfig, UITools, EventTypes } from '@/utils'
 import { ContextMenu, InitStateData } from '@/renderer'
-import { ExtensionManager } from '@/plugins'
 import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
 import AppWinMain from '@/views/AppWinMain.vue'
@@ -94,10 +93,8 @@ export default Vue.extend({
     },
     winStyle() {
       const originalStyle = document.body.style.cssText
-      document.body.setAttribute('style', originalStyle + UITools.toStyle(this.$store.state.theme.global.message.box))
-      return {
-        ...this.$store.state.theme.window
-      }
+      document.body.setAttribute('style', originalStyle + UITools.toStyle(this.$store.getters.globalStyle('message.box')))
+      return { ...this.$store.getters.winStyle }
     }
   },
   data() {
@@ -125,8 +122,11 @@ export default Vue.extend({
     }
   },
   created() {
-    InitStateData.initIcons(this)
+    // 用于初始化扩展需要的数据
+    InitStateData.initExtensionIcons(this)
     InitStateData.initExtensionIds(this)
+    InitStateData.initExtensionStates(this)
+    InitStateData.initExtensionThemes(this)
     const appInit = (bounds: Rectangle | {[key: string]: number}) => {
       // 改变全局配置中的高宽
       GlobalConfig.appWindow.height = bounds.height
@@ -134,8 +134,6 @@ export default Vue.extend({
       this.appWinHeight.height = UITools.addPX(bounds.height)
       this.$store.dispatch(MutationTypes.ICON_MENU_SHOW, bounds.width)
     }
-    // 初始化扩展状态
-    this.$store.commit(MutationTypes.ADD_EXTENSION_STATES, ExtensionManager.getStates())
     appInit(GlobalConfig.appWindow)
     ipcRenderer.on(EventTypes.APP_WINDOW_BOUNDS, (e, bounds: Rectangle) => {
       appInit(bounds)

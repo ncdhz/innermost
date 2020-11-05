@@ -22,6 +22,8 @@ export class ExtensionManager {
     [key: string]: any;
   } = {}
 
+  private themes = {}
+
   private extensionIds: {
     [key: string]: {
       [key: string]: string | boolean;
@@ -112,6 +114,14 @@ export class ExtensionManager {
     _.merge(this.states, data)
   }
 
+  public getThemes() {
+    return this.themes
+  }
+
+  public setTheme(data: object) {
+    _.merge(this.themes, data)
+  }
+
   public getMenus(): string[][] {
     return this.menus
   }
@@ -197,6 +207,9 @@ export class ExtensionManager {
         // 打开对应的id 如：id可能对应了一个界面那就是打开界面
         openId(id: string) {
           this.$store.dispatch(ActionTypes.UPDATE_EXTENSION_ID, { name, id })
+        },
+        getTheme() {
+          return this.$store.getters.getExtensionTheme(name)
         }
       },
       components: {

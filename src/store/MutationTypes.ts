@@ -2,7 +2,7 @@ export default class {
   public static ABOUT_SHOW = 'ABOUT_SHOW'
   public static ICON_SHOW = 'ICON_SHOW'
   public static MENU_SHOW = 'MENU_SHOW'
-  public static UPDATE_THEME = 'UPDATE_THEME'
+  public static UPDATE_THEME_NAME = 'UPDATE_THEME_NAME'
   public static ADD_EXTENSIONS = 'ADD_EXTENSIONS'
   public static UPDATE_EXTENSION = 'UPDATE_EXTENSION'
   public static ICON_MENU_SHOW = 'ICON_MENU_SHOW'
@@ -15,4 +15,5 @@ export default class {
   public static DISABLE_EXTENSION = 'DISABLE_EXTENSION'
   public static UPDATE_ICON_LEFT = 'UPDATE_ICON_LEFT'
   public static UPDATE_MENU_LEFT = 'UPDATE_MENU_LEFT'
+  public static ADD_EXTENSION_THEMES = 'ADD_EXTENSION_THEMES'
 }

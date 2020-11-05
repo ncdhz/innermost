@@ -21,7 +21,7 @@ export default new Vuex.Store({
       return state.extensionIcons
     },
     getTheme(state) {
-      return state.theme as any
+      return Theme[state.themeName]
     },
     menuStyle(state, getters) {
       return getters.getTheme.menu
@@ -41,6 +41,14 @@ export default new Vuex.Store({
     settingStyle(state, getters) {
       return getters.getTheme.main.setting
     },
+    winStyle(state, getters) {
+      return getters.getTheme.window
+    },
+    globalStyle(state, getters) {
+      return (path: string) => {
+        return _.get(getters.getTheme.global, path)
+      }
+    },
     aboutShow(state) {
       return state.about.show
     },
@@ -56,6 +64,20 @@ export default new Vuex.Store({
     getExtensionStates(state) {
       return (name: string) => {
         return (state.extensionStates as any)[name]
+      }
+    },
+    getExtensionTheme(state) {
+      return (name: string) => {
+        const theme = (state.extensionThemes as any)[name]
+        if (typeof theme === 'object') {
+          if (theme[state.themeName]) {
+            return theme[state.themeName]
+          }
+          if (theme.default) {
+            return theme.default
+          }
+        }
+        return {}
       }
     }
   },
@@ -73,7 +95,8 @@ export default new Vuex.Store({
       }
     },
     extensionStates: {},
-    theme: Theme[GlobalConfig.theme.default],
+    extensionThemes: {},
+    themeName: GlobalConfig.theme.default,
     menu: {
       left: GlobalConfig.appWindow.content.menu.left,
       show: GlobalConfig.appWindow.content.menu.show
@@ -89,8 +112,8 @@ export default new Vuex.Store({
       state.about.show = show
     },
     // 更新主题
-    [MutationTypes.UPDATE_THEME](state, themeName: string) {
-      state.theme = Theme[themeName]
+    [MutationTypes.UPDATE_THEME_NAME](state, themeName: string) {
+      state.themeName = themeName
     },
     // 是否打开菜单
     [MutationTypes.MENU_SHOW](state, show: boolean) {
@@ -153,6 +176,9 @@ export default new Vuex.Store({
         _.set(extensionStates[name], path, value)
         state.extensionStates = extensionStates
       }
+    },
+    [MutationTypes.ADD_EXTENSION_THEMES](state, themes) {
+      state.extensionThemes = themes
     },
     // 添加插件图标
     [MutationTypes.ADD_EXTENSION_ICONS](state, extensionIcons) {

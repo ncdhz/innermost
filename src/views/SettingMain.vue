@@ -108,7 +108,7 @@ export default Vue.extend({
     },
     // 改变主题
     changeTheme(data: string): void {
-      this.$store.commit(MutationTypes.UPDATE_THEME, data)
+      this.$store.commit(MutationTypes.UPDATE_THEME_NAME, data)
       GlobalConfig.writeGlobalConfig({
         theme: {
           default: data

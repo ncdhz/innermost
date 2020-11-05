@@ -23,12 +23,15 @@
       "show": true,
       "left": true
     },
-    "height": 796,
-    "width": 1114,
-    "x": 129,
+    "height": 741,
+    "width": 1103,
+    "x": 45,
     "y": 23
   },
   "i18n": {
     "locale": "en"
+  },
+  "theme": {
+    "default": "white-theme"
   }
 }

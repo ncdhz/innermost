@@ -9,6 +9,10 @@ export interface ExtensionOptionsInterface {
   state?: {
     [key: string]: any;
   };
+  theme?: {
+    [key: string]: any;
+    default: string;
+  };
   i18n?: {
     name: string;
     data: {};

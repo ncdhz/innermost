@@ -45,6 +45,24 @@ export default class ExtensionOptions {
         [name]: options.state
       })
     }
+    // 添加主题配置
+    if (typeof options.theme === 'object') {
+      // 用来处理默认逻辑 当扩展编写者没有写几套样式适应时使用
+      if (typeof options.theme.default === 'string') {
+        options.theme.default = options.theme[options.theme.default]
+      }
+      if (typeof options.theme.default !== 'object') {
+        for (const t in options.theme) {
+          if (t !== 'default') {
+            options.theme.default = options.theme[t]
+            break
+          }
+        }
+      }
+      this.extensionManager.setTheme({
+        [name]: options.theme
+      })
+    }
     // 设置语言国际化
     if (options.i18n && typeof options.i18n === 'object' && options.i18n.length > 0) {
       // 处理没有适配所有语言的扩展，当出现这种情况时会，插入默认语言配置或者第一条
