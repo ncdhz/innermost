@@ -18,4 +18,6 @@ export interface ExtensionInterface {
   innermostOptions?: () => ExtensionOptionsInterface;
 
   innermostSetting?: () => ExtensionSettingInterface;
+
+  innermostInit?: (Vue: any) => void;
 }

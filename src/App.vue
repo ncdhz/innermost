@@ -26,6 +26,10 @@
             <el-header :style="appWinMenuHeaderStyle"></el-header>
             <app-win-menu/>
           </el-container>
+          <el-aside class="app-win-content-menu-move">
+            <v-touch @panmove="moveMenu" @panend="endMoveMenu" @pancancel="endMoveMenu" class="app-win-content-menu-move">
+            </v-touch>
+          </el-aside>
         </el-aside>
 
         <el-container @contextmenu.native="activationMenu('main')" class="app-win-content-main" :style="winStyle.main">
@@ -40,12 +44,19 @@
           </el-main>
         </el-container>
 
+        <!-- 菜单在右边的情况 -->
         <el-aside @contextmenu.native="activationMenu('menu')" class="app-win-content-menu" :style="[appWinMenuStyle, winStyle.menu]" v-show="menuShow && !menuLeft">
+
+          <el-aside class="app-win-content-menu-move">
+            <v-touch @panmove="moveMenu" @panend="endMoveMenu" @pancancel="endMoveMenu" class="app-win-content-menu-move">
+            </v-touch>
+          </el-aside>
           <el-container class="app-win-menu-content">
             <el-header :style="appWinMenuHeaderStyle"></el-header>
             <app-win-menu/>
           </el-container>
         </el-aside>
+
       </el-container>
       <el-aside @contextmenu.native="activationMenu('icon')" class="app-win-icon" v-show="iconShow && !iconLeft" :style="appWinIconStyle">
         <app-win-icon/>
@@ -66,6 +77,52 @@ import { MutationTypes } from './store'
 import is from 'electron-is'
 export default Vue.extend({
   methods: {
+    // 用于处理菜单栏伸缩
+    moveMenu(e: any) {
+      const x = e.deltaX
+      if (this.$store.getters.menuLeft) {
+        if (GlobalConfig.appWindow.content.menu.width + x > (GlobalConfig.appWindow.width - 300 - (this.$store.getters.iconShow ? GlobalConfig.appWindow.icon.width : 0)) || GlobalConfig.appWindow.content.menu.width + x < 170) {
+          return
+        }
+        this.appWinMenuStyle.width = UITools.addPX(GlobalConfig.appWindow.content.menu.width + x)
+      } else {
+        if (GlobalConfig.appWindow.content.menu.width - x > (GlobalConfig.appWindow.width - 300 - (this.$store.getters.iconShow ? GlobalConfig.appWindow.icon.width : 0)) || GlobalConfig.appWindow.content.menu.width - x < 170) {
+          return
+        }
+        this.appWinMenuStyle.width = UITools.addPX(GlobalConfig.appWindow.content.menu.width - x)
+      }
+    },
+    // 用于结束菜单栏伸缩
+    endMoveMenu(e: any) {
+      const x = e.deltaX
+      if (this.$store.getters.menuLeft) {
+        if (GlobalConfig.appWindow.content.menu.width + x > (GlobalConfig.appWindow.width - 300 - (this.$store.getters.iconShow ? GlobalConfig.appWindow.icon.width : 0))) {
+          GlobalConfig.appWindow.content.menu.width = (GlobalConfig.appWindow.width - 300 - (this.$store.getters.iconShow ? GlobalConfig.appWindow.icon.width : 0))
+        } else if (GlobalConfig.appWindow.content.menu.width + x < 170) {
+          GlobalConfig.appWindow.content.menu.width = 170
+        } else {
+          GlobalConfig.appWindow.content.menu.width += x
+        }
+      } else {
+        if (GlobalConfig.appWindow.content.menu.width - x > (GlobalConfig.appWindow.width - 300 - (this.$store.getters.iconShow ? GlobalConfig.appWindow.icon.width : 0))) {
+          GlobalConfig.appWindow.content.menu.width = (GlobalConfig.appWindow.width - 300 - (this.$store.getters.iconShow ? GlobalConfig.appWindow.icon.width : 0))
+        } else if (GlobalConfig.appWindow.content.menu.width - x < 170) {
+          GlobalConfig.appWindow.content.menu.width = 170
+        } else {
+          GlobalConfig.appWindow.content.menu.width -= x
+        }
+      }
+      // 用于写入配置
+      GlobalConfig.writeGlobalConfig({
+        appWindow: {
+          content: {
+            menu: {
+              width: GlobalConfig.appWindow.content.menu.width
+            }
+          }
+        }
+      })
+    },
     activationMenu(name: string) {
       const menu = ContextMenu.getMenu()
       if (name === 'main' || name === 'icon') {
@@ -191,7 +248,15 @@ export default Vue.extend({
         height: 100%;
         .app-win-content-menu {
           height: 100%;
-          .app-win-menu-content{
+          .app-win-content-menu-move {
+            height: 100%;
+            width: 3px !important;
+            float: left;
+            cursor: crosshair;
+          }
+          .app-win-menu-content {
+            float: left;
+            width: calc(100% - 3px) !important;
             height: 100%;
           }
         }

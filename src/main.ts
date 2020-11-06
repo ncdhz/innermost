@@ -5,7 +5,6 @@ import { I18nUtil } from '@/utils'
 import '@/plugins'
 import store from './store'
 Vue.config.productionTip = false
-
 const vm = new Vue({
   store,
   i18n: I18nUtil.getI18n(),

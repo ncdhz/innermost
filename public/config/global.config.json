@@ -16,22 +16,23 @@
     "content": {
       "menu": {
         "show": true,
-        "left": false
+        "left": false,
+        "width": 170
       }
     },
     "icon": {
       "show": true,
       "left": true
     },
-    "height": 741,
-    "width": 1103,
-    "x": 45,
-    "y": 23
+    "height": 689,
+    "width": 1158,
+    "x": 265,
+    "y": 147
   },
   "i18n": {
     "locale": "en"
   },
   "theme": {
-    "default": "white-theme"
+    "default": "black-theme"
   }
 }

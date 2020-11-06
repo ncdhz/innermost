@@ -40,5 +40,13 @@ export default Vue.extend({
   .app-win-menu-title {
     font-size: 16px;
     line-height: 30px;
+    span {
+      height: 30px;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
   }
 </style>

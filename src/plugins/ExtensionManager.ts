@@ -277,51 +277,59 @@ export class ExtensionManager {
       extensionName = {}
     }
     _.forEach(this.modules, (module: ExtensionInterface) => {
-      let name = extensionName[module.path as string]
-      if (!name) {
-        name = `${module.name}-${this.getRandomString10()}`
-        extensionName[module.path as string] = name
-      }
-      // 用于处理插件被禁止使用
-      // 当发现插件被禁止时跳过本次循环
-      const disableExtensions = UserConfig.getUserConfig(UserConfigKeys.DisableExtension)
-      let isDisable = false
-      if (typeof disableExtensions === 'object') {
-        isDisable = !!disableExtensions[name]
-      }
-      // 图标栏组件
-      if (module.innermostIcon) {
-        const icon = module.innermostIcon()
-        icon.name = module.name
-        if (icon.isClass ? icon.clazz : icon.data) {
-          this.extensionIcon.extensionIconComponent(name, icon, isDisable)
+      try {
+        let name = extensionName[module.path as string]
+        if (!name) {
+          name = `${module.name}-${this.getRandomString10()}`
+          extensionName[module.path as string] = name
         }
-      }
-      const idConfig = {
-        iSdeflate: false
-      }
-      // 菜单组件
-      if (module.innermostMenu) {
-        const menu = module.innermostMenu()
-        if (menu.isClass ? menu.items && menu.items.length > 0 : menu.data) {
-          this.extensionMenu.extensionMenuComponent(name, menu, idConfig)
+        // 用于处理插件被禁止使用
+        // 当发现插件被禁止时跳过本次循环
+        const disableExtensions = UserConfig.getUserConfig(UserConfigKeys.DisableExtension)
+        let isDisable = false
+        if (typeof disableExtensions === 'object') {
+          isDisable = !!disableExtensions[name]
         }
-      }
-      // 主体组件
-      if (module.innermostBody) {
-        const body = module.innermostBody()
-        this.extensionBody.extensionBodyComponent(name, body, body.default as boolean, idConfig)
-      }
-      // 设置选项部分
-      if (module.innermostOptions) {
-        const options = module.innermostOptions()
-        this.extensionOptions.extensionOptions(name, options)
-      }
-      // 插入主体设置部分
-      // 每一个扩展都可以维护自己的配置文件
-      if (module.innermostSetting) {
-        const setting = module.innermostSetting()
-        this.extensionSetting.extensionSetting(name, setting)
+        // 初始化扩展
+        if (module.innermostInit) {
+          module.innermostInit(Vue)
+        }
+        // 图标栏组件
+        if (module.innermostIcon) {
+          const icon = module.innermostIcon()
+          icon.name = module.name
+          if (icon.isClass ? icon.clazz : icon.data) {
+            this.extensionIcon.extensionIconComponent(name, icon, isDisable)
+          }
+        }
+        const idConfig = {
+          iSdeflate: false
+        }
+        // 菜单组件
+        if (module.innermostMenu) {
+          const menu = module.innermostMenu()
+          if (menu.isClass ? menu.items && menu.items.length > 0 : menu.data) {
+            this.extensionMenu.extensionMenuComponent(name, menu, idConfig)
+          }
+        }
+        // 主体组件
+        if (module.innermostBody) {
+          const body = module.innermostBody()
+          this.extensionBody.extensionBodyComponent(name, body, body.default as boolean, idConfig)
+        }
+        // 设置选项部分
+        if (module.innermostOptions) {
+          const options = module.innermostOptions()
+          this.extensionOptions.extensionOptions(name, options)
+        }
+        // 插入主体设置部分
+        // 每一个扩展都可以维护自己的配置文件
+        if (module.innermostSetting) {
+          const setting = module.innermostSetting()
+          this.extensionSetting.extensionSetting(name, setting)
+        }
+      } catch (e) {
+        console.error(e)
       }
     })
     ExtensionConfig.setExtensionConfig(ExtensionConfig.ExtensionName, extensionName)

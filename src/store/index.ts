@@ -193,6 +193,13 @@ export default new Vuex.Store({
     // 控制 icon 栏和 menu 栏打开或者关闭
     [ActionTypes.ICON_MENU_SHOW]({ commit }, width: number) {
       const closeIconAndMenu = ExtensionManager.closeIconAndMenu(ExtensionConfig.getExtensionConfig(ExtensionConfig.CurrentExtension))
+      if ((width - GlobalConfig.appWindow.icon.width - GlobalConfig.appWindow.content.menu.width) <= 300) {
+        commit(MutationTypes.ICON_SHOW, false)
+      }
+      if ((width - GlobalConfig.appWindow.content.menu.width) <= 300) {
+        commit(MutationTypes.MENU_SHOW, false)
+        return
+      }
       if (width < GlobalConfig.appWindow.limit.one) {
         commit(MutationTypes.ICON_SHOW, false)
       } else {
