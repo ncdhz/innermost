@@ -1,5 +1,5 @@
 <template>
-  <el-dialog class="about" :style="aboutStyle.about" :visible.sync="show" :width="dialogWidth">
+  <el-dialog class="app-win-about" :style="aboutStyle.about" :visible.sync="show" :width="dialogWidth">
     <div slot="title" class="about-app-name" :style="aboutStyle.header">
       INNERMOST
     </div>
@@ -79,8 +79,10 @@ export default Vue.extend({
 })
 </script>
 <style lang="scss">
-  .el-dialog__header, .el-dialog__body, .el-dialog__footer{
-    background: var(--about-background);
+  .app-win-about {
+    .el-dialog__header, .el-dialog__body, .el-dialog__footer{
+      background: var(--about-background);
+    }
   }
 </style>
 <style lang="scss" scoped>
@@ -89,7 +91,7 @@ export default Vue.extend({
     font-display: swap;
     src: url('../assets/alibaba.ttf') format('truetype');
   }
-  .about {
+  .app-win-about {
     .about-app-name {
       font-family: 'alibaba' !important;
       font-size: 26px;

@@ -35,7 +35,7 @@ export default class ExtensionIcon {
     if (isClass) {
       addIconToComponent()
     } else {
-      this.extensionManager.extensionData(`icon-${name}`, data, name)
+      this.extensionManager.extensionData(`icon-${name}`, data)
     }
     this.extensionManager.setIcon([`icon-${name}`, name, isDisable])
   }

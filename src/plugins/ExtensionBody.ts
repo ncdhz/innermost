@@ -12,7 +12,7 @@ export default class ExtensionBody {
       [key: string]: string | boolean;
     }[] = []
     if (data) {
-      this.extensionManager.extensionData(`body-${name}`, data, name)
+      this.extensionManager.extensionData(`body-${name}`, data)
       this.extensionManager.setBody([`body-${name}`, name, id ? id as string : name])
       bodyIds.push({
         name,
@@ -24,7 +24,7 @@ export default class ExtensionBody {
       _.forEach(pages, page => {
         if (page.data) {
           const pageName = `body-${this.extensionManager.getRandomString5()}-${name}`
-          this.extensionManager.extensionData(pageName, page.data, name)
+          this.extensionManager.extensionData(pageName, page.data)
           this.extensionManager.setBody([pageName, name, page.id ? page.id as string : name])
           bodyIds.push({
             name,

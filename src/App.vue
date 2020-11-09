@@ -68,7 +68,7 @@
 import Vue from 'vue'
 import { ipcRenderer, Rectangle } from 'electron'
 import { GlobalConfig, UITools, EventTypes } from '@/utils'
-import { ContextMenu, InitStateData } from '@/renderer'
+import { ContextMenu } from '@/renderer'
 import AppWinIcon from '@/views/AppWinIcon.vue'
 import AppWinMenu from '@/views/AppWinMenu.vue'
 import AppWinMain from '@/views/AppWinMain.vue'
@@ -179,11 +179,6 @@ export default Vue.extend({
     }
   },
   created() {
-    // 用于初始化扩展需要的数据
-    InitStateData.initExtensionIcons(this)
-    InitStateData.initExtensionIds(this)
-    InitStateData.initExtensionStates(this)
-    InitStateData.initExtensionThemes(this)
     const appInit = (bounds: Rectangle | {[key: string]: number}) => {
       // 改变全局配置中的高宽
       GlobalConfig.appWindow.height = bounds.height

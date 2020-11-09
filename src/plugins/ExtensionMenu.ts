@@ -26,7 +26,7 @@ export default class ExtensionMenu {
         })
       })
     } else {
-      this.extensionManager.extensionData(`menu-${name}`, data, name)
+      this.extensionManager.extensionData(`menu-${name}`, data)
       this.extensionManager.setMenu([`menu-${name}`, name])
     }
     if (butIds.length > 0) {

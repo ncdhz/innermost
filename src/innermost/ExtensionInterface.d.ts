@@ -20,4 +20,22 @@ export interface ExtensionInterface {
   innermostSetting?: () => ExtensionSettingInterface;
 
   innermostInit?: (Vue: any) => void;
+
+  it?: (path: string, parent?: boolean) => string | undefined;
+
+  getConfig?: (path: any) => any;
+
+  updateConfig?: (path: any, value: any) => void;
+
+  saveConfig?: () => void;
+
+  getState?: (path: any) => any;
+
+  updateState?: (path: any, value: any) => void;
+
+  openExtension?: () => void;
+
+  openId?: (id: string) => void;
+
+  getTheme?: (parent?: boolean) => any;
 }

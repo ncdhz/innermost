@@ -18,7 +18,7 @@ export default class ExtensionSetting {
         this.extensionManager.extensionMenuData(SettingConfig.SettingName, item, name)
         if (item.data) {
           const dataName = `${SettingConfig.SettingName}-${this.extensionManager.getRandomString10()}`
-          this.extensionManager.extensionData(dataName, item.data, name)
+          this.extensionManager.extensionData(dataName, item.data)
           // 每项意义：1. 组件名字 2. 组件所属分组 3. 组件所属id 4. 组件的 title 或 名字，i18n(是否国际化) {对象}
           this.extensionManager.setSetting([dataName, SettingConfig.SettingName, item.id, {
             title: item.title ? item.title : item.name,

@@ -1,5 +1,5 @@
 <template>
-  <el-container class="setting-main-box" v-show="vShow">
+  <el-container class="setting-main-box">
     <el-header class="setting-main-title" style="height:45px;" :style="settingStyle.title">
       <span v-show="extensionIdShow[settingName][settingId]">{{ $t('setting.basic.name') }}</span>
       <span v-show="extensionIdShow[setting[1]][setting[2]]" v-for="setting in settings" v-bind:key="setting[0]">{{ settingTitle(setting[3]) }}</span>
@@ -7,7 +7,7 @@
     </el-header>
     <el-main class="setting-main-win">
       <div class="setting-main-content" v-show="extensionIdShow[settingName][settingId]">
-        <el-form  size="mini" label="right" :style="settingStyle" label-width="120px">
+        <el-form  size="mini" label="right" :style="settingStyle" label-width="160px">
           <!-- 切换主题 -->
           <el-form-item :label="$t('setting.basic.theme') + ':'">
             <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeTheme" v-model="themeValue">
@@ -65,9 +65,6 @@ import { UIEventManager } from '@/renderer'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 export default Vue.extend({
-  props: {
-    vShow: Boolean
-  },
   data() {
     return {
       languageType: I18nUtil.languageType,
@@ -203,43 +200,49 @@ export default Vue.extend({
   }
 })
 </script>
+
 <style lang="scss">
-  .el-form-item__label {
-    color: var(--label-inner-color);
-  }
-  .el-input__inner {
-    border: 1px solid var(--inner-border-color);
-    background: var(--inner-background);
-    color: var(--label-inner-color);
-    &:hover {
-      border-color: var(--inner-append-hover-border-color);
-      + .el-input-group__append {
-        border-color: var(--inner-append-hover-border-color);
+  .setting-main-win {
+    .setting-main-content {
+      .el-form-item__label {
+        color: var(--label-inner-color);
+      }
+      .el-input__inner {
+        border: 1px solid var(--inner-border-color);
+        background: var(--inner-background);
+        color: var(--label-inner-color);
+        &:hover {
+          border-color: var(--inner-append-hover-border-color);
+          + .el-input-group__append {
+            border-color: var(--inner-append-hover-border-color);
+          }
+        }
+      }
+      .el-input-group__append {
+        border-color: var(--inner-border-color);
+        border-style: solid;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        background: var(--inner-append-background);
+        &:hover .setting-input-icon {
+          color: var(--inner-append-hover-icon-color);
+        }
+      }
+      .el-select-dropdown__list{
+        border-radius: 3px;
+        background: var(--inner-background);
+      }
+      .popper__arrow{
+        border-right-color: var(--inner-background) !important;
+        &::after{
+          border-bottom-color: var(--inner-background) !important;
+        }
       }
     }
   }
-  .el-input-group__append {
-    border-color: var(--inner-border-color);
-    border-style: solid;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    background: var(--inner-append-background);
-    &:hover .setting-input-icon {
-      color: var(--inner-append-hover-icon-color);
-    }
-  }
-  .el-select-dropdown__list{
-    border-radius: 3px;
-    background: var(--inner-background);
-  }
-  .popper__arrow{
-    border-right-color: var(--inner-background) !important;
-    &::after{
-      border-bottom-color: var(--inner-background) !important;
-    }
-  }
 </style>
+
 <style lang="scss" scoped>
   .setting-main-box {
     height: 100%;

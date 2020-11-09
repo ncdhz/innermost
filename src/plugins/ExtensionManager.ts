@@ -37,6 +37,7 @@ export class ExtensionManager {
   extensionMenu: ExtensionMenu
   extensionOptions: ExtensionOptions
   extensionSetting: ExtensionSetting
+  evue: Vue | undefined
 
   constructor() {
     this.package = GlobalConfig.extension.package
@@ -46,7 +47,10 @@ export class ExtensionManager {
     this.extensionBody = new ExtensionBody(this)
     this.extensionMenu = new ExtensionMenu(this)
     this.extensionSetting = new ExtensionSetting(this)
-    this.generateExtensionComponents()
+  }
+
+  public setEVue(evue: Vue) {
+    this.evue = evue
   }
 
   // 用于加载本地模块
@@ -154,64 +158,9 @@ export class ExtensionManager {
   }
 
   // 根据扩展生成组件
-  public extensionData(comName: string, extensionData: any, name: string) {
+  public extensionData(comName: string, extensionData: any) {
     Vue.component(comName, {
       template: '<extension-data/>',
-      methods: {
-        it(path: string, parent: boolean) {
-          if (parent) {
-            return this.$i18n.t(path)
-          }
-          return this.$i18n.t(`${name}.${path}`)
-        },
-        // 用于获取用户配置
-        getConfig(path: any) {
-          const config = ExtensionConfig.getExtensionConfig(name)
-          if (!path) {
-            return config
-          }
-          if (config) {
-            return _.get(config, path)
-          }
-          return undefined
-        },
-        // 修改用户配置
-        updateConfig(path: any, value: any) {
-          const config = ExtensionConfig.getExtensionConfig(name)
-          if (config) {
-            _.set(config, path, value)
-            ExtensionConfig.setExtensionConfig(name, config)
-          }
-        },
-        // 保存配置
-        saveConfig() {
-          ExtensionConfig.writeExtensionConfig()
-        },
-        // 获取状态
-        getState(path: any) {
-          if (!path) {
-            return this.$store.getters.getExtensionStates(name)
-          }
-          return _.get(this.$store.getters.getExtensionStates(name), path)
-        },
-        // 更新状态
-        updateState(path: any, value: any) {
-          if (path) {
-            this.$store.commit(MutationTypes.UPDATE_EXTENSION_STATE, { name, path, value })
-          }
-        },
-        // 打开扩展
-        openExtension() {
-          this.$store.dispatch(ActionTypes.UPDATE_EXTENSION, { name })
-        },
-        // 打开对应的id 如：id可能对应了一个界面那就是打开界面
-        openId(id: string) {
-          this.$store.dispatch(ActionTypes.UPDATE_EXTENSION_ID, { name, id })
-        },
-        getTheme() {
-          return this.$store.getters.getExtensionTheme(name)
-        }
-      },
       components: {
         extensionData
       }
@@ -268,8 +217,67 @@ export class ExtensionManager {
     return [false, false]
   }
 
+  public extensionModuleAddFunction(module: ExtensionInterface, name: string) {
+    module.it = (path: string, parent?: boolean): string | undefined => {
+      if (parent) {
+        return this.evue?.$i18n.t(path) as string | undefined
+      }
+      return this.evue?.$i18n.t(`${name}.${path}`) as string | undefined
+    }
+    // 用于获取用户配置
+    module.getConfig = (path: any) => {
+      const config = ExtensionConfig.getExtensionConfig(name)
+      if (!path) {
+        return config
+      }
+      if (config) {
+        return _.get(config, path)
+      }
+      return undefined
+    }
+    // 修改用户配置
+    module.updateConfig = (path: any, value: any) => {
+      const config = ExtensionConfig.getExtensionConfig(name)
+      if (config) {
+        _.set(config, path, value)
+        ExtensionConfig.setExtensionConfig(name, config)
+      }
+    }
+    // 保存配置
+    module.saveConfig = () => {
+      ExtensionConfig.writeExtensionConfig()
+    }
+    // 获取状态
+    module.getState = (path: any) => {
+      if (!path) {
+        return this.evue?.$store.getters.getExtensionStates(name)
+      }
+      return _.get(this.evue?.$store.getters.getExtensionStates(name), path)
+    }
+    // 更新状态
+    module.updateState = (path: any, value: any) => {
+      if (path) {
+        this.evue?.$store.commit(MutationTypes.UPDATE_EXTENSION_STATE, { name, path, value })
+      }
+    }
+    // 打开扩展
+    module.openExtension = () => {
+      this.evue?.$store.dispatch(ActionTypes.UPDATE_EXTENSION, { name })
+    }
+    // 打开对应的id 如：id可能对应了一个界面那就是打开界面
+    module.openId = (id: string) => {
+      this.evue?.$store.dispatch(ActionTypes.UPDATE_EXTENSION_ID, { name, id })
+    }
+    module.getTheme = (parent?: boolean) => {
+      if (parent) {
+        return this.evue?.$store.getters.getTheme
+      }
+      return this.evue?.$store.getters.getExtensionTheme(name)
+    }
+  }
+
   // 用于生成扩展组件
-  private generateExtensionComponents() {
+  public generateExtensionComponents() {
     let extensionName: {
       [key: string]: string;
     } = ExtensionConfig.getExtensionConfig(ExtensionConfig.ExtensionName)
@@ -283,8 +291,9 @@ export class ExtensionManager {
           name = `${module.name}-${this.getRandomString10()}`
           extensionName[module.path as string] = name
         }
-        // 用于处理插件被禁止使用
-        // 当发现插件被禁止时跳过本次循环
+        // 给扩展注入方法
+        this.extensionModuleAddFunction(module, name)
+        // 用于处理插件是否被禁止使用
         const disableExtensions = UserConfig.getUserConfig(UserConfigKeys.DisableExtension)
         let isDisable = false
         if (typeof disableExtensions === 'object') {
