@@ -17,7 +17,7 @@
       "menu": {
         "show": true,
         "left": false,
-        "width": 170
+        "width": 203
       }
     },
     "icon": {
@@ -26,8 +26,8 @@
     },
     "height": 711,
     "width": 1232,
-    "x": 131,
-    "y": 108
+    "x": 21,
+    "y": 232
   },
   "i18n": {
     "locale": "en"

@@ -247,7 +247,7 @@ export default Vue.extend({
             height: 100%;
             width: 3px !important;
             float: left;
-            cursor: crosshair;
+            cursor: col-resize;
           }
           .app-win-menu-content {
             float: left;
