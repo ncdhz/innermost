@@ -4,7 +4,7 @@
       <span v-show="extensionShow[settingName]" :style="menuStyle.title">{{ $t('setting.name') }}</span>
       <span v-show="extensionShow[title[1]] && !extensionIconShow[title[1]]" v-for="title in menuTitles" v-bind:key="typeof title[0] === 'string' ? title[0] : title[0].name" :style="menuStyle.title">{{typeof title[0] === 'string' ? title[0] : title[0].i18n ? title[0].parentI18n ? $t(`${title[0].name}`) : $t(`${title[1]}.${title[0].name}`) : title[0].name}}</span>
     </el-header>
-    <el-main>
+    <el-main class="app-win-menu-content">
       <setting-menu v-show="extensionShow[settingName]"/>
       <component v-show="extensionShow[menu[1]] && !extensionIconShow[menu[1]]" v-for="menu in menus" v-bind:key="menu[0]" v-bind:is="menu[0]" ></component>
     </el-main>
@@ -47,6 +47,11 @@ export default Vue.extend({
       overflow: hidden;
       text-overflow: ellipsis;
       display: block;
+    }
+  }
+  .app-win-menu-content {
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 </style>
