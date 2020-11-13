@@ -1,14 +1,13 @@
 <template>
   <el-container class="setting-main-box">
-    <el-header class="setting-main-title" :style="settingStyle.title">
+    <el-header class="el-page-header__content">
       <span v-show="extensionIdShow[settingName][settingId]">{{ $t('setting.basic.name') }}</span>
       <span v-show="extensionIdShow[setting[1]][setting[2]]" v-for="setting in settings" v-bind:key="setting[0]">{{ settingTitle(setting[3]) }}</span>
       <el-divider></el-divider>
-      <!-- <div class="setting-main-title-divider el-divider el-divider--horizontal" :style="settingStyle.divider"></div> -->
     </el-header>
     <el-main class="setting-main-win">
       <div class="setting-main-content" v-show="extensionIdShow[settingName][settingId]">
-        <el-form  size="mini" label="right" :style="settingStyle" label-width="160px">
+        <el-form  size="mini" label="right" label-width="160px">
           <!-- 切换主题 -->
           <el-form-item :label="$t('setting.basic.theme') + ':'">
             <el-select popper-class="setting-select" :popper-append-to-body="false" @change="changeTheme" v-model="themeValue">
@@ -164,8 +163,7 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters([
-      'extensionIdShow',
-      'settingStyle'
+      'extensionIdShow'
     ]),
     iconShow: {
       get(): boolean {
@@ -203,60 +201,10 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
-  // .setting-main-win {
-  //   .setting-main-content {
-  //     .el-form-item__label {
-  //       color: var(--label-inner-color);
-  //     }
-  //     .el-input__inner {
-  //       border: 1px solid var(--inner-border-color);
-  //       background: var(--inner-background);
-  //       color: var(--label-inner-color);
-  //       &:hover {
-  //         border-color: var(--inner-append-hover-border-color);
-  //         + .el-input-group__append {
-  //           border-color: var(--inner-append-hover-border-color);
-  //         }
-  //       }
-  //     }
-  //     .el-input-group__append {
-  //       border-color: var(--inner-border-color);
-  //       border-style: solid;
-  //       border-top-width: 1px;
-  //       border-right-width: 1px;
-  //       border-bottom-width: 1px;
-  //       background: var(--inner-append-background);
-  //       &:hover .setting-input-icon {
-  //         color: var(--inner-append-hover-icon-color);
-  //       }
-  //     }
-  //     .el-select-dropdown__list{
-  //       border-radius: 3px;
-  //       background: var(--inner-background);
-  //     }
-  //     .popper__arrow{
-  //       border-right-color: var(--inner-background) !important;
-  //       &::after{
-  //         border-bottom-color: var(--inner-background) !important;
-  //       }
-  //     }
-  //   }
-  // }
-</style>
-
 <style lang="scss" scoped>
   .setting-main-box {
     height: 100%;
     width: 100%;
-    .setting-main-title {
-      font-size: 17px;
-      // line-height: 30px;
-      // .setting-main-title-divider {
-      //   height: 2px;
-      //   margin-top: 10px;
-      // }
-    }
     .setting-main-win {
       display: flex;
       justify-content: center;

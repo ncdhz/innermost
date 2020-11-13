@@ -28,8 +28,6 @@ export default Vue.extend({
       settingId: SettingConfig.SettingId
     }
   },
-  methods: {
-  },
   computed: {
     ...mapGetters([
       'extensionShow',

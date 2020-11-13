@@ -1,9 +1,7 @@
 {
   "scripts": {
-    "init:theme": "et --init ./white-theme/white-theme.scss & et --init ./black-theme/black-theme.scss",
-    "build:wtheme": "et --config ./white-theme/white-theme.scss --out ./white-theme/theme",
-    "build:btheme": "et --config ./black-theme/black-theme.scss --out ./black-theme/theme",
-    "build": "gulp css-white-wrap css-black-wrap"
+    "init:theme": "et --init ./white-theme/white-theme.scss && et --init ./black-theme/black-theme.scss",
+    "build:theme": "et --config ./white-theme/white-theme.scss --out ./white-theme/theme && et --config ./black-theme/black-theme.scss --out ./black-theme/theme && gulp css-white-wrap css-black-wrap"
   },
   "name": "innermost-element-theme",
   "version": "1.0.0",

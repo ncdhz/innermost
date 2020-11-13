@@ -15,7 +15,7 @@
   <div id="app" :style="appWinHeight">
     <el-container class="app-win">
       <!-- 侧边栏用于图标显示 -->
-      <el-aside @contextmenu.native="activationMenu('icon')" class="app-win-icon" v-show="iconShow && iconLeft" :style="appWinIconStyle">
+      <el-aside @contextmenu.native="activationMenu('icon')" class="app-win-icon" v-show="iconShow && iconLeft" :style="[appWinIconStyle, winStyle.icon]">
         <app-win-icon/>
       </el-aside>
       <!-- 主要部分 -->
@@ -75,6 +75,7 @@ import AppWinMain from '@/views/AppWinMain.vue'
 import TrafficLights from '@/components/TrafficLights.vue'
 import { MutationTypes } from './store'
 import is from 'electron-is'
+import { mapGetters } from 'vuex'
 export default Vue.extend({
   methods: {
     // 用于处理菜单栏伸缩
@@ -136,23 +137,13 @@ export default Vue.extend({
     }
   },
   computed: {
-    iconLeft() {
-      return this.$store.getters.iconLeft
-    },
-    iconShow() {
-      return this.$store.getters.iconShow
-    },
-    menuShow() {
-      return this.$store.getters.menuShow
-    },
-    menuLeft() {
-      return this.$store.getters.menuLeft
-    },
-    winStyle() {
-      const originalStyle = document.body.style.cssText
-      document.body.setAttribute('style', originalStyle + UITools.toStyle(this.$store.getters.globalStyle('message.box')))
-      return { ...this.$store.getters.winStyle }
-    }
+    ...mapGetters([
+      'iconLeft',
+      'iconShow',
+      'menuShow',
+      'menuLeft',
+      'winStyle'
+    ])
   },
   data() {
     return {
@@ -212,22 +203,6 @@ export default Vue.extend({
       display: none;
     }
   }
-  // .global-message-box-background {
-  //   background: var(--message-background) !important;
-  //   border: 1px solid var(--message-border) !important;
-  //   .el-message-box__header {
-  //     .el-message-box__title {
-  //       color: var(--message-title-color);
-  //     }
-  //   }
-  //   .el-message-box__content {
-  //     .el-message-box__container {
-  //       .el-message-box__message {
-  //         color: var(--message-container-message)
-  //       }
-  //     }
-  //   }
-  // }
 </style>
 <style lang="scss" scoped>
   #app{
@@ -238,7 +213,6 @@ export default Vue.extend({
       width: 100%;
       .app-win-icon {
         height: 100%;
-        background: rgba(0, 0, 0, 0.8);
       }
       .app-win-content {
         height: 100%;

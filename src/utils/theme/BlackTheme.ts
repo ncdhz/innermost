@@ -2,68 +2,21 @@ export default {
   name: 'black-theme',
   elementTheme: 'innermost-black-theme',
   window: {
+    icon: {
+      background: 'rgba(0, 0, 0, 0.9)'
+    },
     menu: {
-      background: '#2D2D2D'
+      background: '#1E1B1C'
     },
     main: {
-      background: '#343434'
-    },
-    about: {
-      '--about-background': '#343434'
-    }
-  },
-  main: {
-    setting: {
-      divider: {
-        background: '#494949'
-      },
-      title: {
-        color: '#FFFFFF'
-      },
-      '--label-inner-color': '#ededed',
-      '--inner-background': '#343434',
-      '--inner-select-border-color': '#606060',
-      '--inner-border-color': '#5F5F5F',
-      '--inner-append-background': '#343434',
-      '--inner-append-icon-color': '#BDBDBD',
-      '--inner-append-hover-icon-color': '#2A97FF',
-      '--inner-append-hover-border-color': '#C0C4CD'
+      background: '#2F2627'
     }
   },
   menu: {
-    title: {
-      color: '#FFFFFF'
-    },
     item: {
-      '--color': '#aaaaaa',
-      '--hover-background': 'rgba(255, 255, 255, .2)',
-      '--hover-color': '#FFFFFF'
-    }
-  },
-  about: {
-    header: {
-      color: '#EEEEEE'
-    },
-    body: {
-      title: {
-        color: '#DCDFE6'
-      },
-      version: {
-        color: '#E4E7ED'
-      }
-    },
-    footer: {
-      color: '#EBEEF5'
-    }
-  },
-  global: {
-    message: {
-      box: {
-        '--message-background': '#343434',
-        '--message-border': '#606266',
-        '--message-container-message': '#E4E7ED',
-        '--message-title-color': '#DCDFE6'
-      }
+      '--color': '#DFDEDE',
+      '--hover-background': '#3c2223',
+      '--hover-color': '#960809'
     }
   }
 }

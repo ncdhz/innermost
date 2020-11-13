@@ -1,14 +1,15 @@
 <template>
-  <el-dialog class="app-win-about" :style="aboutStyle.about" :visible.sync="show" :width="dialogWidth">
-    <div slot="title" class="about-app-name" :style="aboutStyle.header">
+  <el-dialog class="app-win-about" :visible.sync="show" :width="dialogWidth">
+    <div slot="title" class="about-app-name">
       INNERMOST
     </div>
-    <div class="about-app-version-title" :style="aboutStyle.body.title">
+    <div class="about-app-version-title">
       <el-row>
         <el-col :span="12">版本信息</el-col>
       </el-row>
     </div>
-    <div class="about-app-version" :style="aboutStyle.body.version">
+
+    <div class="about-app-version">
       <el-row>
         <el-col :span="12">App {{version.app}}</el-col>
         <el-col :span="12">Electron {{version.electron}}</el-col>
@@ -21,7 +22,8 @@
         <el-col :span="12">Element-ui {{version['element-ui']}}</el-col>
       </el-row>
     </div>
-    <div slot="footer" class="about-service" :style="aboutStyle.footer">
+
+    <div slot="footer" class="about-service">
       <el-row type="flex" justify="end">
         <el-col :span="4">开源许可</el-col>
         <el-col :span="4">关于我们</el-col>
@@ -71,20 +73,10 @@ export default Vue.extend({
       set(): void {
         this.$store.commit(MutationTypes.ABOUT_SHOW, false)
       }
-    },
-    aboutStyle(): object {
-      return this.$store.getters.aboutStyle
     }
   }
 })
 </script>
-<style lang="scss">
-  // .app-win-about {
-  //   .el-dialog__header, .el-dialog__body, .el-dialog__footer{
-  //     background: var(--about-background);
-  //   }
-  // }
-</style>
 <style lang="scss" scoped>
   @font-face {
     font-family: 'alibaba';

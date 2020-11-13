@@ -10,7 +10,7 @@
       "/Users/ncdhz/.innermost/innermost-extension-store": "innermost-extension-store-keuzpignxi",
       "/Users/ncdhz/.innermost/text-information-management": "text-information-management-dblvnjzfgi"
     },
-    "current-extension": "setting-name"
+    "current-extension": "innermost-extension-store-keuzpignxi"
   },
   "theme": {
     "default": "black-theme"
@@ -19,15 +19,17 @@
     "content": {
       "menu": {
         "left": true,
-        "show": true
+        "show": true,
+        "width": 237
       }
     },
     "icon": {
-      "left": true
+      "left": true,
+      "show": true
     },
-    "height": 745,
-    "width": 1299,
-    "x": 0,
-    "y": 66
+    "height": 766,
+    "width": 1251,
+    "x": 30,
+    "y": 25
   }
 }

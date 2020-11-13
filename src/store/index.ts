@@ -7,7 +7,6 @@ import MutationTypes from './MutationTypes'
 import ActionTypes from './ActionTypes'
 export { default as MutationTypes } from './MutationTypes'
 export { default as ActionTypes } from './ActionTypes'
-
 Vue.use(Vuex)
 export default new Vuex.Store({
   getters: {
@@ -26,9 +25,6 @@ export default new Vuex.Store({
     getElementTheme(state, getters) {
       return getters.getTheme.elementTheme
     },
-    menuStyle(state, getters) {
-      return getters.getTheme.menu
-    },
     menuShow(state) {
       return state.menu.show
     },
@@ -41,28 +37,14 @@ export default new Vuex.Store({
     menuLeft(state) {
       return state.menu.left
     },
-    settingStyle(state, getters) {
-      return getters.getTheme.main.setting
-    },
     winStyle(state, getters) {
       return getters.getTheme.window
-    },
-    globalStyle(state, getters) {
-      return (path: string) => {
-        return _.get(getters.getTheme.global, path)
-      }
     },
     aboutShow(state) {
       return state.about.show
     },
-    aboutStyle(state, getters) {
-      return {
-        ...getters.getTheme.window,
-        ...getters.getTheme.about
-      }
-    },
     itemStyle(state, getters) {
-      return getters.getTheme.menu
+      return getters.getTheme.menu.item
     },
     getExtensionStates(state) {
       return (name: string) => {

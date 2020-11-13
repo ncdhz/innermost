@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-header style="height:30px" class="app-win-menu-title">
-      <span v-show="extensionShow[settingName]" :style="menuStyle.title">{{ $t('setting.name') }}</span>
-      <span v-show="extensionShow[title[1]] && !extensionIconShow[title[1]]" v-for="title in menuTitles" v-bind:key="typeof title[0] === 'string' ? title[0] : title[0].name" :style="menuStyle.title">{{typeof title[0] === 'string' ? title[0] : title[0].i18n ? title[0].parentI18n ? $t(`${title[0].name}`) : $t(`${title[1]}.${title[0].name}`) : title[0].name}}</span>
+    <el-header style="height:30px" class="app-win-menu-title el-page-header__content">
+      <span v-show="extensionShow[settingName]">{{ $t('setting.name') }}</span>
+      <span v-show="extensionShow[title[1]] && !extensionIconShow[title[1]]" v-for="title in menuTitles" v-bind:key="typeof title[0] === 'string' ? title[0] : title[0].name">{{typeof title[0] === 'string' ? title[0] : title[0].i18n ? title[0].parentI18n ? $t(`${title[0].name}`) : $t(`${title[1]}.${title[0].name}`) : title[0].name}}</span>
     </el-header>
     <el-main class="app-win-menu-content">
       <setting-menu v-show="extensionShow[settingName]"/>
@@ -30,7 +30,6 @@ export default Vue.extend({
   computed: {
     ...mapGetters([
       'extensionShow',
-      'menuStyle',
       'extensionIconShow'
     ])
   }
@@ -38,7 +37,7 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
   .app-win-menu-title {
-    font-size: 16px;
+    font-size: 16px !important;
     line-height: 30px;
     span {
       height: 30px;
