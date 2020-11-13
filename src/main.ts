@@ -4,6 +4,16 @@ import { UIEventManager, InitStateData } from '@/renderer'
 import { I18nUtil } from '@/utils'
 import { ExtensionManager } from '@/plugins'
 import store from './store'
+import ElementUI from 'element-ui'
+import VueI18n from 'vue-i18n'
+import VueTouch from 'vue-touch'
+import './utils/theme/black-theme/index.css'
+import './utils/theme/white-theme/index.css'
+Vue.use(VueTouch)
+Vue.use(ElementUI, {
+  i18n: (key: VueI18n.Path, value: VueI18n.Values) => I18nUtil.getI18n().t(key, value)
+})
+
 Vue.config.productionTip = false
 const vm = new Vue({
   store,

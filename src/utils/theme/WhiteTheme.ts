@@ -1,5 +1,6 @@
 export default {
   name: 'white-theme',
+  elementTheme: 'innermost-white-theme',
   window: {
     menu: {
       background: '#F4F5F7'

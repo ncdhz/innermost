@@ -1,9 +1,10 @@
 <template>
   <el-container class="setting-main-box">
-    <el-header class="setting-main-title" style="height:45px;" :style="settingStyle.title">
+    <el-header class="setting-main-title" :style="settingStyle.title">
       <span v-show="extensionIdShow[settingName][settingId]">{{ $t('setting.basic.name') }}</span>
       <span v-show="extensionIdShow[setting[1]][setting[2]]" v-for="setting in settings" v-bind:key="setting[0]">{{ settingTitle(setting[3]) }}</span>
-      <div class="setting-main-title-divider el-divider el-divider--horizontal" :style="settingStyle.divider"></div>
+      <el-divider></el-divider>
+      <!-- <div class="setting-main-title-divider el-divider el-divider--horizontal" :style="settingStyle.divider"></div> -->
     </el-header>
     <el-main class="setting-main-win">
       <div class="setting-main-content" v-show="extensionIdShow[settingName][settingId]">
@@ -106,6 +107,7 @@ export default Vue.extend({
     // 改变主题
     changeTheme(data: string): void {
       this.$store.commit(MutationTypes.UPDATE_THEME_NAME, data)
+      document.body.className = this.$store.getters.getElementTheme
       GlobalConfig.writeGlobalConfig({
         theme: {
           default: data
@@ -202,45 +204,45 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-  .setting-main-win {
-    .setting-main-content {
-      .el-form-item__label {
-        color: var(--label-inner-color);
-      }
-      .el-input__inner {
-        border: 1px solid var(--inner-border-color);
-        background: var(--inner-background);
-        color: var(--label-inner-color);
-        &:hover {
-          border-color: var(--inner-append-hover-border-color);
-          + .el-input-group__append {
-            border-color: var(--inner-append-hover-border-color);
-          }
-        }
-      }
-      .el-input-group__append {
-        border-color: var(--inner-border-color);
-        border-style: solid;
-        border-top-width: 1px;
-        border-right-width: 1px;
-        border-bottom-width: 1px;
-        background: var(--inner-append-background);
-        &:hover .setting-input-icon {
-          color: var(--inner-append-hover-icon-color);
-        }
-      }
-      .el-select-dropdown__list{
-        border-radius: 3px;
-        background: var(--inner-background);
-      }
-      .popper__arrow{
-        border-right-color: var(--inner-background) !important;
-        &::after{
-          border-bottom-color: var(--inner-background) !important;
-        }
-      }
-    }
-  }
+  // .setting-main-win {
+  //   .setting-main-content {
+  //     .el-form-item__label {
+  //       color: var(--label-inner-color);
+  //     }
+  //     .el-input__inner {
+  //       border: 1px solid var(--inner-border-color);
+  //       background: var(--inner-background);
+  //       color: var(--label-inner-color);
+  //       &:hover {
+  //         border-color: var(--inner-append-hover-border-color);
+  //         + .el-input-group__append {
+  //           border-color: var(--inner-append-hover-border-color);
+  //         }
+  //       }
+  //     }
+  //     .el-input-group__append {
+  //       border-color: var(--inner-border-color);
+  //       border-style: solid;
+  //       border-top-width: 1px;
+  //       border-right-width: 1px;
+  //       border-bottom-width: 1px;
+  //       background: var(--inner-append-background);
+  //       &:hover .setting-input-icon {
+  //         color: var(--inner-append-hover-icon-color);
+  //       }
+  //     }
+  //     .el-select-dropdown__list{
+  //       border-radius: 3px;
+  //       background: var(--inner-background);
+  //     }
+  //     .popper__arrow{
+  //       border-right-color: var(--inner-background) !important;
+  //       &::after{
+  //         border-bottom-color: var(--inner-background) !important;
+  //       }
+  //     }
+  //   }
+  // }
 </style>
 
 <style lang="scss" scoped>
@@ -249,11 +251,11 @@ export default Vue.extend({
     width: 100%;
     .setting-main-title {
       font-size: 17px;
-      line-height: 30px;
-      .setting-main-title-divider {
-        height: 2px;
-        margin-top: 10px;
-      }
+      // line-height: 30px;
+      // .setting-main-title-divider {
+      //   height: 2px;
+      //   margin-top: 10px;
+      // }
     }
     .setting-main-win {
       display: flex;

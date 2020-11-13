@@ -1,38 +1,33 @@
 {
   "extensionConfig": {
-    "text-information-management-iqaivjpjht": {
-      "xx": "helloworld",
+    "text-information-management-dblvnjzfgi": {
+      "xx": "马俊龙",
       "yy": {
         "nn": "校长"
       }
     },
     "extension-name": {
-      "/Users/ncdhz/.innermost/text-information-management": "text-information-management-iqaivjpjht",
-      "/Users/ncdhz/.innermost/innermost-extension-store": "innermost-extension-store-txcsugpyzt"
+      "/Users/ncdhz/.innermost/innermost-extension-store": "innermost-extension-store-keuzpignxi",
+      "/Users/ncdhz/.innermost/text-information-management": "text-information-management-dblvnjzfgi"
     },
-    "current-extension": "innermost-extension-store-txcsugpyzt"
+    "current-extension": "setting-name"
+  },
+  "theme": {
+    "default": "black-theme"
   },
   "appWindow": {
     "content": {
       "menu": {
-        "show": true,
-        "left": false,
-        "width": 203
+        "left": true,
+        "show": true
       }
     },
     "icon": {
-      "show": true,
       "left": true
     },
-    "height": 711,
-    "width": 1232,
-    "x": 21,
-    "y": 232
-  },
-  "i18n": {
-    "locale": "en"
-  },
-  "theme": {
-    "default": "black-theme"
+    "height": 745,
+    "width": 1299,
+    "x": 0,
+    "y": 66
   }
 }

@@ -179,6 +179,7 @@ export default Vue.extend({
     }
   },
   created() {
+    document.body.className = this.$store.getters.getElementTheme
     const appInit = (bounds: Rectangle | {[key: string]: number}) => {
       // 改变全局配置中的高宽
       GlobalConfig.appWindow.height = bounds.height
@@ -211,22 +212,22 @@ export default Vue.extend({
       display: none;
     }
   }
-  .global-message-box-background {
-    background: var(--message-background) !important;
-    border: 1px solid var(--message-border) !important;
-    .el-message-box__header {
-      .el-message-box__title {
-        color: var(--message-title-color);
-      }
-    }
-    .el-message-box__content {
-      .el-message-box__container {
-        .el-message-box__message {
-          color: var(--message-container-message)
-        }
-      }
-    }
-  }
+  // .global-message-box-background {
+  //   background: var(--message-background) !important;
+  //   border: 1px solid var(--message-border) !important;
+  //   .el-message-box__header {
+  //     .el-message-box__title {
+  //       color: var(--message-title-color);
+  //     }
+  //   }
+  //   .el-message-box__content {
+  //     .el-message-box__container {
+  //       .el-message-box__message {
+  //         color: var(--message-container-message)
+  //       }
+  //     }
+  //   }
+  // }
 </style>
 <style lang="scss" scoped>
   #app{

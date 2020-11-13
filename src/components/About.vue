@@ -79,11 +79,11 @@ export default Vue.extend({
 })
 </script>
 <style lang="scss">
-  .app-win-about {
-    .el-dialog__header, .el-dialog__body, .el-dialog__footer{
-      background: var(--about-background);
-    }
-  }
+  // .app-win-about {
+  //   .el-dialog__header, .el-dialog__body, .el-dialog__footer{
+  //     background: var(--about-background);
+  //   }
+  // }
 </style>
 <style lang="scss" scoped>
   @font-face {

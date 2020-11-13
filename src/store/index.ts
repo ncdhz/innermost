@@ -23,6 +23,9 @@ export default new Vuex.Store({
     getTheme(state) {
       return Theme[state.themeName]
     },
+    getElementTheme(state, getters) {
+      return getters.getTheme.elementTheme
+    },
     menuStyle(state, getters) {
       return getters.getTheme.menu
     },

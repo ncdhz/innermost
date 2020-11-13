@@ -2,6 +2,8 @@
 node_modules
 /dist
 .vscode
+/innermost-element-theme/black-theme/theme
+/innermost-element-theme/white-theme/theme
 # local env files
 .env.local
 .env.*.local

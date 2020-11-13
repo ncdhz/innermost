@@ -1,0 +1,21 @@
+{
+  "scripts": {
+    "init:theme": "et --init ./white-theme/white-theme.scss & et --init ./black-theme/black-theme.scss",
+    "build:wtheme": "et --config ./white-theme/white-theme.scss --out ./white-theme/theme",
+    "build:btheme": "et --config ./black-theme/black-theme.scss --out ./black-theme/theme",
+    "build": "gulp css-white-wrap css-black-wrap"
+  },
+  "name": "innermost-element-theme",
+  "version": "1.0.0",
+  "description": "用于innermost生成主题",
+  "main": "index.js",
+  "author": "ncdhz",
+  "license": "MIT",
+  "devDependencies": {
+    "element-theme": "^2.0.1",
+    "element-theme-chalk": "^2.14.1",
+    "gulp": "^4.0.2",
+    "gulp-css-wrap": "^0.1.2",
+    "gulp-replace": "^1.0.0"
+  }
+}

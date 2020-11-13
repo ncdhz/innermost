@@ -1,5 +1,6 @@
 export default {
   name: 'black-theme',
+  elementTheme: 'innermost-black-theme',
   window: {
     menu: {
       background: '#2D2D2D'
